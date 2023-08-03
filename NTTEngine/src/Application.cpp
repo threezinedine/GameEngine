@@ -17,6 +17,11 @@ namespace ntt
 
     void Application::Run()
     {
-        std::cout << "Run" << std::endl;
+
+    }
+
+    void Application::Setup()
+    {
+
     }
 } // namespace ntt
