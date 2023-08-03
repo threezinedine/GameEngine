@@ -1,0 +1,3 @@
+[submodule "NTTEngine/libs/spdlog"]
+	path = NTTEngine/libs/spdlog
+	url = https://github.com/gabime/spdlog.git
