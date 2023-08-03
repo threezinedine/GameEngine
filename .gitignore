@@ -33,3 +33,8 @@
 
 # bat files
 *.bat
+
+
+# build folder
+build/
+.vscode

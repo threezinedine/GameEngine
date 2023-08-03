@@ -18,6 +18,7 @@ class GameExampleApplication: public ntt::Application
 
         void Run() override
         {
+            NTT_APPLICATION_INFO("Initialize the GLEW");
             std::cout << "Run From Here" << std::endl;
         }
 };
