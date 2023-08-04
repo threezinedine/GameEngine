@@ -5,6 +5,9 @@
 
 #include <NTTEngine/Platforms/Windows/WinWindow.hpp>
 #include <NTTEngine/Core.hpp>
+#include <NTTEngine/EventSystem/EventSystem.hpp>
+
+
 
 
 namespace ntt
@@ -34,6 +37,57 @@ namespace ntt
             glfwTerminate();
             exit(-1);
         }
+
+        glfwSetWindowUserPointer(window_, this);
+
+        glfwSetWindowCloseCallback(window_, [](GLFWwindow* window)
+        {
+            IWindow* win = static_cast<IWindow*>(glfwGetWindowUserPointer(window));
+            WindowCloseEvent event; 
+            win->GetDispatcher().Dispatch(event);
+        });
+
+        glfwSetCursorPosCallback(window_, [](GLFWwindow* window, double xpos, double ypos)
+        {
+            IWindow* win = static_cast<IWindow*>(glfwGetWindowUserPointer(window));
+            MouseMoveEvent event((int)xpos, (int)ypos); 
+            win->GetDispatcher().Dispatch(event);
+        });
+
+        glfwSetMouseButtonCallback(window_, [](GLFWwindow* window, int button, int action, int mods){
+            IWindow* win = static_cast<IWindow*>(glfwGetWindowUserPointer(window));
+            MouseClickEvent event(button, action, mods); 
+            win->GetDispatcher().Dispatch(event);
+        });
+
+        glfwSetScrollCallback(window_, [](GLFWwindow* window, double xoffset, double yoffset)
+        {
+            IWindow* win = static_cast<IWindow*>(glfwGetWindowUserPointer(window));
+            MouseScrollEvent event((int)xoffset, (int)yoffset); 
+            win->GetDispatcher().Dispatch(event);
+        });
+
+        glfwSetKeyCallback(window_, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+        {
+            IWindow* win = static_cast<IWindow*>(glfwGetWindowUserPointer(window));
+            if (action == GLFW_PRESS)
+            {
+                KeyPressEvent event(key, mods);
+                win->GetDispatcher().Dispatch(event);
+            }
+            else if (action == GLFW_RELEASE)
+            {
+                KeyReleaseEvent event(key, mods);
+                win->GetDispatcher().Dispatch(event);
+            }
+        });
+
+        glfwSetFramebufferSizeCallback(window_, [](GLFWwindow* window, int width, int height)
+        {
+            IWindow* win = static_cast<IWindow*>(glfwGetWindowUserPointer(window));
+            WindowResizeEvent event(width, height);
+            win->GetDispatcher().Dispatch(event);
+        });
     } 
 
     WinWindow::~WinWindow()

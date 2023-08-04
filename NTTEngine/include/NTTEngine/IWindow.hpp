@@ -21,6 +21,8 @@ namespace ntt
             virtual void SetVSync(bool enabled) = 0;
             virtual bool IsSync() const = 0;
 
+            inline EventDispatcher GetDispatcher() const { return dispatcher_; }
+
         protected:
             EventDispatcher dispatcher_;
     }; 

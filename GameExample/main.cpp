@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <sstream>
 
 #include <NTTEngine/NTTEngine.hpp>
 
@@ -7,28 +8,24 @@ class GameExampleApplication: public ntt::Application
 {
     public:
         GameExampleApplication()
+            : Application(600, 800, "Example")
         {
 
         } 
 
         ~GameExampleApplication()
         {
-            delete window_;
+
         }
 
-        void OnGameEnd(Event& event)
+        void OnWindowClose(Event& event) override
         {
-            ntt::GameEndEvent& gameEndEvent = dynamic_cast<ntt::GameEndEvent&>(event);
-            NTT_APPLICATION_INFO(gameEndEvent.GetMessage());
+            NTT_APPLICATION_INFO("Close the window");
         }
 
         void Setup() override
         {
-            window_ = new WinWindow(600, 800, "Example");
-            window_->AddEvent(
-                ON_GAME_END, 
-                std::bind(&GameExampleApplication::OnGameEnd, this, std::placeholders::_1)
-            );
+
         }
 
         void Run() override
@@ -38,10 +35,7 @@ class GameExampleApplication: public ntt::Application
                 window_->OnUpdate();
             }
         }
-
     private:
-        ntt::EventDispatcher dispatcher_;
-        IWindow* window_ = nullptr;
 };
 
 
