@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <memory>
 #include <sstream>
 
@@ -8,6 +9,12 @@ class TestLayer: public ntt::Layer
 {
     public:
         TestLayer(): Layer("Test Layer") {}
+
+        void OnMouseMove(MouseMoveEvent& event) override
+        {
+            NTT_APPLICATION_INFO("Mouse move from test layer: (" + std::to_string(event.GetMouseX())
+                                    + ", " + std::to_string(event.GetMouseY()) + ")");
+        }
 };
 
 class GameExampleApplication: public ntt::Application
@@ -24,25 +31,19 @@ class GameExampleApplication: public ntt::Application
 
         }
 
-        void OnWindowCloseImpl(WindowCloseEvent& event) override
-        {
-            NTT_APPLICATION_INFO("Close the window");
-        }
-
         void OnSetupImpl() override
         {
             layerStack_.PushLayer(new TestLayer());
             layerStack_.PushOverlayLayer(new ImGuiLayer("Debug Layer"));
+            WindowInput::Initialzie();
         }
 
         void OnUpdateImpl() override
         {
-
-        }
-
-        void OnKeyReleaseImpl(KeyReleaseEvent& event) override
-        {
-            NTT_APPLICATION_DEBUG("Key release from application."); 
+            if (WindowInput::IsButtonLeftClicked())
+            {
+                NTT_APPLICATION_INFO("Left Button clicked");
+            }
         }
     private:
 };

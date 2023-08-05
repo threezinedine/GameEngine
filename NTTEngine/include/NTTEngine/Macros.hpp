@@ -11,7 +11,7 @@
 #define DEFINE_EVENT_APPLICATION(eventType) void Application::On##eventType(Event& event) \
 { \
     eventType##Event& e = static_cast<eventType##Event&>(event); \
-    for (auto it=layerStack_.End() - 1; it!=layerStack_.Begin(); it--) \
+    for (auto it=layerStack_.End() - 1; it!=layerStack_.Begin() - 1; it--) \
     { \
         (*it)->On##eventType(e); \
     } \

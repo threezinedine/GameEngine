@@ -74,17 +74,17 @@ namespace ntt
     DEFINE_EVENT_APPLICATION(KeyPress)
     DEFINE_EVENT_APPLICATION(KeyRelease)
 
-    // void Application::OnKeyRelease(Event& event) 
+    // void Application::OnMouseMove(Event& event) 
     // { 
-    //     KeyReleaseEvent& e = static_cast<KeyReleaseEvent&>(event); 
+    //     MouseMoveEvent& e = static_cast<MouseMoveEvent&>(event); 
     //     for (auto it=layerStack_.End() - 1; it != layerStack_.Begin() - 1; it--) 
     //     { 
-    //         (*it)->OnKeyRelease(e); 
+    //         (*it)->OnMouseMove(e); 
     //     } 
-    //     OnKeyReleaseImpl(e); 
+    //     OnMouseMoveImpl(e); 
     // } 
 
-    // void Application::OnKeyReleaseImpl(KeyReleaseEvent& event) 
+    // void Application::OnMouseMoveImpl(MouseMoveEvent& event) 
     // {
 
     // }
