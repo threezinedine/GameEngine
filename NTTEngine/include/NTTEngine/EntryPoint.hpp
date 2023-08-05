@@ -23,7 +23,7 @@ int main(int argc, char** argv)
     NTT_ENGINE_INFO("Setup the game successfully");
 
     NTT_ENGINE_INFO("Start the game");
-    application->OnUpdate();
+    application->OnRun();
     NTT_ENGINE_INFO("Stop the game");
 
     delete application;

@@ -15,10 +15,14 @@ namespace ntt
             Application(int width, int height, std::string title);
             virtual ~Application();
 
-            virtual void OnSetup();
-            virtual void OnUpdate();
+            void OnSetup();
+            void OnUpdate();
+            void OnRun();
 
         protected:
+            virtual void OnUpdateImpl();
+            virtual void OnSetupImpl();
+
             DEFINE_EVENT_INTEFACE(WindowClose);
             DEFINE_EVENT_INTEFACE(WindowResize);
 

@@ -28,12 +28,35 @@ namespace ntt
         delete window_;
     }
 
+    void Application::OnRun()
+    {
+        while(!window_->IsClosed())
+        {
+            OnUpdate();
+        }
+    }
+
     void Application::OnUpdate()
+    {
+        for (auto it=layerStack_.Begin(); it!=layerStack_.End(); it++)
+        {
+            (*it)->OnUpdate();
+        }
+        window_->OnUpdate();
+        OnUpdateImpl();
+    }
+
+    void Application::OnUpdateImpl()
     {
 
     }
 
     void Application::OnSetup()
+    {
+        OnSetupImpl();
+    }
+
+    void Application::OnSetupImpl()
     {
 
     }
