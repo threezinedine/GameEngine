@@ -20,12 +20,14 @@ namespace ntt
     void LayerStack::PushLayer(Layer* layer)
     {
         layers_.insert(insertedIterator_, layer);
+        layer->OnAttach();
         insertedIterator_++;
     }
 
     void LayerStack::PushOverlayLayer(Layer* overlay)
     {
         layers_.push_back(overlay);
+        overlay->OnAttach();
     }
 
     void LayerStack::PopLayer()

@@ -8,8 +8,11 @@
 
 namespace ntt
 {
+    Application* Application::application_ = nullptr;
+
     Application::Application(int width, int height, std::string title)
     {
+        Application::SetApplication(this);
         window_ = new WinWindow(width, height, title);
 
         ADD_EVENT_APPLICATION(WindowClose);
@@ -38,11 +41,11 @@ namespace ntt
 
     void Application::OnUpdate()
     {
+        window_->OnUpdate();
         for (auto it=layerStack_.Begin(); it!=layerStack_.End(); it++)
         {
             (*it)->OnUpdate();
         }
-        window_->OnUpdate();
         OnUpdateImpl();
     }
 

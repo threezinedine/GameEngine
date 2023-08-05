@@ -23,6 +23,8 @@ namespace ntt
             void SetVSync(bool enabled) override { sync_ = enabled; }
             inline bool IsSync() const { return sync_; }
 
+            void* GetWindow() override { return window_; }
+
         private:
             GLFWwindow* window_;
             std::string title_;

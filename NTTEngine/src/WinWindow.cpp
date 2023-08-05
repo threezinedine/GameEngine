@@ -97,11 +97,10 @@ namespace ntt
 
     void WinWindow::OnUpdate()
     {
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-
-        glfwSwapBuffers(window_);
-
         glfwPollEvents();
+        // glfwSwapBuffers(window_);
     }
 } // namespace ntt
 

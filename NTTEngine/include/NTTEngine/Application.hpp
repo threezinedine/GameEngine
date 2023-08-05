@@ -19,6 +19,18 @@ namespace ntt
             void OnUpdate();
             void OnRun();
 
+            inline IWindow* GetWindow() const { return window_; }
+
+            static Application* GetApplication()
+            {
+                return application_;
+            }
+
+            static void SetApplication(Application* application)
+            {
+                application_ = application;
+            }
+
         protected:
             virtual void OnUpdateImpl();
             virtual void OnSetupImpl();
@@ -36,5 +48,6 @@ namespace ntt
             IWindow* window_;
             LayerStack layerStack_;
         private:
+            static Application* application_;
     }; 
 } // namespace ntt

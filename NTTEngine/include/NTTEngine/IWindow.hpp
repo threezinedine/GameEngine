@@ -22,6 +22,7 @@ namespace ntt
             virtual bool IsSync() const = 0;
 
             inline EventDispatcher GetDispatcher() const { return dispatcher_; }
+            virtual void* GetWindow() = 0;
 
         protected:
             EventDispatcher dispatcher_;

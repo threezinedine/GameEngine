@@ -7,3 +7,6 @@
 [submodule "NTTEngine/libs/glew"]
 	path = NTTEngine/libs/glew
 	url = https://github.com/Perlmint/glew-cmake.git
+[submodule "NTTEngine/libs/imgui"]
+	path = NTTEngine/libs/imgui
+	url = https://github.com/ocornut/imgui.git

@@ -35,6 +35,7 @@ target_include_directories(
 target_link_libraries(
     ${PROJECT_NAME}
     spdlog
+    ImGui
     OpenGL::GL
     libglew_static
     glfw

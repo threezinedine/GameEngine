@@ -32,6 +32,7 @@ class GameExampleApplication: public ntt::Application
         void OnSetupImpl() override
         {
             layerStack_.PushLayer(new TestLayer());
+            layerStack_.PushOverlayLayer(new ImGuiLayer("Debug Layer"));
         }
 
         void OnUpdateImpl() override
