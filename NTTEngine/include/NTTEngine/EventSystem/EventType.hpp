@@ -5,8 +5,8 @@ namespace ntt
 {
     enum EventType
     {
-        WINDOW_CLOSE, WINDOW_RESIZE,
-        MOUSE_MOVE, MOUSE_CLICK, MOUSE_SCROLL,
-        KEY_PRESS, KEY_RELEASE,
+        WindowClose, WindowResize,
+        MouseMove, MouseClick, MouseScroll,
+        KeyRelease, KeyPress,
     }; 
 } // namespace ntt

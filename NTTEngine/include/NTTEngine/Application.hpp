@@ -1,8 +1,10 @@
 #pragma once
 #include <string>
 
-#include <NTTEngine/EventSystem/Event.hpp>
+#include <NTTEngine/EventSystem/EventSystem.hpp>
 #include <NTTEngine/IWindow.hpp>
+#include <NTTEngine/Macros.hpp>
+#include <NTTEngine/LayerStack.hpp>
 
 
 namespace ntt
@@ -13,20 +15,22 @@ namespace ntt
             Application(int width, int height, std::string title);
             virtual ~Application();
 
-            virtual void Setup();
-            virtual void Run();
-
-            virtual void OnWindowClose(Event& event);
-            virtual void OnWindowResize(Event& event);
-
-            virtual void OnMouseMove(Event& event);
-            virtual void OnMouseClick(Event& event);
-            virtual void OnMouseScroll(Event& event);
-
-            virtual void OnKeyPress(Event& event);
-            virtual void OnKeyRelease(Event& event);
+            virtual void OnSetup();
+            virtual void OnUpdate();
 
         protected:
+            DEFINE_EVENT_INTEFACE(WindowClose);
+            DEFINE_EVENT_INTEFACE(WindowResize);
+
+            DEFINE_EVENT_INTEFACE(MouseMove);
+            DEFINE_EVENT_INTEFACE(MouseClick);
+            DEFINE_EVENT_INTEFACE(MouseScroll);
+
+            DEFINE_EVENT_INTEFACE(KeyPress);
+            DEFINE_EVENT_INTEFACE(KeyRelease);
+
             IWindow* window_;
+            LayerStack layerStack_;
+        private:
     }; 
 } // namespace ntt

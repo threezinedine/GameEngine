@@ -9,6 +9,6 @@ namespace ntt
     class WindowCloseEvent: public Event
     {
         public:
-            WindowCloseEvent() : Event(WINDOW_CLOSE) {}
+            WindowCloseEvent() : Event(WindowClose) {}
     };
 } // namespace ntt

@@ -10,7 +10,7 @@ namespace ntt
     {
         public:
             MouseScrollEvent(int xOffset, int yOffset)
-                : Event(MOUSE_SCROLL), xOffset_(xOffset),
+                : Event(MouseScroll), xOffset_(xOffset),
                     yOffset_(yOffset)
             {
 

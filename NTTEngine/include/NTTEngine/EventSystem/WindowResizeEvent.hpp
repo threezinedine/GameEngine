@@ -10,7 +10,7 @@ namespace ntt
     {
         public:
             WindowResizeEvent(int width, int height) 
-                : Event(WINDOW_RESIZE), width_(width),
+                : Event(WindowResize), width_(width),
                     height_(height)
             {
 

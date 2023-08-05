@@ -10,7 +10,7 @@ namespace ntt
     {
         public:
             MouseMoveEvent(int mouseX, int mouseY)
-                : Event(MOUSE_MOVE), 
+                : Event(MouseMove), 
                     mouseX_(mouseX), mouseY_(mouseY) 
             {
 

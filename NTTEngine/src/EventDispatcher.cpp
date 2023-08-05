@@ -54,7 +54,14 @@ namespace ntt
         if (it != eventsMap_.end())
         {
             auto callback = it->second;
-            callback(event);
+            try 
+            {
+                callback(event);
+            }
+            catch (const std::exception& ex)
+            {
+                NTT_ENGINE_CRITICAL("Error: {}", ex.what());
+            }
         }
         else 
         {

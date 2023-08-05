@@ -11,7 +11,7 @@ namespace ntt
     {
         public:
             KeyReleaseEvent(int key, int mods)
-                : Event(KEY_RELEASE), key_(key),
+                : Event(KeyRelease), key_(key),
                     mods_(mods)
             {
 

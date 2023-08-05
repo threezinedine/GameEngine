@@ -11,7 +11,7 @@ namespace ntt
     {
         public:
             KeyPressEvent(int key, int mods)
-                : Event(KEY_PRESS), key_(key),
+                : Event(KeyPress), key_(key),
                     mods_(mods)
             {
 

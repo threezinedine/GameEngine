@@ -1,27 +1,26 @@
 #include <iostream>
 
+#include <NTTEngine/Core.hpp>
 #include <NTTEngine/Application.hpp>
 #include <NTTEngine/Platforms/Platforms.hpp>
+#include <NTTEngine/Macros.hpp>
 
 
 namespace ntt
 {
-    #define BIND_FUNCTION(function) std::bind(&Application::function, this, std::placeholders::_1)
-    #define ADD_EVENT(event, function) window_->AddEvent(event, BIND_FUNCTION(function))
-
     Application::Application(int width, int height, std::string title)
     {
         window_ = new WinWindow(width, height, title);
 
-        ADD_EVENT(WINDOW_CLOSE, OnWindowClose);
-        ADD_EVENT(WINDOW_RESIZE, OnWindowResize);
+        ADD_EVENT_APPLICATION(WindowClose);
+        ADD_EVENT_APPLICATION(WindowResize);
 
-        ADD_EVENT(MOUSE_MOVE, OnMouseMove);
-        ADD_EVENT(MOUSE_CLICK, OnMouseClick);
-        ADD_EVENT(MOUSE_SCROLL, OnMouseScroll);
+        ADD_EVENT_APPLICATION(MouseMove);
+        ADD_EVENT_APPLICATION(MouseClick);
+        ADD_EVENT_APPLICATION(MouseScroll);
 
-        ADD_EVENT(KEY_PRESS, OnKeyPress);
-        ADD_EVENT(KEY_RELEASE, OnKeyRelease);
+        ADD_EVENT_APPLICATION(KeyPress);
+        ADD_EVENT_APPLICATION(KeyRelease);
     } 
 
     Application::~Application()
@@ -29,48 +28,38 @@ namespace ntt
         delete window_;
     }
 
-    void Application::Run()
+    void Application::OnUpdate()
     {
 
     }
 
-    void Application::Setup()
+    void Application::OnSetup()
     {
 
     }
 
-    void Application::OnWindowClose(Event& event)
-    {
+    DEFINE_EVENT_APPLICATION(WindowClose)
+    DEFINE_EVENT_APPLICATION(WindowResize)
 
-    }
+    DEFINE_EVENT_APPLICATION(MouseMove)
+    DEFINE_EVENT_APPLICATION(MouseClick)
+    DEFINE_EVENT_APPLICATION(MouseScroll)
 
-    void Application::OnWindowResize(Event& event)
-    {
+    DEFINE_EVENT_APPLICATION(KeyPress)
+    DEFINE_EVENT_APPLICATION(KeyRelease)
 
-    }
+    // void Application::OnKeyRelease(Event& event) 
+    // { 
+    //     KeyReleaseEvent& e = static_cast<KeyReleaseEvent&>(event); 
+    //     for (auto it=layerStack_.End() - 1; it != layerStack_.Begin() - 1; it--) 
+    //     { 
+    //         (*it)->OnKeyRelease(e); 
+    //     } 
+    //     OnKeyReleaseImpl(e); 
+    // } 
 
-    void Application::OnMouseMove(Event& event)
-    {
+    // void Application::OnKeyReleaseImpl(KeyReleaseEvent& event) 
+    // {
 
-    }
-
-    void Application::OnMouseClick(Event& event)
-    {
-
-    }
-
-    void Application::OnMouseScroll(Event& event)
-    {
-
-    }
-
-    void Application::OnKeyPress(Event& event)
-    {
-
-    }
-
-    void Application::OnKeyRelease(Event& event)
-    {
-
-    }
+    // }
 } // namespace ntt

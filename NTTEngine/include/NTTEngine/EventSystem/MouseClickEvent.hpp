@@ -11,7 +11,7 @@ namespace ntt
     {
         public:
             MouseClickEvent(int button, int action, int mods)
-                : Event(MOUSE_CLICK), button_(button),
+                : Event(MouseClick), button_(button),
                     action_(action), mods_(mods)
             {
                 
