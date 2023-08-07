@@ -62,11 +62,28 @@ namespace ntt
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
+        bool test = true;
+        if (ImGui::BeginMainMenuBar())
+        {
+            if (ImGui::BeginMenu("Views"))
+            {
+                for (int i=0; i<applications_.size(); i++)
+                {
+                    ImGui::MenuItem(applications_[i]->GetName().c_str(), NULL, applicationVisibles_[i]);
+                }
+                ImGui::EndMenu();
+            }
+            ImGui::EndMainMenuBar();
+        }
+
         ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
-        for (auto app: applications_)
+        for (int i=0; i<applications_.size(); i++)
         {
-            app->OnImGuiRender();
+            if (*applicationVisibles_[i])
+            {
+                applications_[i]->OnImGuiRender();
+            }
         }
 
         ImGui::Render();
@@ -79,6 +96,7 @@ namespace ntt
 
     void ImGuiLayer::AddApplication(ImGuiApplication* application)
     {
+        applicationVisibles_.push_back(new bool(true));
         applications_.push_back(application);
     }
 } // namespace ntt

@@ -6,11 +6,11 @@
 
 void GameExampleApplication::OnSetupImpl()
 {
-        auto imguiLayer = new ntt::ImGuiLayer("Debug Layer");
-        imguiLayer->AddApplication(new ntt::WindowDemoApplication());
-        imguiLayer->AddApplication(new TestWindow(std::string("Test window")));
+    auto imguiLayer = new ntt::ImGuiLayer("Debug Layer");
+    imguiLayer->AddApplication(new ntt::WindowDemoApplication());
+    imguiLayer->AddApplication(new TestWindow(std::string("Test window")));
 
-        layerStack_.PushLayer(new TestLayer());
-        layerStack_.PushOverlayLayer(imguiLayer);
-        ntt::WindowInput::Initialzie();
+    layerStack_.PushLayer(new TestLayer());
+    layerStack_.PushOverlayLayer(imguiLayer);
+    ntt::WindowInput::Initialzie();
 }

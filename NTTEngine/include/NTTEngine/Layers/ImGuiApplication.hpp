@@ -12,6 +12,8 @@ namespace ntt
 
             virtual void OnImGuiRender();
             virtual void OnImGuiRenderImpl();
+
+            inline std::string GetName() const { return windowName_; }
         private:
             std::string windowName_;
     }; 

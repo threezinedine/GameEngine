@@ -10,7 +10,7 @@ namespace ntt
     {
         public:
             WindowDemoApplication(): 
-                    ImGuiApplication(""), showWindow_(true) {}
+                    ImGuiApplication("Demo window"), showWindow_(true) {}
             void OnImGuiRender() override;
 
         private:

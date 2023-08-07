@@ -23,6 +23,7 @@ namespace ntt
             void AddApplication(ImGuiApplication* application);
         
         protected:
+            std::vector<bool*> applicationVisibles_;
             std::vector<ImGuiApplication*> applications_;
     };    
 } // namespace ntt
