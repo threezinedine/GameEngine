@@ -15,7 +15,7 @@
 namespace ntt
 {
     ImGuiLayer::ImGuiLayer(std::string layerName)
-        : Layer(layerName) 
+        : Layer(layerName)
     {
 
     }
@@ -31,6 +31,9 @@ namespace ntt
     {
         ImGui::CreateContext();
         ImGui::StyleColorsDark();
+        ImGuiIO& io = ImGui::GetIO();
+
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
         ImGui_ImplGlfw_InitForOpenGL(
             static_cast<GLFWwindow*>(Application::GetApplication()->GetWindow()->GetWindow()),
@@ -54,6 +57,10 @@ namespace ntt
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
+        ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+
+        OnImGuiRender();
+
         static bool show_demo_window = true;
         if (show_demo_window)
         {
@@ -66,5 +73,10 @@ namespace ntt
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         glfwSwapBuffers(static_cast<GLFWwindow*>(win->GetWindow()));
+    }
+
+    void ImGuiLayer::OnImGuiRender()
+    {
+
     }
 } // namespace ntt

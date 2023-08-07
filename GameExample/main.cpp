@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 #include <sstream>
+#include <glm/vec3.hpp>
 
 #include <NTTEngine/NTTEngine.hpp>
 
@@ -9,12 +10,6 @@ class TestLayer: public ntt::Layer
 {
     public:
         TestLayer(): Layer("Test Layer") {}
-
-        void OnMouseMove(MouseMoveEvent& event) override
-        {
-            NTT_APPLICATION_INFO("Mouse move from test layer: (" + std::to_string(event.GetMouseX())
-                                    + ", " + std::to_string(event.GetMouseY()) + ")");
-        }
 };
 
 class GameExampleApplication: public ntt::Application
@@ -36,14 +31,12 @@ class GameExampleApplication: public ntt::Application
             layerStack_.PushLayer(new TestLayer());
             layerStack_.PushOverlayLayer(new ImGuiLayer("Debug Layer"));
             WindowInput::Initialzie();
-        }
-
-        void OnUpdateImpl() override
-        {
-            if (WindowInput::IsButtonLeftClicked())
-            {
-                NTT_APPLICATION_INFO("Left Button clicked");
-            }
+            glm::vec3 pos(1.0f, 1.0f, 1.0f);
+            glm::vec3 pos2(1.0f, 2.0f, 1.0f);
+            glm::vec3 res = pos * pos2.t;
+            std::cout << res.x << std::endl;
+            std::cout << res.y << std::endl;
+            std::cout << res.z << std::endl;
         }
     private:
 };

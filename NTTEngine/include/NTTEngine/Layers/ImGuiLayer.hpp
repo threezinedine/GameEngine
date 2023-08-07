@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 
+#include <imgui.h>
 #include <NTTEngine/Layer.hpp>
 
 
@@ -16,5 +17,8 @@ namespace ntt
             void OnDetach() override;
 
             void OnUpdate() override;
+            virtual void OnImGuiRender();
+        
+        protected:
     };    
 } // namespace ntt

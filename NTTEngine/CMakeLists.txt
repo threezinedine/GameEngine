@@ -17,7 +17,7 @@ find_package(OpenGL REQUIRED)
 add_definitions(-DNTT_ENGINE_BUILD)
 
 # add library 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/vendors)
 
 add_library(
     ${PROJECT_NAME}
@@ -39,4 +39,5 @@ target_link_libraries(
     OpenGL::GL
     libglew_static
     glfw
+    glm
 )
