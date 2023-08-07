@@ -6,6 +6,17 @@
 
 #include <NTTEngine/NTTEngine.hpp>
 
+class TestWindow: public ntt::ImGuiApplication
+{
+    public:
+        TestWindow(std::string windowName)
+            : ImGuiApplication(windowName) {}
+        void OnImGuiRenderImpl() override 
+        {
+            ImGui::Text("Home");
+        }
+};
+
 class TestLayer: public ntt::Layer
 {
     public:
@@ -28,15 +39,13 @@ class GameExampleApplication: public ntt::Application
 
         void OnSetupImpl() override
         {
+            auto imguiLayer = new ImGuiLayer("Debug Layer");
+            imguiLayer->AddApplication(new WindowDemoApplication());
+            imguiLayer->AddApplication(new TestWindow(std::string("Test window")));
+
             layerStack_.PushLayer(new TestLayer());
-            layerStack_.PushOverlayLayer(new ImGuiLayer("Debug Layer"));
+            layerStack_.PushOverlayLayer(imguiLayer);
             WindowInput::Initialzie();
-            glm::vec3 pos(1.0f, 1.0f, 1.0f);
-            glm::vec3 pos2(1.0f, 2.0f, 1.0f);
-            glm::vec3 res = pos * pos2.t;
-            std::cout << res.x << std::endl;
-            std::cout << res.y << std::endl;
-            std::cout << res.z << std::endl;
         }
     private:
 };

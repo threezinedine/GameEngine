@@ -25,6 +25,11 @@ namespace ntt
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
+
+        for (auto app: applications_)
+        {
+            delete app;
+        }
     }
 
     void ImGuiLayer::OnAttach()
@@ -59,12 +64,9 @@ namespace ntt
 
         ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
-        OnImGuiRender();
-
-        static bool show_demo_window = true;
-        if (show_demo_window)
+        for (auto app: applications_)
         {
-            ImGui::ShowDemoWindow(&show_demo_window);
+            app->OnImGuiRender();
         }
 
         ImGui::Render();
@@ -75,8 +77,8 @@ namespace ntt
         glfwSwapBuffers(static_cast<GLFWwindow*>(win->GetWindow()));
     }
 
-    void ImGuiLayer::OnImGuiRender()
+    void ImGuiLayer::AddApplication(ImGuiApplication* application)
     {
-
+        applications_.push_back(application);
     }
 } // namespace ntt

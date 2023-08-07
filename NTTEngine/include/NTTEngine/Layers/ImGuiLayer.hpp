@@ -1,8 +1,10 @@
 #pragma once
 #include <string>
+#include <vector>
 
 #include <imgui.h>
 #include <NTTEngine/Layer.hpp>
+#include "ImGuiApplication.hpp"
 
 
 namespace ntt
@@ -17,8 +19,10 @@ namespace ntt
             void OnDetach() override;
 
             void OnUpdate() override;
-            virtual void OnImGuiRender();
+
+            void AddApplication(ImGuiApplication* application);
         
         protected:
+            std::vector<ImGuiApplication*> applications_;
     };    
 } // namespace ntt
