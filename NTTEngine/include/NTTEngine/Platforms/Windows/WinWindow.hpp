@@ -15,7 +15,9 @@ namespace ntt
             WinWindow(unsigned int height, unsigned int width, std::string title);
             ~WinWindow();
 
+            void OnStartUpdate() override;
             void OnUpdate() override;
+            void OnEndUpdate() override;
             inline unsigned int GetHeight() const { return height_; }
             inline unsigned int GetWidth() const { return width_; }
             inline bool IsClosed() { return glfwWindowShouldClose(window_); }

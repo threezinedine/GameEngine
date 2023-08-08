@@ -91,7 +91,6 @@ namespace ntt
         glViewport(0, 0, win->GetWidth(), win->GetHeight());
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-        glfwSwapBuffers(static_cast<GLFWwindow*>(win->GetWindow()));
     }
 
     void ImGuiLayer::AddApplication(ImGuiApplication* application)

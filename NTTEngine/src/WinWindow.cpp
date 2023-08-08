@@ -6,6 +6,7 @@
 #include <NTTEngine/Platforms/Windows/WinWindow.hpp>
 #include <NTTEngine/Core.hpp>
 #include <NTTEngine/EventSystem/EventSystem.hpp>
+#include <NTTEngine/Platforms/OpenGL/OpenGL.hpp>
 
 
 
@@ -29,14 +30,8 @@ namespace ntt
             exit(-1);
         }
 
-        glfwMakeContextCurrent(window_);
-
-        if (glewInit() != GLEW_OK)
-        {
-            NTT_ENGINE_ERROR("Failed to initialize the glew");
-            glfwTerminate();
-            exit(-1);
-        }
+        context_ = new OpenGLContext(window_);
+        context_->Init();
 
         glfwSetWindowUserPointer(window_, this);
 
@@ -95,12 +90,20 @@ namespace ntt
         glfwTerminate();
     }
 
-    void WinWindow::OnUpdate()
+    void WinWindow::OnStartUpdate()
     {
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        glfwPollEvents();
-        // glfwSwapBuffers(window_);
+    }
+
+    void WinWindow::OnEndUpdate()
+    {
+        context_->SwapBuffer();
+    }
+
+    void WinWindow::OnUpdate()
+    {
+
     }
 } // namespace ntt
 
