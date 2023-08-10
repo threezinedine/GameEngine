@@ -13,3 +13,10 @@
 #define NTT_APPLICATION_WARN(...)       ntt::Logging::GetApplicationLogger()->warn(__VA_ARGS__)
 #define NTT_APPLICATION_ERROR(...)      ntt::Logging::GetApplicationLogger()->error(__VA_ARGS__)
 #define NTT_APPLICATION_CRITICAL(...)   ntt::Logging::GetApplicationLogger()->critical(__VA_ARGS__)
+
+#define GL_CALL(x) ClearError(); \
+    x; \
+    PrintOutError(__FILE__, __LINE__);
+
+void ClearError();
+bool PrintOutError(const std::string& file, int line);

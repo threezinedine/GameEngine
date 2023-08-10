@@ -5,6 +5,7 @@
 #include <NTTEngine/IWindow.hpp>
 #include <NTTEngine/Macros.hpp>
 #include <NTTEngine/LayerStack.hpp>
+#include <NTTEngine/Renderer/Renderer.hpp>
 
 
 namespace ntt
@@ -47,6 +48,8 @@ namespace ntt
 
             IWindow* window_;
             LayerStack layerStack_;
+            Shader* shader_;
+
         private:
             static Application* application_;
     }; 

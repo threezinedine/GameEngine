@@ -28,7 +28,11 @@ TestLayer::TestLayer()
     glGenBuffers(1, &vio_);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vio_);
 
-    unsigned int indexes[] = { 0, 1, 2, };
+    unsigned int indexes[] = 
+    { 
+        0, 1, 2, 
+        1, 2, 3,
+    };
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexes), indexes, GL_STATIC_DRAW);
 }
 
@@ -40,5 +44,5 @@ TestLayer::~TestLayer()
 void TestLayer::OnUpdate()
 {
     glBindVertexArray(vao_);
-    glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
