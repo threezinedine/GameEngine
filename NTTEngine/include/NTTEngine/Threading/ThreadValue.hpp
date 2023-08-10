@@ -10,7 +10,7 @@ namespace ntt
     {
         public:
             ThreadValue(T defaultValue, T minValue, T maxValue)
-                : ThreadingVariable(minValue, maxValue), value_(defaultValue)
+                : ThreadingVariable<T>(minValue, maxValue), value_(defaultValue)
             {
 
             }

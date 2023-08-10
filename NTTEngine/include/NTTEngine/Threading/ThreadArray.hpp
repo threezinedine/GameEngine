@@ -10,7 +10,7 @@ namespace ntt
     {
         public:
             ThreadArray(T* arr, T minValue, T maxValue)
-                : ThreadingVariable(minValue, maxValue), arr_(arr)
+                : ThreadingVariable<T>(minValue, maxValue), arr_(arr)
             {
 
             }
