@@ -9,8 +9,8 @@ namespace ntt
     class ThreadValue: public ThreadingVariable
     {
         public:
-            ThreadValue(T defaultValue)
-                : value_(defaultValue)
+            ThreadValue(T defaultValue, T minValue, T maxValue)
+                : ThreadingVariable(minValue, maxValue), value_(defaultValue)
             {
 
             }

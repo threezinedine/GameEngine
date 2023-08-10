@@ -9,7 +9,12 @@ namespace ntt
     class ThreadArray: public ThreadingVariable
     {
         public:
-            ThreadArray(T* arr)
+            ThreadArray(T* arr, T minValue, T maxValue)
+                : ThreadingVariable(minValue, maxValue), arr_(arr)
+            {
+
+            }
+
             ~ThreadArray()
             {
                 if (arr_ != nullptr)
