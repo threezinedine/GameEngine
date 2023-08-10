@@ -11,7 +11,7 @@ namespace ntt
     {
         public:
             OpenGLContext(GLFWwindow* win);
-            ~OpenGLContext();
+            virtual ~OpenGLContext();
 
             void Init() override;
             void SwapBuffer() override;

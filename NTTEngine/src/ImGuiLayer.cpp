@@ -54,10 +54,6 @@ namespace ntt
 
     void ImGuiLayer::OnUpdate()
     {
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        glfwPollEvents();
-
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
@@ -76,7 +72,7 @@ namespace ntt
             ImGui::EndMainMenuBar();
         }
 
-        ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+        ImGui::DockSpaceOverViewport(ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
 
         for (int i=0; i<applications_.size(); i++)
         {
@@ -93,9 +89,9 @@ namespace ntt
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
-    void ImGuiLayer::AddApplication(ImGuiApplication* application)
+    void ImGuiLayer::AddApplication(ImGuiApplication* application, bool visible)
     {
-        applicationVisibles_.push_back(new bool(true));
+        applicationVisibles_.push_back(new bool(visible));
         applications_.push_back(application);
     }
 } // namespace ntt

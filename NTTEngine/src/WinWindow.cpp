@@ -2,6 +2,9 @@
 
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
+#include <imgui.h>
+#include <imgui_impl_opengl3.h>
+#include <imgui_impl_glfw.h>
 
 #include <NTTEngine/Platforms/Windows/WinWindow.hpp>
 #include <NTTEngine/Core.hpp>
@@ -93,7 +96,9 @@ namespace ntt
     void WinWindow::OnStartUpdate()
     {
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        // glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+        glfwPollEvents();
     }
 
     void WinWindow::OnEndUpdate()

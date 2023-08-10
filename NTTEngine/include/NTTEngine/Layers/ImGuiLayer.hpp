@@ -13,14 +13,14 @@ namespace ntt
     {
         public:
             ImGuiLayer(std::string layerName);
-            ~ImGuiLayer();
+            ~ImGuiLayer() override;
 
             void OnAttach() override;
             void OnDetach() override;
 
             void OnUpdate() override;
 
-            void AddApplication(ImGuiApplication* application);
+            void AddApplication(ImGuiApplication* application, bool visible = true);
         
         protected:
             std::vector<bool*> applicationVisibles_;

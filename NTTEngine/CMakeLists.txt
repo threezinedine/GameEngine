@@ -21,7 +21,7 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/vendors)
 
 add_library(
     ${PROJECT_NAME}
-    SHARED
+    STATIC
     ${SRC_FILES}
 )
 

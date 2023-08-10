@@ -12,7 +12,7 @@ namespace ntt
     {
         public:
             Layer(std::string layerName);
-            ~Layer();
+            virtual ~Layer();
 
             virtual void OnAttach();
             virtual void OnDetach();

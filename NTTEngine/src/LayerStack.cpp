@@ -5,37 +5,48 @@
 namespace ntt
 {
     LayerStack::LayerStack()
+        : index_(0)
     {
-        insertedIterator_ = layers_.begin();
+
     } 
 
     LayerStack::~LayerStack()
     {
         for (auto it: layers_)
         {
-            delete it;
+            if (it != nullptr)
+            {
+                delete it;
+            }
         }
     }
 
     void LayerStack::PushLayer(Layer* layer)
     {
-        layers_.insert(insertedIterator_, layer);
+        try 
+        {
+            layers_.insert(layers_.begin() + index_, layer);
+        }
+        catch (std::exception& ex)
+        {
+            NTT_ENGINE_ERROR("Error in {} --- Line: {} --- Error: {}", "LayerStack.cpp", 32, ex.what());
+        }
         layer->OnAttach();
-        insertedIterator_++;
+        index_++;
     }
 
     void LayerStack::PushOverlayLayer(Layer* overlay)
     {
         layers_.push_back(overlay);
         overlay->OnAttach();
+        haveOverlay_ = true;
     }
 
     void LayerStack::PopLayer()
     {
-        if (insertedIterator_ != layers_.begin())
+        if (index_ != 0)
         {
-            // layers_.erase(insertedIterator_);
-            insertedIterator_--;
+            layers_.at(--index_)->OnDetach();
         }
         else 
         {
@@ -45,6 +56,19 @@ namespace ntt
 
     void LayerStack::PopOverlayLayer()
     {
-        layers_.pop_back();
+        (*layers_.end() - 1)->OnDetach();
+        haveOverlay_ = false;
+    }
+
+    void LayerStack::OnUpdate()
+    {
+        for (int i=0; i<index_; i++)
+        {
+            layers_.at(i)->OnUpdate();
+        }
+        if (haveOverlay_)
+        {
+            (*(layers_.end() - 1))->OnUpdate();
+        }
     }
 } // namespace ntt

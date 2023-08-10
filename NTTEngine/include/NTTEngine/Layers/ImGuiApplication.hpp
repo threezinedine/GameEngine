@@ -8,7 +8,7 @@ namespace ntt
     {
         public:
             ImGuiApplication(std::string windowName);
-            ~ImGuiApplication();
+            virtual ~ImGuiApplication();
 
             virtual void OnImGuiRender();
             virtual void OnImGuiRenderImpl();

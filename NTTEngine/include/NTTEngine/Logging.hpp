@@ -9,7 +9,7 @@ namespace ntt
     {
         public:
             Logging();
-            ~Logging();
+            virtual ~Logging();
 
             static void Init();
 

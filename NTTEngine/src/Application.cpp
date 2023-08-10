@@ -43,10 +43,7 @@ namespace ntt
     {
         window_->OnStartUpdate();
         window_->OnUpdate();
-        for (auto it=layerStack_.Begin(); it!=layerStack_.End(); it++)
-        {
-            (*it)->OnUpdate();
-        }
+        layerStack_.OnUpdate();
         OnUpdateImpl();
         window_->OnEndUpdate();
     }
