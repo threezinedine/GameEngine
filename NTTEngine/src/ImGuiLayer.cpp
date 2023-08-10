@@ -22,6 +22,7 @@ namespace ntt
 
     ImGuiLayer::~ImGuiLayer()
     {
+        NTT_ENGINE_DEBUG("Delete ImGuiLayer");
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();

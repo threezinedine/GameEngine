@@ -1,10 +1,12 @@
 #pragma once
 #include <string>
+#include "ImGuiComponent.hpp"
+#include <vector>
 
 
 namespace ntt
 {
-    class ImGuiApplication
+    class ImGuiApplication: public IImGuiRenderer
     {
         public:
             ImGuiApplication(std::string windowName);
@@ -13,7 +15,13 @@ namespace ntt
             virtual void OnImGuiRender();
             virtual void OnImGuiRenderImpl();
 
-            inline std::string GetName() const { return windowName_; }
+            inline const std::string& GetName() const { return windowName_; }
+
+            void AddComponent(ImGuiComponent* component) { components_.push_back(component); }
+
+        protected:
+            std::vector<ImGuiComponent*> components_;
+
         private:
             std::string windowName_;
     }; 

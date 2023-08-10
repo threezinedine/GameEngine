@@ -7,6 +7,12 @@ class TestWindow: public ntt::ImGuiApplication
     public:
         TestWindow(std::string windowName)
             : ImGuiApplication(windowName) {}
+
+        ~TestWindow()
+        {
+            NTT_APPLICATION_DEBUG("Delete Test Window");
+        }
+
         void OnImGuiRenderImpl() override 
         {
             static bool testVisible = true;

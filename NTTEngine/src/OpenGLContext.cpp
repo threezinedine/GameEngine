@@ -15,7 +15,7 @@ namespace ntt
 
     OpenGLContext::~OpenGLContext()
     {
-
+        NTT_ENGINE_DEBUG("Delete OpenGLContext");
     }
 
     void OpenGLContext::Init()

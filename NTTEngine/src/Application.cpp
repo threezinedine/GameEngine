@@ -28,6 +28,7 @@ namespace ntt
 
     Application::~Application()
     {
+        NTT_ENGINE_DEBUG("Delete Application");
         delete window_;
     }
 

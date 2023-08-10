@@ -11,6 +11,8 @@ namespace ntt
         public:
             WindowDemoApplication(): 
                     ImGuiApplication("Demo window"), showWindow_(true) {}
+
+            ~WindowDemoApplication();
             void OnImGuiRender() override;
 
         private:

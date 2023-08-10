@@ -13,7 +13,7 @@ class GameExampleApplication: public ntt::Application
 
         ~GameExampleApplication()
         {
-
+            NTT_APPLICATION_DEBUG("Delete Example Application");
         }
 
         void OnSetupImpl() override;
