@@ -12,7 +12,7 @@ namespace ntt
                 : name_(name) {}
             virtual ~ImGuiComponent() {}
 
-            inline const std::string& GetName() const { return name_; }
+            const std::string& GetName() const { return name_; }
 
         private:
             std::string name_;
