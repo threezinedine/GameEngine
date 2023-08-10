@@ -6,7 +6,7 @@
 namespace ntt
 {
     template <typename T>
-    class ThreadValue: public ThreadingVariable
+    class ThreadValue: public ThreadingVariable<T>
     {
         public:
             ThreadValue(T defaultValue, T minValue, T maxValue)

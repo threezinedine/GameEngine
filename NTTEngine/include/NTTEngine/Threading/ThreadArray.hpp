@@ -6,7 +6,7 @@
 namespace ntt
 {
     template <typename T>
-    class ThreadArray: public ThreadingVariable
+    class ThreadArray: public ThreadingVariable<T>
     {
         public:
             ThreadArray(T* arr, T minValue, T maxValue)
