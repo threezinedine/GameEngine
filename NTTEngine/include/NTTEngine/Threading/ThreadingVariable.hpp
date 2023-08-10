@@ -14,11 +14,11 @@ namespace ntt
 
             }
 
-            inline void Bind() { m_.lock(); }
-            inline void UnBind() { m_.unlock(); }
+            void Bind() { m_.lock(); }
+            void UnBind() { m_.unlock(); }
 
-            inline const T& GetMinValue() const { return minValue_; }
-            inline const T& GetMaxValue() const { return maxValue_; }
+            const T& GetMinValue() const { return minValue_; }
+            const T& GetMaxValue() const { return maxValue_; }
 
             virtual T* GetPointer() = 0;
         private:
