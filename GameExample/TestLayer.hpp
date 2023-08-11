@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <NTTEngine/NTTEngine.hpp>
 
 class TestLayer: public ntt::Layer
@@ -10,7 +11,10 @@ class TestLayer: public ntt::Layer
         void OnUpdate() override;
 
     private:
-        unsigned int vao_;
-        unsigned int vbo_;
-        unsigned int vio_;
+        std::unique_ptr<ntt::VertexArray> vao_;
+        std::unique_ptr<ntt::VertexBuffer> vbo_;
+        std::unique_ptr<ntt::IndexBuffer> vio_;
+        // unsigned int vao_;
+        // unsigned int vbo_;
+        // unsigned int vio_;
 };
