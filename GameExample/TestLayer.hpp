@@ -14,7 +14,4 @@ class TestLayer: public ntt::Layer
         std::unique_ptr<ntt::VertexArray> vao_;
         std::unique_ptr<ntt::VertexBuffer> vbo_;
         std::unique_ptr<ntt::IndexBuffer> vio_;
-        // unsigned int vao_;
-        // unsigned int vbo_;
-        // unsigned int vio_;
 };
