@@ -12,6 +12,9 @@ namespace ntt
 
             void Bind() override;
             void UnBind() override;
+
+            void Setup() override;
+
         private:
             unsigned int id_;
     };

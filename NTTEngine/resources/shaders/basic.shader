@@ -2,10 +2,14 @@
 #version 330 core
 
 layout(location = 0) in vec4 position;
+layout(location = 1) in vec4 vertexColor;
+
+out vec4 m_VertexColor;
 
 void main()
 {
    gl_Position = position;
+   m_VertexColor = vertexColor;
 };
 
 
@@ -14,8 +18,9 @@ void main()
 
 layout(location = 0) out vec4 color;
 
+in vec4 m_VertexColor;
+
 void main()
 {
-   vec4 texColor = vec4(1.0f, 1.0f, 0.0f, 1.0f);
-   color = texColor;
+   color = m_VertexColor;
 };

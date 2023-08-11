@@ -27,4 +27,14 @@ namespace ntt
     {
         GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, 0));
     }
+
+    void OpenGLVertexBuffer::Setup()
+    {
+        for (int i=0; i<layouts_.size(); i++)
+        {
+            glEnableVertexAttribArray(i);
+            glVertexAttribPointer(i, layouts_[i].num, GL_FLOAT, 
+                    layouts_[i].normalized, size_, (const void*)layouts_[i].offset);
+        }
+    }
 } // namespace ntt

@@ -11,16 +11,17 @@ TestLayer::TestLayer()
 
     float vertices[] = 
     {
-        -0.5f, -0.5f,
-         0.5f, -0.5f,
-        -0.5f,  0.5f,
-         0.5f,  0.5f,
+        -0.5f, -0.5f, 1.0f, 1.0f, 1.0f,
+         0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+        -0.5f,  0.5f, 1.0f, 0.0f, 1.0f,
+         0.5f,  0.5f, 1.0f, 1.0f, 0.0f,
     };
 
     vbo_ = std::make_unique<ntt::OpenGLVertexBuffer>(vertices, sizeof(vertices));
 
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(float), nullptr);
+    vbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float2, std::string("position")));
+    vbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float3, std::string("color")));
+    vbo_->Setup();
 
     unsigned int indexes[] = 
     { 
