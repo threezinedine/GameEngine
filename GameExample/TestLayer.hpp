@@ -12,6 +12,5 @@ class TestLayer: public ntt::Layer
 
     private:
         std::unique_ptr<ntt::VertexArray> vao_;
-        std::unique_ptr<ntt::VertexBuffer> vbo_;
-        std::unique_ptr<ntt::IndexBuffer> vio_;
+        std::unique_ptr<ntt::VertexArray> triangleVao_;
 };

@@ -7,8 +7,6 @@
 TestLayer::TestLayer()
     : Layer("Test Layer")
 {
-    vao_ = std::make_unique<ntt::OpenGLVertexArray>();
-
     float vertices[] = 
     {
         -0.5f, -0.5f, 1.0f, 1.0f, 1.0f,
@@ -17,19 +15,43 @@ TestLayer::TestLayer()
          0.5f,  0.5f, 1.0f, 1.0f, 0.0f,
     };
 
-    vbo_ = std::make_unique<ntt::OpenGLVertexBuffer>(vertices, sizeof(vertices));
-
-    vbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float2, std::string("position")));
-    vbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float3, std::string("color")));
-    vbo_->Setup();
-
     unsigned int indexes[] = 
     { 
         0, 1, 2, 
         1, 2, 3,
     };
 
-    vio_ = std::make_unique<ntt::OpenGLIndexBuffer>(indexes, sizeof(indexes));
+    float triangleVertices[] = 
+    {
+        -0.5f, -0.3f, 0.0f, 0.0f, 1.0f,
+         0.5f, -0.4f, 0.0f, 1.0f, 0.0f,
+         0.5f,  0.0f, 0.0f, 0.0f, 1.0f,
+    };
+
+    unsigned int triangleIndexes[] = 
+    { 
+        0, 1, 2, 
+    };
+
+    vao_ = std::make_unique<ntt::OpenGLVertexArray>();
+
+    auto vbo_ = std::make_shared<ntt::OpenGLVertexBuffer>(vertices, sizeof(vertices));
+    vbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float2, std::string("position")));
+    vbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float3, std::string("color")));
+    vao_->AppendVertexBuffer(vbo_);
+
+    auto vio_ = std::make_shared<ntt::OpenGLIndexBuffer>(indexes, sizeof(indexes));
+    vao_->SetIndexBuffer(vio_);
+
+    triangleVao_ = std::make_unique<ntt::OpenGLVertexArray>();
+
+    auto triangleVbo_ = std::make_shared<ntt::OpenGLVertexBuffer>(triangleVertices, sizeof(triangleVertices));
+    triangleVbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float2, std::string("position")));
+    triangleVbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float3, std::string("color")));
+    triangleVao_->AppendVertexBuffer(triangleVbo_);
+
+    auto triangleVio_ = std::make_shared<ntt::OpenGLIndexBuffer>(triangleIndexes, sizeof(triangleIndexes));
+    triangleVao_->SetIndexBuffer(triangleVio_);
 }
 
 TestLayer::~TestLayer()
@@ -39,5 +61,9 @@ TestLayer::~TestLayer()
 
 void TestLayer::OnUpdate()
 {
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+    vao_->Bind();
+    glDrawElements(GL_TRIANGLES, vao_->GetIndexBuffers()->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+    triangleVao_->Bind();
+    glDrawElements(GL_TRIANGLES, triangleVao_->GetIndexBuffers()->GetCount(), GL_UNSIGNED_INT, nullptr);
 }

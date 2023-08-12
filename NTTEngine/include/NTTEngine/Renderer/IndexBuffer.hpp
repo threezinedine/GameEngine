@@ -10,5 +10,7 @@ namespace ntt
 
             virtual void Bind() = 0;
             virtual void UnBind() = 0;
+
+            virtual int GetCount() const = 0;
     }; 
 } // namespace ntt

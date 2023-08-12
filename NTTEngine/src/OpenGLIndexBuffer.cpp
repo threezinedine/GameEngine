@@ -7,6 +7,7 @@
 namespace ntt
 {
     OpenGLIndexBuffer::OpenGLIndexBuffer(unsigned int* indeces, unsigned int size)
+        : count_(size / sizeof(unsigned int))
     {
         GL_CALL(glGenBuffers(1, &id_));
         Bind();
