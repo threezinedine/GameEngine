@@ -16,6 +16,7 @@ void GameExampleApplication::OnSetupImpl()
 
     imguiLayer->AddApplication(std::make_shared<ntt::WindowDemoApplication>(), false);
     imguiLayer->AddApplication(testWindow);
+    imguiLayer->AddApplication(std::make_shared<ntt::PerformanceApplication>(), true);
 
     layerStack_.PushLayer(testLayer);
     layerStack_.PushOverlayLayer(imguiLayer);

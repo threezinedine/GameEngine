@@ -6,3 +6,4 @@
 #include "ImGuiComponent.hpp"
 
 #include "WindowDemoApplication.hpp"
+#include "PerformanceApplication.hpp"
