@@ -29,7 +29,6 @@ namespace ntt
     Application::~Application()
     {
         NTT_ENGINE_DEBUG("Delete Application");
-        delete window_;
     }
 
     void Application::OnRun()
@@ -56,7 +55,7 @@ namespace ntt
 
     void Application::OnSetup()
     {
-        shader_ = new Shader(std::string("../resources/shaders/basic.shader"),
+        shader_ = std::make_shared<Shader>(std::string("../resources/shaders/basic.shader"),
                             std::string("vertex"), std::string("fragment"));
         shader_->UnBind();
         OnSetupImpl();

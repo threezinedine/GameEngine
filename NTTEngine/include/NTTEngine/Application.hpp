@@ -48,7 +48,7 @@ namespace ntt
 
             IWindow* window_;
             LayerStack layerStack_;
-            Shader* shader_;
+            std::shared_ptr<Shader> shader_;
 
         private:
             static Application* application_;

@@ -10,7 +10,8 @@ namespace ntt
     class WindowInput: public IInput
     {
         public:
-            static void Initialzie() { instance_ = new WindowInput(); }
+            inline static void Initialzie() { instance_ = new WindowInput(); }
+            inline static void Release() { if (instance_ != nullptr) delete instance_; }
 
         protected:
             std::pair<int, int> GetMousePositionImpl() override;

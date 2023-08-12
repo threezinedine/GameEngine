@@ -33,7 +33,7 @@ TestLayer::TestLayer()
         0, 1, 2, 
     };
 
-    vao_ = std::make_unique<ntt::OpenGLVertexArray>();
+    vao_ = std::make_shared<ntt::OpenGLVertexArray>();
 
     auto vbo_ = std::make_shared<ntt::OpenGLVertexBuffer>(vertices, sizeof(vertices));
     vbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float2, std::string("position")));
@@ -43,7 +43,7 @@ TestLayer::TestLayer()
     auto vio_ = std::make_shared<ntt::OpenGLIndexBuffer>(indexes, sizeof(indexes));
     vao_->SetIndexBuffer(vio_);
 
-    triangleVao_ = std::make_unique<ntt::OpenGLVertexArray>();
+    triangleVao_ = std::make_shared<ntt::OpenGLVertexArray>();
 
     auto triangleVbo_ = std::make_shared<ntt::OpenGLVertexBuffer>(triangleVertices, sizeof(triangleVertices));
     triangleVbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float2, std::string("position")));
@@ -61,17 +61,17 @@ TestLayer::~TestLayer()
 
 void TestLayer::OnUpdate()
 {
+    ntt::RendererAPI::Begin();
     if (visibleVao_)
     {
-        vao_->Bind();
-        vao_->GetIndexBuffers()->Render();
+        ntt::RendererAPI::Submit(vao_);
     }
 
     if (visibleTriangleVao_)
     {
-        triangleVao_->Bind();
-        triangleVao_->GetIndexBuffers()->Render();
+        ntt::RendererAPI::Submit(triangleVao_);
     }
+    ntt::RendererAPI::End();
 }
 
 void TestLayer::OnImGuiRenderImpl()
