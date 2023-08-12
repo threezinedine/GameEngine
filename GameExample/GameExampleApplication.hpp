@@ -6,7 +6,7 @@ class GameExampleApplication: public ntt::Application
 {
     public:
         GameExampleApplication()
-            : Application(600, 800, "Example")
+            : Application(900, 1200, "Example")
         {
 
         } 

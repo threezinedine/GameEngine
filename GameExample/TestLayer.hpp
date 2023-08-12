@@ -14,6 +14,7 @@ class TestLayer: public ntt::Layer
     private:
         std::shared_ptr<ntt::VertexArray> vao_;
         std::shared_ptr<ntt::VertexArray> triangleVao_;
+        std::unique_ptr<ntt::Shader> shader_;
 
         bool visibleVao_ = true;
         bool visibleTriangleVao_ = true;

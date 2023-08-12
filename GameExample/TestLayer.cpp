@@ -52,6 +52,10 @@ TestLayer::TestLayer()
 
     auto triangleVio_ = std::make_shared<ntt::OpenGLIndexBuffer>(triangleIndexes, sizeof(triangleIndexes));
     triangleVao_->SetIndexBuffer(triangleVio_);
+
+    shader_ = std::make_unique<ntt::Shader>(std::string("../resources/shaders/basic.shader"),
+                            std::string("vertex"), std::string("fragment"));
+    shader_->UnBind();
 }
 
 TestLayer::~TestLayer()
@@ -61,6 +65,7 @@ TestLayer::~TestLayer()
 
 void TestLayer::OnUpdate()
 {
+    shader_->Bind();
     ntt::RendererAPI::Begin();
     if (visibleVao_)
     {

@@ -55,11 +55,7 @@ namespace ntt
 
     void Application::OnSetup()
     {
-        shader_ = std::make_shared<Shader>(std::string("../resources/shaders/basic.shader"),
-                            std::string("vertex"), std::string("fragment"));
-        shader_->UnBind();
         OnSetupImpl();
-        shader_->Bind();
     }
 
     void Application::OnSetupImpl()
