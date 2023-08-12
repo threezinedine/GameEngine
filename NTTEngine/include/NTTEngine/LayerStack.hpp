@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 
+#include "Core/Core.hpp"
 #include "Layer.hpp"
 
 
@@ -20,7 +21,7 @@ namespace ntt
             void PopOverlayLayer();
             void PopLayer();
 
-            void OnUpdate();
+            void OnUpdate(Timestep ts);
 
             inline std::vector<std::shared_ptr<Layer>>::iterator Begin() { return layers_.begin(); }
             inline std::vector<std::shared_ptr<Layer>>::iterator End() { return layers_.end(); }

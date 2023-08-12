@@ -22,7 +22,7 @@ namespace ntt
             inline unsigned int GetWidth() const { return width_; }
             inline bool IsClosed() { return glfwWindowShouldClose(window_); }
 
-            void SetVSync(bool enabled) override { sync_ = enabled; }
+            void SetVSync(bool enabled) override;
             inline bool IsSync() const { return sync_; }
 
             void* GetWindow() override { return window_; }

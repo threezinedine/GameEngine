@@ -13,7 +13,7 @@ namespace ntt
                     ImGuiApplication("Demo window"), showWindow_(true) {}
 
             ~WindowDemoApplication();
-            void OnImGuiRender() override;
+            void OnImGuiRender(Timestep ts) override;
 
         private:
             bool showWindow_;

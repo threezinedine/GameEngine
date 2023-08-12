@@ -110,5 +110,17 @@ namespace ntt
     {
 
     }
+
+    void WinWindow::SetVSync(bool sync)
+    {
+        if (sync)
+        {
+            glfwSwapInterval(1);
+        }
+        else 
+        {
+            glfwSwapInterval(0);
+        }
+    }
 } // namespace ntt
 

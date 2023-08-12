@@ -57,15 +57,15 @@ namespace ntt
         }
     }
 
-    void LayerStack::OnUpdate()
+    void LayerStack::OnUpdate(Timestep ts)
     {
         for (int i=0; i<index_; i++)
         {
-            layers_.at(i)->OnUpdate();
+            layers_.at(i)->OnUpdate(ts);
         }
         if (haveOverlay_)
         {
-            (*(layers_.end() - 1))->OnUpdate();
+            (*(layers_.end() - 1))->OnUpdate(ts);
         }
     }
 } // namespace ntt

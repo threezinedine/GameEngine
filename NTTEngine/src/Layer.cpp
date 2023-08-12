@@ -28,15 +28,15 @@ namespace ntt
 
     }
 
-    void Layer::OnUpdate()
+    void Layer::OnUpdate(Timestep ts)
     {
 
     }
 
-    void Layer::OnImGuiRender()
+    void Layer::OnImGuiRender(Timestep ts)
     {
         ImGui::Begin(GetName().c_str());
-        OnImGuiRenderImpl();
+        OnImGuiRenderImpl(ts);
         ImGui::End();
     }
 

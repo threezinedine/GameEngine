@@ -10,7 +10,7 @@ namespace ntt
         NTT_ENGINE_DEBUG("Delete Window Application");
     }
 
-    void WindowDemoApplication::OnImGuiRender()
+    void WindowDemoApplication::OnImGuiRender(Timestep ts)
     {
         ImGui::ShowDemoWindow(&showWindow_);
     }

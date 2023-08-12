@@ -7,6 +7,7 @@
 #include <NTTEngine/Layer.hpp>
 // #include "ImGuiApplication.hpp"
 #include "IImGuiRenderer.hpp"
+#include "NTTEngine/Core/Core.hpp"
 
 
 namespace ntt
@@ -20,7 +21,7 @@ namespace ntt
             void OnAttach() override;
             void OnDetach() override;
 
-            void OnUpdate() override;
+            void OnUpdate(Timestep ts) override;
 
             void AddApplication(std::shared_ptr<IImGuiRenderer> application, bool visible = true);
         

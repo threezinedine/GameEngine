@@ -21,9 +21,10 @@ void GameExampleApplication::OnSetupImpl()
     layerStack_.PushOverlayLayer(imguiLayer);
     ntt::WindowInput::Initialzie();
 
+    // window_->SetVSync(true);
 }
 
-void GameExampleApplication::OnUpdateImpl()
+void GameExampleApplication::OnUpdateImpl(ntt::Timestep ts)
 {
 
 }

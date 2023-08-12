@@ -5,7 +5,7 @@
 
 
 TestLayer::TestLayer()
-    : Layer("Test Layer")
+    : Layer("Test Layer"), moveSpeed_(1.0), rotateSpeed_(90)
 {
     float vertices[] = 
     {
@@ -66,8 +66,25 @@ TestLayer::~TestLayer()
     NTT_APPLICATION_INFO("Delete Test Layer");
 }
 
-void TestLayer::OnUpdate()
+void TestLayer::OnUpdate(ntt::Timestep ts)
 {
+    if (ntt::WindowInput::IsKeyPressed(NTT_KEY_A))
+    {
+        camera_->GetCameraPosPointer()[1] += moveSpeed_ * (float)ts;
+    }
+    if (ntt::WindowInput::IsKeyPressed(NTT_KEY_S))
+    {
+        camera_->GetCameraPosPointer()[1] -= moveSpeed_ * (float)ts;
+    }
+    if (ntt::WindowInput::IsKeyPressed(NTT_KEY_R))
+    {
+        camera_->GetRotationPointer()[2] += rotateSpeed_ * (float)ts;
+    }
+    if (ntt::WindowInput::IsKeyPressed(NTT_KEY_Q))
+    {
+        camera_->GetRotationPointer()[2] -= rotateSpeed_ * (float)ts;
+    }
+
     ntt::RendererAPI::Begin(camera_);
     if (visibleVao_)
     {
@@ -81,7 +98,7 @@ void TestLayer::OnUpdate()
     ntt::RendererAPI::End();
 }
 
-void TestLayer::OnImGuiRenderImpl()
+void TestLayer::OnImGuiRenderImpl(ntt::Timestep ts)
 {
     ImGui::Checkbox("Square Vao", &visibleVao_);
     ImGui::Checkbox("Triangle Vao", &visibleTriangleVao_);
@@ -92,4 +109,7 @@ void TestLayer::OnImGuiRenderImpl()
 
     ImGui::SliderFloat("Fov", camera_->GetFovPointer(), 0, 3.14);
     ImGui::SliderFloat3("Rotation", camera_->GetRotationPointer(), -180, 180);
+
+    ImGui::SliderFloat("Move Speed", &moveSpeed_, 0, 1);
+    ImGui::SliderFloat("Rotate Speed", &rotateSpeed_, 0, 180);
 }

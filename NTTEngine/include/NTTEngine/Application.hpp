@@ -1,11 +1,13 @@
 #pragma once
 #include <string>
+#include <chrono>
 
 #include <NTTEngine/EventSystem/EventSystem.hpp>
 #include <NTTEngine/IWindow.hpp>
 #include <NTTEngine/Macros.hpp>
 #include <NTTEngine/LayerStack.hpp>
 #include <NTTEngine/Renderer/Renderer.hpp>
+#include <NTTEngine/Core/Core.hpp>
 
 
 namespace ntt
@@ -17,7 +19,7 @@ namespace ntt
             virtual ~Application();
 
             void OnSetup();
-            void OnUpdate();
+            void OnUpdate(Timestep ts);
             void OnRun();
 
             inline IWindow* GetWindow() const { return window_; }
@@ -33,7 +35,7 @@ namespace ntt
             }
 
         protected:
-            virtual void OnUpdateImpl();
+            virtual void OnUpdateImpl(Timestep ts);
             virtual void OnSetupImpl();
 
             DEFINE_EVENT_INTEFACE(WindowClose);
@@ -50,6 +52,7 @@ namespace ntt
             LayerStack layerStack_;
 
         private:
+            std::chrono::time_point<std::chrono::high_resolution_clock> start_;
             static Application* application_;
     }; 
 } // namespace ntt

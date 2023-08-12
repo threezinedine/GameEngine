@@ -13,7 +13,7 @@ class TestWindow: public ntt::ImGuiApplication
             NTT_APPLICATION_DEBUG("Delete Test Window");
         }
 
-        void OnImGuiRenderImpl() override 
+        void OnImGuiRenderImpl(ntt::Timestep ts) override 
         {
             static bool testVisible = true;
             if (ImGui::BeginMenuBar())

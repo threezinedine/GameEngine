@@ -17,7 +17,7 @@ class GameExampleApplication: public ntt::Application
         }
 
         void OnSetupImpl() override;
-        void OnUpdateImpl() override;
+        void OnUpdateImpl(ntt::Timestep ts) override;
     private:
         unsigned int vao_, vbo_, vio_;
 };

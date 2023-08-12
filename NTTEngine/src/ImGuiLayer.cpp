@@ -56,7 +56,7 @@ namespace ntt
 
     }
 
-    void ImGuiLayer::OnUpdate()
+    void ImGuiLayer::OnUpdate(Timestep ts)
     {
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
@@ -82,7 +82,7 @@ namespace ntt
         {
             if (*applicationVisibles_[i])
             {
-                applications_[i]->OnImGuiRender();
+                applications_[i]->OnImGuiRender(ts);
             }
         }
 

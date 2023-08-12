@@ -35,26 +35,32 @@ namespace ntt
     {
         while(!window_->IsClosed())
         {
-            OnUpdate();
+            auto current = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<float> duration = current - start_;
+            Timestep ts(duration.count());
+            start_ = current;
+
+            OnUpdate(ts);
         }
     }
 
-    void Application::OnUpdate()
+    void Application::OnUpdate(Timestep ts)
     {
         window_->OnStartUpdate();
         window_->OnUpdate();
-        layerStack_.OnUpdate();
-        OnUpdateImpl();
+        layerStack_.OnUpdate(ts);
+        OnUpdateImpl(ts);
         window_->OnEndUpdate();
     }
 
-    void Application::OnUpdateImpl()
+    void Application::OnUpdateImpl(Timestep ts)
     {
 
     }
 
     void Application::OnSetup()
     {
+        start_ = std::chrono::high_resolution_clock::now();
         OnSetupImpl();
     }
 

@@ -17,11 +17,11 @@ namespace ntt
 
             virtual void OnAttach();
             virtual void OnDetach();
-            virtual void OnUpdate();
+            virtual void OnUpdate(Timestep ts);
 
             inline const std::string& GetName() const { return layerName_; }
-            void OnImGuiRender() override;
-            virtual void OnImGuiRenderImpl() {};
+            void OnImGuiRender(Timestep ts) override;
+            virtual void OnImGuiRenderImpl(Timestep ts) {};
 
             DEFINE_EVENT_INTEFACE_LAYER(WindowClose)
             DEFINE_EVENT_INTEFACE_LAYER(WindowResize)

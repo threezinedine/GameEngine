@@ -18,18 +18,18 @@ namespace ntt
         NTT_ENGINE_DEBUG("Delete Imgui application");
     }
 
-    void ImGuiApplication::OnImGuiRender()
+    void ImGuiApplication::OnImGuiRender(Timestep ts)
     {
         ImGui::Begin(windowName_.c_str());
-        OnImGuiRenderImpl();
+        OnImGuiRenderImpl(ts);
         for (auto component: components_)
         {
-            component->OnImGuiRender();
+            component->OnImGuiRender(ts);
         }
         ImGui::End();
     }
 
-    void ImGuiApplication::OnImGuiRenderImpl()
+    void ImGuiApplication::OnImGuiRenderImpl(Timestep ts)
     {
 
     }

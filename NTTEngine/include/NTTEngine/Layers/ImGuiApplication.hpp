@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include "ImGuiComponent.hpp"
+#include "NTTEngine/Core/Core.hpp"
 
 
 namespace ntt
@@ -13,8 +14,8 @@ namespace ntt
             ImGuiApplication(std::string windowName);
             virtual ~ImGuiApplication();
 
-            virtual void OnImGuiRender();
-            virtual void OnImGuiRenderImpl();
+            virtual void OnImGuiRender(Timestep ts);
+            virtual void OnImGuiRenderImpl(Timestep ts);
 
             inline const std::string& GetName() const { return windowName_; }
 

@@ -9,7 +9,7 @@ class TestSliderComponent: public ntt::ImGuiComponent
         TestSliderComponent();
         ~TestSliderComponent();
 
-        void OnImGuiRender() override;
+        void OnImGuiRender(ntt::Timestep ts) override;
 
     private:
         float value_;
