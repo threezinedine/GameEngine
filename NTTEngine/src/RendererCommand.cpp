@@ -4,8 +4,9 @@
 
 namespace ntt
 {
-    void RendererCommand::DrawIndex(std::shared_ptr<VertexArray>& vertexArray) 
+    void RendererCommand::DrawIndex(std::shared_ptr<VertexArray>& vertexArray,
+                                        std::shared_ptr<Shader> shader) 
     {
-        RendererAPI::GetInstance()->DrawIndex(vertexArray);
+        RendererAPI::GetInstance()->DrawIndex(vertexArray, shader);
     }
 } // namespace ntt

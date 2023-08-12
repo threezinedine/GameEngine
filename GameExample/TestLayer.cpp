@@ -23,9 +23,9 @@ TestLayer::TestLayer()
 
     float triangleVertices[] = 
     {
-        -0.5f, -0.3f, 0.0f, 0.0f, 1.0f,
-         0.5f, -0.4f, 0.0f, 1.0f, 0.0f,
-         0.5f,  0.0f, 0.0f, 0.0f, 1.0f,
+        -0.5f, -0.3f,
+         0.5f, -0.4f,
+         0.5f,  0.0f,
     };
 
     unsigned int triangleIndexes[] = 
@@ -47,14 +47,17 @@ TestLayer::TestLayer()
 
     auto triangleVbo_ = std::make_shared<ntt::OpenGLVertexBuffer>(triangleVertices, sizeof(triangleVertices));
     triangleVbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float2, std::string("position")));
-    triangleVbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float3, std::string("color")));
     triangleVao_->AppendVertexBuffer(triangleVbo_);
 
     auto triangleVio_ = std::make_shared<ntt::OpenGLIndexBuffer>(triangleIndexes, sizeof(triangleIndexes));
     triangleVao_->SetIndexBuffer(triangleVio_);
 
-    shader_ = std::make_unique<ntt::Shader>(std::string("../resources/shaders/basic.shader"),
+    camera_ = std::make_shared<ntt::Camera>(glm::vec3(0.0f, 0.0f, 45.0f), 3.14/2);
+
+    shader_ = std::make_shared<ntt::Shader>(std::string("../resources/shaders/basic.shader"),
                             std::string("vertex"), std::string("fragment"));
+    triangleShader_ = std::make_shared<ntt::Shader>(std::string("../resources/shaders/basic.shader"),
+                            std::string("vertextriangle"), std::string("fragmenttriangle"));
     shader_->UnBind();
 }
 
@@ -65,16 +68,15 @@ TestLayer::~TestLayer()
 
 void TestLayer::OnUpdate()
 {
-    shader_->Bind();
-    ntt::RendererAPI::Begin();
+    ntt::RendererAPI::Begin(camera_);
     if (visibleVao_)
     {
-        ntt::RendererAPI::Submit(vao_);
+        ntt::RendererAPI::Submit(vao_, shader_);
     }
 
     if (visibleTriangleVao_)
     {
-        ntt::RendererAPI::Submit(triangleVao_);
+        ntt::RendererAPI::Submit(triangleVao_, triangleShader_);
     }
     ntt::RendererAPI::End();
 }
@@ -83,4 +85,11 @@ void TestLayer::OnImGuiRenderImpl()
 {
     ImGui::Checkbox("Square Vao", &visibleVao_);
     ImGui::Checkbox("Triangle Vao", &visibleTriangleVao_);
+
+    ImGui::InputFloat3("Camera Position", camera_->GetCameraPosPointer());
+    ImGui::InputFloat3("Camera Front", camera_->GetCameraFrontPointer());
+    ImGui::InputFloat3("Camera Up", camera_->GetCameraUpPointer());
+
+    ImGui::SliderFloat("Fov", camera_->GetFovPointer(), 0, 3.14);
+    ImGui::SliderFloat3("Rotation", camera_->GetRotationPointer(), -180, 180);
 }

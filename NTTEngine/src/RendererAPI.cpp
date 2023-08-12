@@ -16,14 +16,15 @@ namespace ntt
 
     } 
 
-    void RendererAPI::Begin()
+    void RendererAPI::Begin(std::shared_ptr<Camera>& camera)
     {
-
+        GetInstance()->SetCamera(camera);
     }
 
-    void RendererAPI::Submit(std::shared_ptr<VertexArray>& vertexArray)
+    void RendererAPI::Submit(std::shared_ptr<VertexArray>& vertexArray, 
+                                std::shared_ptr<Shader>& shader)
     {
-        RendererCommand::DrawIndex(vertexArray);
+        RendererCommand::DrawIndex(vertexArray, shader);
     }
 
     void RendererAPI::End()
@@ -31,8 +32,12 @@ namespace ntt
 
     }
 
-    void RendererAPI::DrawIndex(std::shared_ptr<VertexArray>& vertexArray)
+    void RendererAPI::DrawIndex(std::shared_ptr<VertexArray>& vertexArray,
+                                    std::shared_ptr<Shader>& shader)
     {
+        shader->Bind();
+        auto projViewMatrix = camera_->GetViewProjectMatrix();
+        shader->SetUniformMat4f("projView", projViewMatrix);
         vertexArray->Bind();
         vertexArray->GetIndexBuffers()->Render();
     }
