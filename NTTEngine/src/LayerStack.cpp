@@ -12,16 +12,10 @@ namespace ntt
 
     LayerStack::~LayerStack()
     {
-        for (auto it: layers_)
-        {
-            if (it != nullptr)
-            {
-                delete it;
-            }
-        }
+
     }
 
-    void LayerStack::PushLayer(Layer* layer)
+    void LayerStack::PushLayer(std::shared_ptr<Layer> layer)
     {
         try 
         {
@@ -35,7 +29,7 @@ namespace ntt
         index_++;
     }
 
-    void LayerStack::PushOverlayLayer(Layer* overlay)
+    void LayerStack::PushOverlayLayer(std::shared_ptr<Layer> overlay)
     {
         layers_.push_back(overlay);
         overlay->OnAttach();
@@ -56,8 +50,11 @@ namespace ntt
 
     void LayerStack::PopOverlayLayer()
     {
-        (*layers_.end() - 1)->OnDetach();
-        haveOverlay_ = false;
+        if (haveOverlay_)
+        {
+            (*(layers_.end() - 1))->OnDetach();
+            haveOverlay_ = false;
+        }
     }
 
     void LayerStack::OnUpdate()

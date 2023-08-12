@@ -27,9 +27,12 @@ namespace ntt
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
 
-        for (auto app: applications_)
+        for (auto visible: applicationVisibles_)
         {
-            delete app;
+            if (visible != nullptr)
+            {
+                delete visible;
+            }
         }
     }
 
@@ -90,7 +93,7 @@ namespace ntt
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
-    void ImGuiLayer::AddApplication(IImGuiRenderer* application, bool visible)
+    void ImGuiLayer::AddApplication(std::shared_ptr<IImGuiRenderer> application, bool visible)
     {
         applicationVisibles_.push_back(new bool(visible));
         applications_.push_back(application);

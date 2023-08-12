@@ -1,7 +1,8 @@
 #pragma once
 #include <string>
-#include "ImGuiComponent.hpp"
 #include <vector>
+#include <memory>
+#include "ImGuiComponent.hpp"
 
 
 namespace ntt
@@ -17,10 +18,10 @@ namespace ntt
 
             inline const std::string& GetName() const { return windowName_; }
 
-            void AddComponent(IImGuiRenderer* component) { components_.push_back(component); }
+            void AddComponent(std::shared_ptr<IImGuiRenderer> component) { components_.push_back(component); }
 
         protected:
-            std::vector<IImGuiRenderer*> components_;
+            std::vector<std::shared_ptr<IImGuiRenderer>> components_;
 
         private:
             std::string windowName_;

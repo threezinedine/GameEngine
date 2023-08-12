@@ -16,13 +16,6 @@ namespace ntt
     ImGuiApplication::~ImGuiApplication()
     {
         NTT_ENGINE_DEBUG("Delete Imgui application");
-        for (auto component: components_)
-        {
-            if (component != nullptr)
-            {
-                delete component;
-            }
-        }
     }
 
     void ImGuiApplication::OnImGuiRender()

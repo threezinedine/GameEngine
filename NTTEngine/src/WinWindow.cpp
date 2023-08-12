@@ -33,7 +33,7 @@ namespace ntt
             exit(-1);
         }
 
-        context_ = new OpenGLContext(window_);
+        context_ = std::make_shared<OpenGLContext>(window_);
         context_->Init();
 
         glfwSetWindowUserPointer(window_, this);

@@ -1,4 +1,6 @@
 #pragma once
+#include <memory>
+
 #include <NTTEngine/EventSystem/EventType.hpp>
 #include <NTTEngine/EventSystem/EventDispatcher.hpp>
 #include <NTTEngine/Renderer/Renderer.hpp>
@@ -29,6 +31,6 @@ namespace ntt
 
         protected:
             EventDispatcher dispatcher_;
-            GraphicsContext* context_ = nullptr;
+            std::shared_ptr<GraphicsContext> context_ = nullptr;
     }; 
 } // namespace ntt
