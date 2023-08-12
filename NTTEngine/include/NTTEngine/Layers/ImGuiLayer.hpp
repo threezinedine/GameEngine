@@ -4,7 +4,8 @@
 
 #include <imgui.h>
 #include <NTTEngine/Layer.hpp>
-#include "ImGuiApplication.hpp"
+// #include "ImGuiApplication.hpp"
+#include "IImGuiRenderer.hpp"
 
 
 namespace ntt
@@ -20,10 +21,10 @@ namespace ntt
 
             void OnUpdate() override;
 
-            void AddApplication(ImGuiApplication* application, bool visible = true);
+            void AddApplication(IImGuiRenderer* application, bool visible = true);
         
         protected:
             std::vector<bool*> applicationVisibles_;
-            std::vector<ImGuiApplication*> applications_;
+            std::vector<IImGuiRenderer*> applications_;
     };    
 } // namespace ntt

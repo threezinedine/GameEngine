@@ -90,7 +90,7 @@ namespace ntt
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
-    void ImGuiLayer::AddApplication(ImGuiApplication* application, bool visible)
+    void ImGuiLayer::AddApplication(IImGuiRenderer* application, bool visible)
     {
         applicationVisibles_.push_back(new bool(visible));
         applications_.push_back(application);

@@ -61,9 +61,21 @@ TestLayer::~TestLayer()
 
 void TestLayer::OnUpdate()
 {
-    vao_->Bind();
-    glDrawElements(GL_TRIANGLES, vao_->GetIndexBuffers()->GetCount(), GL_UNSIGNED_INT, nullptr);
+    if (visibleVao_)
+    {
+        vao_->Bind();
+        vao_->GetIndexBuffers()->Render();
+    }
 
-    triangleVao_->Bind();
-    glDrawElements(GL_TRIANGLES, triangleVao_->GetIndexBuffers()->GetCount(), GL_UNSIGNED_INT, nullptr);
+    if (visibleTriangleVao_)
+    {
+        triangleVao_->Bind();
+        triangleVao_->GetIndexBuffers()->Render();
+    }
+}
+
+void TestLayer::OnImGuiRenderImpl()
+{
+    ImGui::Checkbox("Square Vao", &visibleVao_);
+    ImGui::Checkbox("Triangle Vao", &visibleTriangleVao_);
 }

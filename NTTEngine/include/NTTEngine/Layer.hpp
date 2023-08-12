@@ -5,10 +5,11 @@
 #include <NTTEngine/Macros.hpp>
 #include <NTTEngine/EventSystem/EventSystem.hpp>
 
+#include "Layers/IImGuiRenderer.hpp"
 
 namespace ntt
 {
-    class Layer
+    class Layer: public IImGuiRenderer
     {
         public:
             Layer(std::string layerName);
@@ -18,7 +19,9 @@ namespace ntt
             virtual void OnDetach();
             virtual void OnUpdate();
 
-            inline std::string GetLayerName() const { return layerName_; }
+            inline const std::string& GetName() const { return layerName_; }
+            void OnImGuiRender() override;
+            virtual void OnImGuiRenderImpl() {};
 
             DEFINE_EVENT_INTEFACE_LAYER(WindowClose)
             DEFINE_EVENT_INTEFACE_LAYER(WindowResize)

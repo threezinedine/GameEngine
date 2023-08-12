@@ -15,6 +15,7 @@ namespace ntt
             void UnBind() override;
 
             inline int GetCount() const override { return count_; };
+            void Render() override;
 
         private:
             unsigned int id_;

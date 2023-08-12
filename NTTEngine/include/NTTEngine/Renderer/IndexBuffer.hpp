@@ -12,5 +12,6 @@ namespace ntt
             virtual void UnBind() = 0;
 
             virtual int GetCount() const = 0;
+            virtual void Render() = 0;
     }; 
 } // namespace ntt

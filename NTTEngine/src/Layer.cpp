@@ -1,3 +1,4 @@
+#include <imgui.h>
 #include <NTTEngine/Layer.hpp>
 
 #include <NTTEngine/EventSystem/EventSystem.hpp>
@@ -30,6 +31,13 @@ namespace ntt
     void Layer::OnUpdate()
     {
 
+    }
+
+    void Layer::OnImGuiRender()
+    {
+        ImGui::Begin(GetName().c_str());
+        OnImGuiRenderImpl();
+        ImGui::End();
     }
 
     DEFINE_EVENT_LAYER(WindowClose)

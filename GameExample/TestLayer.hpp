@@ -9,8 +9,12 @@ class TestLayer: public ntt::Layer
         ~TestLayer();
 
         void OnUpdate() override;
+        void OnImGuiRenderImpl() override;
 
     private:
         std::unique_ptr<ntt::VertexArray> vao_;
         std::unique_ptr<ntt::VertexArray> triangleVao_;
+
+        bool visibleVao_ = true;
+        bool visibleTriangleVao_ = true;
 };

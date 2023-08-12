@@ -28,4 +28,9 @@ namespace ntt
     {
         GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
     }
+
+    void OpenGLIndexBuffer::Render()
+    {
+        GL_CALL(glDrawElements(GL_TRIANGLES, count_, GL_UNSIGNED_INT, nullptr));
+    }
 } // namespace ntt

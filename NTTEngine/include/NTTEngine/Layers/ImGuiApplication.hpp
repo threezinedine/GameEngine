@@ -17,10 +17,10 @@ namespace ntt
 
             inline const std::string& GetName() const { return windowName_; }
 
-            void AddComponent(ImGuiComponent* component) { components_.push_back(component); }
+            void AddComponent(IImGuiRenderer* component) { components_.push_back(component); }
 
         protected:
-            std::vector<ImGuiComponent*> components_;
+            std::vector<IImGuiRenderer*> components_;
 
         private:
             std::string windowName_;
