@@ -40,4 +40,5 @@ target_link_libraries(
     libglew_static
     glfw
     glm
+    ConfigurationCppLibs
 )

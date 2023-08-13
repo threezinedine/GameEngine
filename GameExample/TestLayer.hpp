@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include "Storage.hpp"
 #include <NTTEngine/NTTEngine.hpp>
 
 class TestLayer: public ntt::Layer
@@ -24,4 +25,6 @@ class TestLayer: public ntt::Layer
 
         float moveSpeed_;
         float rotateSpeed_;
+
+        std::unique_ptr<ntt::Storage> storage_;
 };

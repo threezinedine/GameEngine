@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
+#include "NTTEngine/Utils/Utils.hpp"
 
 
 namespace ntt
@@ -7,25 +8,26 @@ namespace ntt
     class Camera 
     {
         public:
-            Camera(glm::vec3 cameraPos, float fov,
-                    glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f),
-                    glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f), 
-                    glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f));
+            Camera(NTTVec3 cameraPos, float fov,
+                    NTTVec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f),
+                    NTTVec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f), 
+                    NTTVec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f));
             ~Camera();
 
             glm::mat4 GetViewProjectMatrix();
 
-            inline float* GetCameraPosPointer() { return &cameraPos_.x; }
-            inline float* GetCameraFrontPointer() { return &cameraFront_.x; }
-            inline float* GetCameraUpPointer() { return &cameraUp_.x; }
             inline float* GetFovPointer() { return &fov_; }
-            inline float* GetRotationPointer() { return &rotation_.x; }
+
+            inline NTTVec3& GetCameraPos() { return cameraPos_; }
+            inline NTTVec3& GetCameraFront() { return cameraFront_; }
+            inline NTTVec3& GetCameraUp() { return cameraUp_; }
+            inline NTTVec3& GetRotation() { return rotation_; }
 
         private:
             float fov_;
-            glm::vec3 rotation_;
-            glm::vec3 cameraPos_;
-            glm::vec3 cameraFront_;
-            glm::vec3 cameraUp_;
+            NTTVec3 rotation_;
+            NTTVec3 cameraPos_;
+            NTTVec3 cameraFront_;
+            NTTVec3 cameraUp_;
     }; 
 } // namespace ntt

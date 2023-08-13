@@ -47,7 +47,8 @@ namespace ntt
         {
             ImGui::Text("Simple overlay\n" "(right-click to change position)");
             ImGui::Separator();
-            ImGui::Text("Delta Time: %f ms", ts.GetTimeMiliSeconds());
+            ImGui::Text("Delta Time: %.3f ms", ts.GetTimeMiliSeconds());
+            ImGui::Text("FPS: %.3f ms", 1/(float)ts);
             if (ImGui::BeginPopupContextWindow())
             {
                 if (ImGui::MenuItem("Custom",       NULL, location == -1)) location = -1;
