@@ -15,6 +15,22 @@ namespace ntt
 
             }
 
+            ThreadArray(std::vector<T> arr, T minValue, T maxValue)
+                : ThreadingVariable<T>(minValue, maxValue)
+            {
+                arr_ = new T[arr.size()];
+
+                for (int i=0; i<arr.size(); i++)
+                {
+                    arr_[i] = arr[i];
+                }
+            }
+
+            std::vector<T> GetVector(int size)
+            {
+                return std::vector<T> (arr_, arr_ + size);
+            }
+
             ~ThreadArray()
             {
                 if (arr_ != nullptr)
