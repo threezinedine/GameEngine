@@ -2,6 +2,7 @@
 #include <glfw/glfw3.h>
 #include "TestLayer.hpp"
 #include <NTTEngine/NTTEngine.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 
 TestLayer::TestLayer()
@@ -9,10 +10,10 @@ TestLayer::TestLayer()
 {
     float vertices[] = 
     {
-        -0.5f, -0.5f, 1.0f, 1.0f, 1.0f,
-         0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-        -0.5f,  0.5f, 1.0f, 0.0f, 1.0f,
-         0.5f,  0.5f, 1.0f, 1.0f, 0.0f,
+        -0.5f, -0.5f,
+         0.5f, -0.5f,
+        -0.5f,  0.5f,
+         0.5f,  0.5f,
     };
 
     unsigned int indexes[] = 
@@ -37,7 +38,7 @@ TestLayer::TestLayer()
 
     auto vbo_ = std::make_shared<ntt::OpenGLVertexBuffer>(vertices, sizeof(vertices));
     vbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float2, std::string("position")));
-    vbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float3, std::string("color")));
+    // vbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float3, std::string("color")));
     vao_->AppendVertexBuffer(vbo_);
 
     auto vio_ = std::make_shared<ntt::OpenGLIndexBuffer>(indexes, sizeof(indexes));
@@ -59,8 +60,16 @@ TestLayer::TestLayer()
     auto camFront = storage_->GetValue<std::vector<float>>("camFront", std::vector<float> {0, 0, -1});
     auto camUp = storage_->GetValue<std::vector<float>>("camUp", std::vector<float> {0, 1, 0});
 
+    visibleVao_ = storage_->GetValue<bool>("visibleVao", true);
+    visibleTriangleVao_ = storage_->GetValue<bool>("visibleTriangleVao", true);
     moveSpeed_ = storage_->GetValue<float>("moveSpeed", 1);
     rotateSpeed_ = storage_->GetValue<float>("rotateSpeed", 90);
+    scaled_ = storage_->GetValue<float>("scaled", 1);
+    squareDistance_ = storage_->GetValue<float>("squareDistance", 0.2);
+
+    squareColor_ 
+            = std::make_unique<ntt::NTTVec3>(
+                storage_->GetValue<std::vector<float>>("squareColor", { 0, 0, 0}));
 
     camera_ = std::make_shared<ntt::Camera>(
                         ntt::NTTVec3(camPos), 
@@ -68,6 +77,10 @@ TestLayer::TestLayer()
                         ntt::NTTVec3(rotation),
                         ntt::NTTVec3(camFront),
                         ntt::NTTVec3(camUp));
+
+    triangleTransform_ 
+        = std::make_unique<ntt::NTTVec3>(
+            storage_->GetValue<std::vector<float>>("triangleTransform", { 0, 0, 0 }));
 
     shader_ = std::make_shared<ntt::Shader>(std::string("../resources/shaders/basic.shader"),
                             std::string("vertex"), std::string("fragment"));
@@ -81,8 +94,14 @@ TestLayer::~TestLayer()
     storage_->SetValue<float>("fov", *(camera_->GetFovPointer()));
     storage_->SetValue<float>("moveSpeed", moveSpeed_);
     storage_->SetValue<float>("rotateSpeed", rotateSpeed_);
+    storage_->SetValue<float>("scaled", scaled_);
+    storage_->SetValue<float>("squareDistance", squareDistance_);
+    storage_->SetValue<bool>("visibleVao", visibleVao_);
+    storage_->SetValue<bool>("visibleTriangleVao", visibleTriangleVao_);
 
+    storage_->SetValue<std::vector<float>>("squareColor", squareColor_->GetVector());
     storage_->SetValue<std::vector<float>>("camPos", camera_->GetCameraPos().GetVector());
+    storage_->SetValue<std::vector<float>>("triangleTransform", triangleTransform_->GetVector());
 
     auto camFront = camera_->GetCameraFront();
     storage_->SetValue<std::vector<float>>("camFront", camera_->GetCameraFront().GetVector());
@@ -118,7 +137,20 @@ void TestLayer::OnUpdate(ntt::Timestep ts)
     ntt::RendererAPI::Begin(camera_);
     if (visibleVao_)
     {
-        ntt::RendererAPI::Submit(vao_, shader_);
+        for (int i=0; i<5; i++)
+        {
+            for (int j=0; j<5; j++)
+            {
+                glm::vec3 pos = glm::vec3(
+                                triangleTransform_->GetGlmVec3().x + squareDistance_ * j,
+                                triangleTransform_->GetGlmVec3().y + squareDistance_ * i,
+                                triangleTransform_->GetGlmVec3().z);
+                glm::mat4 transformMatrix = glm::translate(glm::mat4(1.0f), pos);
+                glm::mat4 scaledMatrix = glm::scale(transformMatrix, glm::vec3(scaled_));
+                shader_->SetUniform3f("m_Color", squareColor_->GetGlmVec3());
+                ntt::RendererAPI::Submit(vao_, shader_, scaledMatrix);
+            }
+        }
     }
 
     if (visibleTriangleVao_)
@@ -137,9 +169,15 @@ void TestLayer::OnImGuiRenderImpl(ntt::Timestep ts)
     ImGui::InputFloat3("Camera Front", camera_->GetCameraFront().GetFirstPointer());
     ImGui::InputFloat3("Camera Up", camera_->GetCameraUp().GetFirstPointer());
 
-    ImGui::SliderFloat("Fov", camera_->GetFovPointer(), 0, 3.14);
-    ImGui::SliderFloat3("Rotation", camera_->GetRotation().GetFirstPointer(), -180, 180);
+    ImGui::SliderFloat("Camera Fov", camera_->GetFovPointer(), 0, 3.14);
+    ImGui::SliderFloat3("Camera Rotation", camera_->GetRotation().GetFirstPointer(), -180, 180);
 
-    ImGui::SliderFloat("Move Speed", &moveSpeed_, 0, 2);
-    ImGui::SliderFloat("Rotate Speed", &rotateSpeed_, 0, 180);
+    ImGui::SliderFloat("Camera Move Speed", &moveSpeed_, 0, 2);
+    ImGui::SliderFloat("Camera Rotate Speed", &rotateSpeed_, 0, 180);
+
+    ImGui::SliderFloat3("Triangle Transform", triangleTransform_->GetFirstPointer(), -2, 2);
+    ImGui::SliderFloat("Squared Scaled", &scaled_, 0, 1);
+    ImGui::SliderFloat("Squared Distance", &squareDistance_, -1, 1);
+
+    ImGui::ColorPicker3("Squared Color", squareColor_->GetFirstPointer());
 }

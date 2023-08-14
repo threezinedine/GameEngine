@@ -14,13 +14,15 @@ namespace ntt
 
             static void Begin(std::shared_ptr<Camera>& camera);
             static void Submit(std::shared_ptr<VertexArray>& vertexArray, 
-                                std::shared_ptr<Shader>& shader);
+                                std::shared_ptr<Shader>& shader, 
+                                glm::mat4 transform = glm::mat4(1.0f));
             static void End();
 
             static RendererAPI* GetInstance();
 
             void DrawIndex(std::shared_ptr<VertexArray>& vertexArray,
-                            std::shared_ptr<Shader>& shader); 
+                            std::shared_ptr<Shader>& shader,
+                            glm::mat4 transform); 
 
         protected:
             RendererAPI();

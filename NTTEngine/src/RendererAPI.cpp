@@ -22,9 +22,10 @@ namespace ntt
     }
 
     void RendererAPI::Submit(std::shared_ptr<VertexArray>& vertexArray, 
-                                std::shared_ptr<Shader>& shader)
+                                std::shared_ptr<Shader>& shader,
+                                glm::mat4 transform)
     {
-        RendererCommand::DrawIndex(vertexArray, shader);
+        RendererCommand::DrawIndex(vertexArray, shader, transform);
     }
 
     void RendererAPI::End()
@@ -33,11 +34,14 @@ namespace ntt
     }
 
     void RendererAPI::DrawIndex(std::shared_ptr<VertexArray>& vertexArray,
-                                    std::shared_ptr<Shader>& shader)
+                                    std::shared_ptr<Shader>& shader,
+                                    glm::mat4 transform)
     {
         shader->Bind();
         auto projViewMatrix = camera_->GetViewProjectMatrix();
         shader->SetUniformMat4f("projView", projViewMatrix);
+        shader->SetUniformMat4f("transform", transform);
+
         vertexArray->Bind();
         vertexArray->GetIndexBuffers()->Render();
     }

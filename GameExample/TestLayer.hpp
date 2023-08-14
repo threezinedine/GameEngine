@@ -25,6 +25,11 @@ class TestLayer: public ntt::Layer
 
         float moveSpeed_;
         float rotateSpeed_;
+        float scaled_;
+        float squareDistance_;
+
+        std::unique_ptr<ntt::NTTVec3> squareColor_;
+        std::unique_ptr<ntt::NTTVec3> triangleTransform_;
 
         std::unique_ptr<ntt::Storage> storage_;
 };

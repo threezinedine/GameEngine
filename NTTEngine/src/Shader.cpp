@@ -164,6 +164,26 @@ namespace ntt
         }
     }
 
+    void Shader::SetUniform3f(const std::string& locationName, float f0, float f1, float f2)
+    {
+        auto location = GetLocation(locationName);
+
+        if (location != -1)
+        {
+            GL_CALL(glUniform3f(location, f0, f1, f2));
+        }
+    }
+
+    void Shader::SetUniform3f(const std::string& locationName, glm::vec3 vec)
+    {
+        auto location = GetLocation(locationName);
+
+        if (location != -1)
+        {
+            GL_CALL(glUniform3f(location, vec.x, vec.y, vec.z));
+        }
+    }
+
     void Shader::SetUniformMat4f(const std::string& locationName, glm::mat4& matrix)
     {
         auto location = GetLocation(locationName);
