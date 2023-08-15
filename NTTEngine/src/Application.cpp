@@ -62,6 +62,7 @@ namespace ntt
     {
         start_ = std::chrono::high_resolution_clock::now();
         OnSetupImpl();
+        RendererAPI::Init();
     }
 
     void Application::OnSetupImpl()

@@ -5,6 +5,11 @@ project(
     VERSION 1.0.0
 )
 
+option(COMPILE_VISION_EXAMPLE "Compile Vision Example" OFF)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/NTTEngine)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/GameExample)
+
+if (COMPILE_VISION_EXAMPLE)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/VisionProject)
+endif()

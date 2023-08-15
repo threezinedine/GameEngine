@@ -1,3 +1,5 @@
+#include "GL/glew.h"
+#include "glfw/glfw3.h"
 #include "NTTEngine/Renderer/RendererAPI.hpp"
 #include "NTTEngine/Renderer/RendererCommand.hpp"
 
@@ -15,6 +17,12 @@ namespace ntt
     {
 
     } 
+
+    void RendererAPI::Init()
+    {
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
 
     void RendererAPI::Begin(std::shared_ptr<Camera>& camera)
     {

@@ -10,3 +10,4 @@
 #include "RendererAPI.hpp"
 #include "RendererCommand.hpp"
 #include "Camera.hpp"
+#include "Texture.hpp"

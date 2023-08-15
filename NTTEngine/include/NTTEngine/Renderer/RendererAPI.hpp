@@ -12,6 +12,7 @@ namespace ntt
         public:
             virtual ~RendererAPI();
 
+            static void Init();
             static void Begin(std::shared_ptr<Camera>& camera);
             static void Submit(std::shared_ptr<VertexArray>& vertexArray, 
                                 std::shared_ptr<Shader>& shader, 
@@ -22,7 +23,7 @@ namespace ntt
 
             void DrawIndex(std::shared_ptr<VertexArray>& vertexArray,
                             std::shared_ptr<Shader>& shader,
-                            glm::mat4 transform); 
+                            glm::mat4 transform);
 
         protected:
             RendererAPI();

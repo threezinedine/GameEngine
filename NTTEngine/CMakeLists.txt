@@ -9,6 +9,9 @@ file(
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
 )
 
+# find opencv lib
+option(OPENCV_LIB_PATH "The folder which contain the opencv package")
+find_package(OpenCV REQUIRED PATHS ${OPENCV_LIB_PATH})
 
 # find opengl
 find_package(OpenGL REQUIRED)
@@ -29,6 +32,7 @@ target_include_directories(
     ${PROJECT_NAME}
     PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${OpenCV_INCLUDE_DIRS}
 )
 
 
@@ -41,4 +45,5 @@ target_link_libraries(
     glfw
     glm
     ConfigurationCppLibs
+    ${OpenCV_LIBS}
 )
