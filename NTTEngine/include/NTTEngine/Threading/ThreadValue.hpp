@@ -21,6 +21,7 @@ namespace ntt
             }
 
             inline T* GetPointer() override { return &value_; }
+            inline T GetValue() { return value_; }
 
         private:
             T value_;
