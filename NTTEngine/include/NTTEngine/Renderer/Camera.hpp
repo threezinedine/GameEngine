@@ -1,33 +1,43 @@
 #pragma once
+#include <memory>
 #include <glm/glm.hpp>
 #include "NTTEngine/Utils/Utils.hpp"
+#include "NTTEngine/Core/Core.hpp"
+#include "NTTEngine/EventSystem/EventSystem.hpp"
+#include "Storage.hpp"
 
 
 namespace ntt
 {
-    class Camera 
+    class Camera
     {
         public:
-            Camera(NTTVec3 cameraPos, float fov,
-                    NTTVec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f),
-                    NTTVec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f), 
-                    NTTVec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f));
+            Camera();
             ~Camera();
 
             glm::mat4 GetViewProjectMatrix();
 
-            inline float* GetFovPointer() { return &fov_; }
+            inline std::shared_ptr<NTTVec3>& GetCameraPos() { return cameraPos_; }
+            inline std::shared_ptr<NTTVec3>& GetCameraFront() { return cameraFront_; }
+            inline std::shared_ptr<NTTVec3>& GetCameraUp() { return cameraUp_; }
+            inline std::shared_ptr<NTTVec3>& GetRotation() { return rotation_; }
 
-            inline NTTVec3& GetCameraPos() { return cameraPos_; }
-            inline NTTVec3& GetCameraFront() { return cameraFront_; }
-            inline NTTVec3& GetCameraUp() { return cameraUp_; }
-            inline NTTVec3& GetRotation() { return rotation_; }
+            void OnUpdate(Timestep ts);
+            void OnImGuiRender(Timestep ts);
+            void OnMouseScroll(MouseScrollEvent& event);
+            void OnWindowResize(WindowResizeEvent& event);
 
         private:
-            float fov_;
-            NTTVec3 rotation_;
-            NTTVec3 cameraPos_;
-            NTTVec3 cameraFront_;
-            NTTVec3 cameraUp_;
+            std::shared_ptr<ntt::Storage> storage_;
+
+            std::shared_ptr<NTTVec3> rotation_;
+            std::shared_ptr<NTTVec3> cameraPos_;
+            std::shared_ptr<NTTVec3> cameraFront_;
+            std::shared_ptr<NTTVec3> cameraUp_;
+
+            float* fov_;
+            float* moveSpeed_;
+            float* rotateSpeed_;
+            float* zoomLevel_;
     }; 
 } // namespace ntt

@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "VertexArray.hpp"
+#include "NTTEngine/Core/Core.hpp"
 #include "Shader.hpp"
 #include "Camera.hpp"
 
@@ -13,13 +14,14 @@ namespace ntt
             virtual ~RendererAPI();
 
             static void Init();
-            static void Begin(std::shared_ptr<Camera>& camera);
+            static void Begin(std::shared_ptr<Camera>& camera, Timestep ts);
             static void Submit(std::shared_ptr<VertexArray>& vertexArray, 
                                 std::shared_ptr<Shader>& shader, 
                                 glm::mat4 transform = glm::mat4(1.0f));
             static void End();
 
             static RendererAPI* GetInstance();
+            static void Release();
 
             void DrawIndex(std::shared_ptr<VertexArray>& vertexArray,
                             std::shared_ptr<Shader>& shader,

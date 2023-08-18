@@ -28,7 +28,9 @@ namespace ntt
 
     Application::~Application()
     {
-        NTT_ENGINE_DEBUG("Delete Application");
+        NTT_ENGINE_DEBUG("Start Delete Application");
+        RendererAPI::Release();
+        NTT_ENGINE_DEBUG("Finish Delete Application");
     }
 
     void Application::OnRun()
@@ -61,6 +63,7 @@ namespace ntt
     void Application::OnSetup()
     {
         start_ = std::chrono::high_resolution_clock::now();
+        defaultCamera_ = std::make_shared<Camera>();
         OnSetupImpl();
         RendererAPI::Init();
     }
@@ -75,23 +78,20 @@ namespace ntt
 
     DEFINE_EVENT_APPLICATION(MouseMove)
     DEFINE_EVENT_APPLICATION(MouseClick)
-    DEFINE_EVENT_APPLICATION(MouseScroll)
+    // DEFINE_EVENT_APPLICATION(MouseScroll)
+    void Application::OnMouseScroll(Event& event) 
+    { 
+        MouseScrollEvent& e = static_cast<MouseScrollEvent&>(event); 
+        for (auto it=layerStack_.End() - 1; it!=layerStack_.Begin() - 1; it--) 
+        { 
+            (*it)->OnMouseScroll(e); 
+        } 
+        defaultCamera_->OnMouseScroll(e);
+        OnMouseScrollImpl(e); 
+    } 
+    
+    void Application::OnMouseScrollImpl(MouseScrollEvent& event) { }
 
     DEFINE_EVENT_APPLICATION(KeyPress)
     DEFINE_EVENT_APPLICATION(KeyRelease)
-
-    // void Application::OnMouseMove(Event& event) 
-    // { 
-    //     MouseMoveEvent& e = static_cast<MouseMoveEvent&>(event); 
-    //     for (auto it=layerStack_.End() - 1; it != layerStack_.Begin() - 1; it--) 
-    //     { 
-    //         (*it)->OnMouseMove(e); 
-    //     } 
-    //     OnMouseMoveImpl(e); 
-    // } 
-
-    // void Application::OnMouseMoveImpl(MouseMoveEvent& event) 
-    // {
-
-    // }
 } // namespace ntt

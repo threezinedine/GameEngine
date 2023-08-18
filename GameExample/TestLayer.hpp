@@ -6,7 +6,7 @@
 class TestLayer: public ntt::Layer
 {
     public:
-        TestLayer();
+        TestLayer(std::shared_ptr<ntt::Camera> camera);
         ~TestLayer();
 
         void OnUpdate(ntt::Timestep ts) override;
@@ -25,8 +25,6 @@ class TestLayer: public ntt::Layer
         bool visibleVao_ = true;
         bool visibleTriangleVao_ = true;
 
-        float moveSpeed_;
-        float rotateSpeed_;
         float scaled_;
         float imageScaled_;
         float squareDistance_;

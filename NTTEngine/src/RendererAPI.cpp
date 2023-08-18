@@ -2,6 +2,7 @@
 #include "glfw/glfw3.h"
 #include "NTTEngine/Renderer/RendererAPI.hpp"
 #include "NTTEngine/Renderer/RendererCommand.hpp"
+#include "NTTEngine/Core/Core.hpp"
 
 
 namespace ntt
@@ -24,9 +25,10 @@ namespace ntt
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
-    void RendererAPI::Begin(std::shared_ptr<Camera>& camera)
+    void RendererAPI::Begin(std::shared_ptr<Camera>& camera, Timestep ts)
     {
         GetInstance()->SetCamera(camera);
+        camera->OnUpdate(ts);
     }
 
     void RendererAPI::Submit(std::shared_ptr<VertexArray>& vertexArray, 
@@ -62,5 +64,13 @@ namespace ntt
         }
 
         return instance_;
+    }
+
+    void RendererAPI::Release()
+    {
+        if (instance_ != nullptr)
+        {
+            delete instance_;
+        }
     }
 } // namespace ntt

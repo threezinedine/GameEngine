@@ -11,7 +11,7 @@ namespace ntt
     {
         cv::Mat image = cv::imread(file);
 
-        GLenum internalFormat = 0, dataFormat = 0;
+        GLenum internalFormat = 0, dataFormat = GL_RGB;
 
         if (image.channels() == 4)
         {
@@ -25,14 +25,16 @@ namespace ntt
         }
 
         NTT_ENGINE_DEBUG("Channel: {}", image.channels());
+        cv::resize(image, image, cv::Size(300, 300));
+        cv::cvtColor(image, image, cv::COLOR_BGR2RGB);
 
         GL_CALL(glGenTextures(1, &id_));
         GL_CALL(glBindTexture(GL_TEXTURE_2D, id_));
 
-        // GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
-        // GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
-        GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
-        GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
+        GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
+        GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
+        GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
+        GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
 
         GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, dataFormat, image.cols, image.rows, 
                         0, dataFormat, GL_UNSIGNED_BYTE, image.data));

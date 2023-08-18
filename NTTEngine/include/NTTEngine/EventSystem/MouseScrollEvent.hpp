@@ -13,7 +13,7 @@ namespace ntt
                 : Event(MouseScroll), xOffset_(xOffset),
                     yOffset_(yOffset)
             {
-
+                
             }
 
             inline int GetXOffset() const { return xOffset_; }

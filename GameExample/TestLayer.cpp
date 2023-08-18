@@ -5,8 +5,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 
-TestLayer::TestLayer()
-    : Layer("Test Layer"), moveSpeed_(1.0), rotateSpeed_(90)
+TestLayer::TestLayer(std::shared_ptr<ntt::Camera> camera)
+    : Layer("Test Layer"), camera_(camera)
 {
     float vertices[] = 
     {
@@ -56,15 +56,8 @@ TestLayer::TestLayer()
 
     storage_ = std::make_unique<ntt::Storage>(std::make_shared<ntt::RealFileSystem>("./test-layer.json"));
 
-    auto camPos = storage_->GetValue<std::vector<float>>("camPos", std::vector<float> {0, 0, 45});
-    auto rotation = storage_->GetValue<std::vector<float>>("rotation", std::vector<float> {0, 0, 0});
-    auto camFront = storage_->GetValue<std::vector<float>>("camFront", std::vector<float> {0, 0, -1});
-    auto camUp = storage_->GetValue<std::vector<float>>("camUp", std::vector<float> {0, 1, 0});
-
     visibleVao_ = storage_->GetValue<bool>("visibleVao", true);
     visibleTriangleVao_ = storage_->GetValue<bool>("visibleTriangleVao", true);
-    moveSpeed_ = storage_->GetValue<float>("moveSpeed", 1);
-    rotateSpeed_ = storage_->GetValue<float>("rotateSpeed", 90);
     scaled_ = storage_->GetValue<float>("scaled", 1);
     squareDistance_ = storage_->GetValue<float>("squareDistance", 0.2);
     imageScaled_ = storage_->GetValue<float>("imageScaled", 1);
@@ -72,13 +65,6 @@ TestLayer::TestLayer()
     squareColor_ 
             = std::make_unique<ntt::NTTVec3>(
                 storage_->GetValue<std::vector<float>>("squareColor", { 0, 0, 0}));
-
-    camera_ = std::make_shared<ntt::Camera>(
-                        ntt::NTTVec3(camPos), 
-                        storage_->GetValue<float>("fov", 1.57),
-                        ntt::NTTVec3(rotation),
-                        ntt::NTTVec3(camFront),
-                        ntt::NTTVec3(camUp));
 
     triangleTransform_ 
         = std::make_unique<ntt::NTTVec3>(
@@ -95,62 +81,29 @@ TestLayer::TestLayer()
     imageShader_ = std::make_shared<ntt::Shader>(std::string("../resources/shaders/basic.shader"),
                             std::string("vertex"), std::string("image-fragment"));
 
-    // texture_ = std::make_shared<ntt::OpenGLTexture2D>("C:/Users/Acer/Downloads/flower.png");
-    // texture_ = std::make_shared<ntt::OpenGLTexture2D>("C:/Users/Acer/Downloads/images.jpg");
-    texture_ = std::make_shared<ntt::OpenGLTexture2D>("C:/Users/Acer/OneDrive - Hanoi University of Science and Technology/Pictures/hust.png");
-    // texture_ = std::make_shared<ntt::OpenGLTexture2D>("C:/Users/Acer/Downloads/0-0.png");
+    texture_ = std::make_shared<ntt::OpenGLTexture2D>("C:/Users/Acer/Downloads/images.jpg");
     texture_->Bind();
     imageShader_->SetUniform1i("m_Texture", 0);
 }
 
 TestLayer::~TestLayer()
 {
-    storage_->SetValue<float>("fov", *(camera_->GetFovPointer()));
-    storage_->SetValue<float>("moveSpeed", moveSpeed_);
-    storage_->SetValue<float>("rotateSpeed", rotateSpeed_);
+    NTT_APPLICATION_DEBUG("Start Delete Test Layer");
     storage_->SetValue<float>("scaled", scaled_);
     storage_->SetValue<float>("imageScaled", imageScaled_);
     storage_->SetValue<float>("squareDistance", squareDistance_);
     storage_->SetValue<bool>("visibleVao", visibleVao_);
     storage_->SetValue<bool>("visibleTriangleVao", visibleTriangleVao_);
 
-    storage_->SetValue<std::vector<float>>("squareColor", squareColor_->GetVector());
-    storage_->SetValue<std::vector<float>>("camPos", camera_->GetCameraPos().GetVector());
-    storage_->SetValue<std::vector<float>>("triangleTransform", triangleTransform_->GetVector());
     storage_->SetValue<std::vector<float>>("imageTransform", imageTransform_->GetVector());
 
-    auto camFront = camera_->GetCameraFront();
-    storage_->SetValue<std::vector<float>>("camFront", camera_->GetCameraFront().GetVector());
-
-    auto camUp = camera_->GetCameraUp();
-    storage_->SetValue<std::vector<float>>("camUp", camera_->GetCameraUp().GetVector());
-
-    auto rotation = camera_->GetRotation();
-    storage_->SetValue<std::vector<float>>("rotation", camera_->GetRotation().GetVector());
-
     storage_->Save();
+    NTT_APPLICATION_DEBUG("Finish Delete Test Layer");
 }
 
 void TestLayer::OnUpdate(ntt::Timestep ts)
 {
-    if (ntt::WindowInput::IsKeyPressed(NTT_KEY_A))
-    {
-        camera_->GetCameraPos().GetGlmVec3().y += moveSpeed_ * (float)ts;
-    }
-    if (ntt::WindowInput::IsKeyPressed(NTT_KEY_S))
-    {
-        camera_->GetCameraPos().GetGlmVec3().y -= moveSpeed_ * (float)ts;
-    }
-    if (ntt::WindowInput::IsKeyPressed(NTT_KEY_R))
-    {
-        camera_->GetRotation().GetGlmVec3().y += rotateSpeed_ * (float)ts;
-    }
-    if (ntt::WindowInput::IsKeyPressed(NTT_KEY_Q))
-    {
-        camera_->GetRotation().GetGlmVec3().y -= rotateSpeed_ * (float)ts;
-    }
-
-    ntt::RendererAPI::Begin(camera_);
+    ntt::RendererAPI::Begin(camera_, ts);
     if (visibleVao_)
     {
         for (int i=0; i<10; i++)
@@ -185,16 +138,6 @@ void TestLayer::OnImGuiRenderImpl(ntt::Timestep ts)
     ImGui::Checkbox("Square Vao", &visibleVao_);
     ImGui::Checkbox("Triangle Vao", &visibleTriangleVao_);
 
-    ImGui::InputFloat3("Camera Position", camera_->GetCameraPos().GetFirstPointer());
-    ImGui::InputFloat3("Camera Front", camera_->GetCameraFront().GetFirstPointer());
-    ImGui::InputFloat3("Camera Up", camera_->GetCameraUp().GetFirstPointer());
-
-    ImGui::SliderFloat("Camera Fov", camera_->GetFovPointer(), 0, 3.14);
-    ImGui::SliderFloat3("Camera Rotation", camera_->GetRotation().GetFirstPointer(), -180, 180);
-
-    ImGui::SliderFloat("Camera Move Speed", &moveSpeed_, 0, 2);
-    ImGui::SliderFloat("Camera Rotate Speed", &rotateSpeed_, 0, 180);
-
     ImGui::SliderFloat3("Squared Transform", triangleTransform_->GetFirstPointer(), -2, 2);
     ImGui::SliderFloat("Squared Scaled", &scaled_, 0, 1);
     ImGui::SliderFloat("Squared Distance", &squareDistance_, -1, 1);
@@ -203,4 +146,6 @@ void TestLayer::OnImGuiRenderImpl(ntt::Timestep ts)
     ImGui::SliderFloat("Image Scaled", &imageScaled_, 0, 2);
 
     ImGui::ColorPicker3("Squared Color", squareColor_->GetFirstPointer());
+
+    camera_->OnImGuiRender(ts);
 }
