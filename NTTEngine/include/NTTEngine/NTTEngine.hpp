@@ -12,3 +12,4 @@
 #include "NTTEngineUtils/NTTEngineUtils.hpp"
 #include "NTTEngineCore/NTTEngineCore.hpp"
 #include "NTTEngineRenderer/NTTEngineRenderer.hpp"
+#include "NTTEngineImGuiTools/NTTEngineImGuiTools.hpp"

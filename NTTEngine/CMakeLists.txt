@@ -50,6 +50,7 @@ target_link_libraries(
     NTTEngineLayerSystem
     NTTEngineImGuiLayerSystem
     NTTEngineThreadSystem
+    NTTEngineImGuiTools
     ImGui
     OpenGL::GL
     libglew_static
