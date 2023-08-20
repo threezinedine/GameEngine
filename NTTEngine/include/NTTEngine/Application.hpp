@@ -2,12 +2,12 @@
 #include <string>
 #include <chrono>
 
-#include <NTTEngine/EventSystem/EventSystem.hpp>
+#include "NTTEngineEventSystem/NTTEngineEventSystem.hpp"
 #include <NTTEngine/IWindow.hpp>
 #include <NTTEngine/Macros.hpp>
 #include <NTTEngine/LayerStack.hpp>
-#include <NTTEngine/Renderer/Renderer.hpp>
-#include <NTTEngine/Core/Core.hpp>
+#include "NTTEngineRenderer/NTTEngineRenderer.hpp"
+#include <NTTEngineLog/NTTEngineLog.hpp>
 
 
 namespace ntt
@@ -50,7 +50,7 @@ namespace ntt
 
             IWindow* window_;
             LayerStack layerStack_;
-            std::shared_ptr<ntt::Camera> defaultCamera_;
+            std::shared_ptr<ntt::ICamera> defaultCamera_;
 
         private:
             std::chrono::time_point<std::chrono::high_resolution_clock> start_;

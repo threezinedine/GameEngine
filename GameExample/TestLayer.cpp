@@ -5,7 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 
-TestLayer::TestLayer(std::shared_ptr<ntt::Camera> camera)
+TestLayer::TestLayer(std::shared_ptr<ntt::ICamera> camera)
     : Layer("Test Layer"), camera_(camera)
 {
     float vertices[] = 
@@ -34,24 +34,24 @@ TestLayer::TestLayer(std::shared_ptr<ntt::Camera> camera)
         0, 1, 2, 
     };
 
-    vao_ = std::make_shared<ntt::OpenGLVertexArray>();
+    vao_ = std::make_shared<ntt::VertexArray>();
 
-    auto vbo_ = std::make_shared<ntt::OpenGLVertexBuffer>(vertices, sizeof(vertices));
+    auto vbo_ = std::make_shared<ntt::VertexBuffer>(vertices, sizeof(vertices));
     vbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float2, std::string("position")));
     vbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float2, std::string("texture")));
     // vbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float3, std::string("color")));
     vao_->AppendVertexBuffer(vbo_);
 
-    auto vio_ = std::make_shared<ntt::OpenGLIndexBuffer>(indexes, sizeof(indexes));
+    auto vio_ = std::make_shared<ntt::IndexBuffer>(indexes, sizeof(indexes));
     vao_->SetIndexBuffer(vio_);
 
-    triangleVao_ = std::make_shared<ntt::OpenGLVertexArray>();
+    triangleVao_ = std::make_shared<ntt::VertexArray>();
 
-    auto triangleVbo_ = std::make_shared<ntt::OpenGLVertexBuffer>(triangleVertices, sizeof(triangleVertices));
+    auto triangleVbo_ = std::make_shared<ntt::VertexBuffer>(triangleVertices, sizeof(triangleVertices));
     triangleVbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float2, std::string("position")));
     triangleVao_->AppendVertexBuffer(triangleVbo_);
 
-    auto triangleVio_ = std::make_shared<ntt::OpenGLIndexBuffer>(triangleIndexes, sizeof(triangleIndexes));
+    auto triangleVio_ = std::make_shared<ntt::IndexBuffer>(triangleIndexes, sizeof(triangleIndexes));
     triangleVao_->SetIndexBuffer(triangleVio_);
 
     storage_ = std::make_unique<ntt::Storage>(std::make_shared<ntt::RealFileSystem>("./test-layer.json"));
@@ -81,7 +81,7 @@ TestLayer::TestLayer(std::shared_ptr<ntt::Camera> camera)
     imageShader_ = std::make_shared<ntt::Shader>(std::string("../resources/shaders/basic.shader"),
                             std::string("vertex"), std::string("image-fragment"));
 
-    texture_ = std::make_shared<ntt::OpenGLTexture2D>("C:/Users/Acer/Downloads/images.jpg");
+    texture_ = std::make_shared<ntt::Texture2D>("C:/Users/Acer/Downloads/images.jpg");
     texture_->Bind();
     imageShader_->SetUniform1i("m_Texture", 0);
 }
@@ -148,4 +148,10 @@ void TestLayer::OnImGuiRenderImpl(ntt::Timestep ts)
     ImGui::ColorPicker3("Squared Color", squareColor_->GetFirstPointer());
 
     camera_->OnImGuiRender(ts);
+}
+
+
+void TestLayer::OnWindowResize(ntt::WindowResizeEvent& event)
+{
+
 }

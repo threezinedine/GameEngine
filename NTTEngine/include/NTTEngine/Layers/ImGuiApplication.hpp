@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 #include "ImGuiComponent.hpp"
-#include "NTTEngine/Core/Core.hpp"
+#include "NTTEngineCore/NTTEngineCore.hpp"
 
 
 namespace ntt

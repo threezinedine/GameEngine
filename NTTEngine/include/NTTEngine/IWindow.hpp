@@ -1,9 +1,8 @@
 #pragma once
 #include <memory>
 
-#include <NTTEngine/EventSystem/EventType.hpp>
-#include <NTTEngine/EventSystem/EventDispatcher.hpp>
-#include <NTTEngine/Renderer/Renderer.hpp>
+#include "NTTEngineEventSystem/NTTEngineEventSystem.hpp"
+#include "NTTEngineRenderer/NTTEngineRenderer.hpp"
 
 
 namespace ntt
@@ -16,6 +15,7 @@ namespace ntt
             virtual void OnEndUpdate() = 0;
             virtual unsigned int GetHeight() const = 0;
             virtual unsigned int GetWidth() const = 0;
+            virtual void SetWindowSize(unsigned int width, unsigned int heigth) = 0;
             virtual bool IsClosed() = 0;
 
             virtual void AddEvent(EventType eventType, std::function<void(Event&)> callback)

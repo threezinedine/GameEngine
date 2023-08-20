@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-#include "NTTEngine/Core/Core.hpp"
+#include "NTTEngineCore/NTTEngineCore.hpp"
 
 namespace ntt
 {

@@ -2,6 +2,7 @@
 #include <imgui.h>
 
 #include <NTTEngine/Core.hpp>
+#include "NTTEngineLog/NTTEngineLog.hpp"
 #include <NTTEngine/Layers/Layers.hpp>
 
 

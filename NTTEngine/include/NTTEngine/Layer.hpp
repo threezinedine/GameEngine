@@ -3,7 +3,7 @@
 #include <string>
 
 #include <NTTEngine/Macros.hpp>
-#include <NTTEngine/EventSystem/EventSystem.hpp>
+#include "NTTEngineEventSystem/NTTEngineEventSystem.hpp"
 
 #include "Layers/IImGuiRenderer.hpp"
 

@@ -6,11 +6,13 @@
 class TestLayer: public ntt::Layer
 {
     public:
-        TestLayer(std::shared_ptr<ntt::Camera> camera);
+        TestLayer(std::shared_ptr<ntt::ICamera> camera);
         ~TestLayer();
 
         void OnUpdate(ntt::Timestep ts) override;
         void OnImGuiRenderImpl(ntt::Timestep ts) override;
+
+        void OnWindowResize(ntt::WindowResizeEvent& event) override;
 
     private:
         std::shared_ptr<ntt::Texture2D> texture_;
@@ -20,7 +22,7 @@ class TestLayer: public ntt::Layer
         std::shared_ptr<ntt::Shader> imageShader_;
         std::shared_ptr<ntt::Shader> triangleShader_;
 
-        std::shared_ptr<ntt::Camera> camera_;
+        std::shared_ptr<ntt::ICamera> camera_;
 
         bool visibleVao_ = true;
         bool visibleTriangleVao_ = true;

@@ -21,6 +21,7 @@ add_definitions(-DNTT_ENGINE_BUILD)
 
 # add library 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/vendors)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/components)
 
 add_library(
     ${PROJECT_NAME}
@@ -38,7 +39,10 @@ target_include_directories(
 
 target_link_libraries(
     ${PROJECT_NAME}
-    spdlog
+    NTTEngineLog
+    NTTEngineCore
+    NTTEngineEventSystem
+    NTTEngineRenderer
     ImGui
     OpenGL::GL
     libglew_static

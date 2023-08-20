@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Core.hpp"
-#include "Logging.hpp"
 #include "Application.hpp"
+#include "NTTEngineLog/NTTEngineLog.hpp"
 
 using namespace ntt;
 

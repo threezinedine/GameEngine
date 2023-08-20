@@ -1,5 +1,6 @@
 #include <NTTEngine/LayerStack.hpp>
-#include <NTTEngine/Core.hpp>
+#include "NTTEngineCore/NTTEngineCore.hpp"
+#include "NTTEngineLog/NTTEngineLog.hpp"
 
 
 namespace ntt

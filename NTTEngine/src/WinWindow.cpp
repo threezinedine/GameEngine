@@ -8,10 +8,9 @@
 
 #include <NTTEngine/Platforms/Windows/WinWindow.hpp>
 #include <NTTEngine/Core.hpp>
-#include <NTTEngine/EventSystem/EventSystem.hpp>
-#include <NTTEngine/Platforms/OpenGL/OpenGL.hpp>
-
-
+#include "NTTEngineLog/NTTEngineLog.hpp"
+#include "NTTEngineEventSystem/NTTEngineEventSystem.hpp"
+#include "NTTEngineRenderer/NTTEngineRenderer.hpp"
 
 
 namespace ntt
@@ -33,7 +32,7 @@ namespace ntt
             exit(-1);
         }
 
-        context_ = std::make_shared<OpenGLContext>(window_);
+        context_ = std::make_shared<GraphicsContext>(window_);
         context_->Init();
 
         glfwSetWindowUserPointer(window_, this);
@@ -84,6 +83,7 @@ namespace ntt
         {
             IWindow* win = static_cast<IWindow*>(glfwGetWindowUserPointer(window));
             WindowResizeEvent event(width, height);
+            win->SetWindowSize(width, height);
             win->GetDispatcher().Dispatch(event);
         });
     } 
@@ -96,13 +96,13 @@ namespace ntt
     void WinWindow::OnStartUpdate()
     {
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-        // glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         glfwPollEvents();
     }
 
     void WinWindow::OnEndUpdate()
     {
+        glViewport(0, 0, width_, height_);
         context_->SwapBuffer();
     }
 

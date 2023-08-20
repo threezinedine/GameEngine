@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 
-#include "Core/Core.hpp"
+#include "NTTEngineCore/NTTEngineCore.hpp"
 #include "Layer.hpp"
 
 

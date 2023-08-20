@@ -2,6 +2,8 @@
 #include <NTTEngine/Core.hpp>
 #include <NTTEngine/Layers/WindowDemoApplication.hpp>
 
+#include "NTTEngineLog/NTTEngineLog.hpp"
+
 
 namespace ntt
 {

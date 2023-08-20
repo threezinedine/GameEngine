@@ -1,9 +1,11 @@
 #include <iostream>
 
 #include <NTTEngine/Core.hpp>
+#include "NTTEngineLog/NTTEngineLog.hpp"
 #include <NTTEngine/Application.hpp>
 #include <NTTEngine/Platforms/Platforms.hpp>
 #include <NTTEngine/Macros.hpp>
+#include "NTTEngine/Camera.hpp"
 
 
 namespace ntt
@@ -74,7 +76,19 @@ namespace ntt
     }
 
     DEFINE_EVENT_APPLICATION(WindowClose)
-    DEFINE_EVENT_APPLICATION(WindowResize)
+    // DEFINE_EVENT_APPLICATION(WindowResize)
+    void Application::OnWindowResize(Event& event) 
+    { 
+        WindowResizeEvent& e = static_cast<WindowResizeEvent&>(event); 
+        for (auto it=layerStack_.End() - 1; it!=layerStack_.Begin() - 1; it--) 
+        { 
+            (*it)->OnWindowResize(e); 
+        } 
+        defaultCamera_->OnWindowResize(e);
+        OnWindowResizeImpl(e);
+    } 
+    
+    void Application::OnWindowResizeImpl(WindowResizeEvent& event) { }
 
     DEFINE_EVENT_APPLICATION(MouseMove)
     DEFINE_EVENT_APPLICATION(MouseClick)

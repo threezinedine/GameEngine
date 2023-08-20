@@ -1,9 +1,13 @@
 #include <algorithm>
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
+#include "imgui.h"
 #include <glm/gtc/matrix_transform.hpp>
-#include <NTTEngine/Renderer/Camera.hpp>
-#include <NTTEngine/NTTEngine.hpp>
+#include "NTTEngineLog/NTTEngineLog.hpp"
+// #include "NTTEngineRenderer/NTTEngineRenderer.hpp"
+#include "NTTEngine/Application.hpp"
+#include "NTTEngine/Platforms/Platforms.hpp"
+#include "NTTEngine/Camera.hpp"
 
 
 namespace ntt

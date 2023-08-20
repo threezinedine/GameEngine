@@ -20,6 +20,7 @@ namespace ntt
             void OnEndUpdate() override;
             inline unsigned int GetHeight() const { return height_; }
             inline unsigned int GetWidth() const { return width_; }
+            inline void SetWindowSize(unsigned int width, unsigned int height) { width_ = width; height_ = height; }
             inline bool IsClosed() { return glfwWindowShouldClose(window_); }
 
             void SetVSync(bool enabled) override;

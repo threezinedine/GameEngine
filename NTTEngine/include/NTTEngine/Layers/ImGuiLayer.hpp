@@ -5,9 +5,8 @@
 
 #include <imgui.h>
 #include <NTTEngine/Layer.hpp>
-// #include "ImGuiApplication.hpp"
 #include "IImGuiRenderer.hpp"
-#include "NTTEngine/Core/Core.hpp"
+#include "NTTEngineCore/NTTEngineCore.hpp"
 
 
 namespace ntt

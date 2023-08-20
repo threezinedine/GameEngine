@@ -1,0 +1,5 @@
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/NTTEngineCore)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/NTTEngineUtils)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/NTTEngineLog)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/NTTEngineEventSystem)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/NTTEngineRenderer)
