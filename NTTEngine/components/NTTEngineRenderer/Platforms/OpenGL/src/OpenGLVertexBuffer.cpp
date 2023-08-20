@@ -2,6 +2,7 @@
 #include <glfw/glfw3.h>
 #include "GL_ASSERTION.hpp"
 #include "NTTEngineRenderer/NTTEngineRenderer.hpp"
+#include "NTTEngineLog/NTTEngineLog.hpp"
 
 
 namespace ntt
@@ -15,7 +16,9 @@ namespace ntt
 
     VertexBuffer::~VertexBuffer()
     {
+        NTT_ENGINE_DEBUG("Start Delete VertexBuffer");
         GL_CALL(glDeleteBuffers(1, &id_));
+        NTT_ENGINE_DEBUG("Finish Delete VertexBuffer");
     }
 
     void VertexBuffer::Bind()

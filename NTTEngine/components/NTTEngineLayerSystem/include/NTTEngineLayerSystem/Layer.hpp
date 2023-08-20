@@ -2,10 +2,10 @@
 
 #include <string>
 
-#include <NTTEngine/Macros.hpp>
+#include "./Macros.hpp"
 #include "NTTEngineEventSystem/NTTEngineEventSystem.hpp"
 
-#include "Layers/IImGuiRenderer.hpp"
+#include "IImGuiRenderer.hpp"
 
 namespace ntt
 {

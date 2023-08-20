@@ -3,9 +3,8 @@
 #include <chrono>
 
 #include "NTTEngineEventSystem/NTTEngineEventSystem.hpp"
-#include <NTTEngine/IWindow.hpp>
 #include <NTTEngine/Macros.hpp>
-#include <NTTEngine/LayerStack.hpp>
+#include "NTTEngineLayerSystem/NTTEngineLayerSystem.hpp"
 #include "NTTEngineRenderer/NTTEngineRenderer.hpp"
 #include <NTTEngineLog/NTTEngineLog.hpp>
 
@@ -21,8 +20,6 @@ namespace ntt
             void OnSetup();
             void OnUpdate(Timestep ts);
             void OnRun();
-
-            inline IWindow* GetWindow() const { return window_; }
 
             static Application* GetApplication()
             {
@@ -48,7 +45,6 @@ namespace ntt
             DEFINE_EVENT_INTEFACE(KeyPress);
             DEFINE_EVENT_INTEFACE(KeyRelease);
 
-            IWindow* window_;
             LayerStack layerStack_;
             std::shared_ptr<ntt::ICamera> defaultCamera_;
 

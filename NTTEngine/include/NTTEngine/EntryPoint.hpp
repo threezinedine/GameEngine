@@ -3,6 +3,7 @@
 #include "Core.hpp"
 #include "Application.hpp"
 #include "NTTEngineLog/NTTEngineLog.hpp"
+#include "NTTEngineWindow/NTTEngineWindow.hpp"
 
 using namespace ntt;
 
@@ -27,6 +28,10 @@ int main(int argc, char** argv)
     NTT_ENGINE_INFO("Stop the game");
 
     delete application;
+
+    NTT_ENGINE_DEBUG("Start Release Window");
+    Window::Release();
+    NTT_ENGINE_DEBUG("Finish Release Window");
     return 0;
 }
 #endif

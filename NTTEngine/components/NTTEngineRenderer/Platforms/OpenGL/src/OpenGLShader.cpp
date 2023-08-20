@@ -12,7 +12,9 @@ namespace ntt
 {
     Shader::~Shader()
     {
+        NTT_ENGINE_DEBUG("Start Delete Shader");
         glDeleteProgram(rendererId_);
+        NTT_ENGINE_DEBUG("Finish Delete Shader");
     }
 
     void Shader::Bind() const 

@@ -4,8 +4,7 @@
 #include <memory>
 
 #include <imgui.h>
-#include <NTTEngine/Layer.hpp>
-#include "IImGuiRenderer.hpp"
+#include "NTTEngineLayerSystem/NTTEngineLayerSystem.hpp"
 #include "NTTEngineCore/NTTEngineCore.hpp"
 
 

@@ -4,19 +4,13 @@
 #include "imgui.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include "NTTEngineLog/NTTEngineLog.hpp"
-// #include "NTTEngineRenderer/NTTEngineRenderer.hpp"
 #include "NTTEngine/Application.hpp"
-#include "NTTEngine/Platforms/Platforms.hpp"
 #include "NTTEngine/Camera.hpp"
+#include "NTTEngineWindow/NTTEngineWindow.hpp"
 
 
 namespace ntt
 {
-    // Camera::Camera(NTTVec3 cameraPos, float fov, 
-    //                 NTTVec3 rotation, NTTVec3 cameraFront, 
-    //                 NTTVec3 cameraUp)
-    //     : fov_(fov), rotation_(rotation), cameraPos_(cameraPos), cameraFront_(cameraFront),
-    //         cameraUp_(cameraUp)
     Camera::Camera()
     {
         NTT_APPLICATION_DEBUG("Start Initialize Camera");
@@ -66,8 +60,8 @@ namespace ntt
 
     glm::mat4 Camera::GetViewProjectMatrix()
     {
-        auto width = Application::GetApplication()->GetWindow()->GetWidth();
-        auto height = Application::GetApplication()->GetWindow()->GetHeight();
+        auto width = Window::GetInstance()->GetWidth();
+        auto height = Window::GetInstance()->GetHeight();
         auto rotation = rotation_->GetGlmVec3();
         auto camPosVec = cameraPos_->GetGlmVec3();
 
@@ -87,27 +81,27 @@ namespace ntt
 
     void Camera::OnUpdate(Timestep ts)
     {
-        if (ntt::WindowInput::IsKeyPressed(NTT_KEY_A))
+        if (Window::IsKeyPressed(NTT_KEY_A))
         {
             cameraPos_->GetGlmVec3().x += *moveSpeed_ * (float)ts * *zoomLevel_;
         }
-        if (ntt::WindowInput::IsKeyPressed(NTT_KEY_D))
+        if (Window::IsKeyPressed(NTT_KEY_D))
         {
             cameraPos_->GetGlmVec3().x -= *moveSpeed_ * (float)ts * *zoomLevel_;
         }
-        if (ntt::WindowInput::IsKeyPressed(NTT_KEY_W))
+        if (Window::IsKeyPressed(NTT_KEY_W))
         {
             cameraPos_->GetGlmVec3().y += *moveSpeed_ * (float)ts * *zoomLevel_;
         }
-        if (ntt::WindowInput::IsKeyPressed(NTT_KEY_S))
+        if (Window::IsKeyPressed(NTT_KEY_S))
         {
             cameraPos_->GetGlmVec3().y -= *moveSpeed_ * (float)ts * *zoomLevel_;
         }
-        if (ntt::WindowInput::IsKeyPressed(NTT_KEY_R))
+        if (Window::IsKeyPressed(NTT_KEY_R))
         {
             rotation_->GetGlmVec3().z += *rotateSpeed_ * (float)ts;
         }
-        if (ntt::WindowInput::IsKeyPressed(NTT_KEY_Q))
+        if (Window::IsKeyPressed(NTT_KEY_Q))
         {
             rotation_->GetGlmVec3().z -= *rotateSpeed_ * (float)ts;
         }

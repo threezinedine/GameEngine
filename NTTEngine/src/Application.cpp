@@ -2,8 +2,8 @@
 
 #include <NTTEngine/Core.hpp>
 #include "NTTEngineLog/NTTEngineLog.hpp"
-#include <NTTEngine/Application.hpp>
-#include <NTTEngine/Platforms/Platforms.hpp>
+#include "NTTEngine/Application.hpp"
+#include "NTTEngineWindow/NTTEngineWindow.hpp"
 #include <NTTEngine/Macros.hpp>
 #include "NTTEngine/Camera.hpp"
 
@@ -14,8 +14,9 @@ namespace ntt
 
     Application::Application(int width, int height, std::string title)
     {
+        NTT_ENGINE_DEBUG("Start Initialize the Application");
         Application::SetApplication(this);
-        window_ = new WinWindow(width, height, title);
+        Window::Init(width, height, title);
 
         ADD_EVENT_APPLICATION(WindowClose);
         ADD_EVENT_APPLICATION(WindowResize);
@@ -26,6 +27,7 @@ namespace ntt
 
         ADD_EVENT_APPLICATION(KeyPress);
         ADD_EVENT_APPLICATION(KeyRelease);
+        NTT_ENGINE_DEBUG("Finish Initialize the Application");
     } 
 
     Application::~Application()
@@ -37,7 +39,7 @@ namespace ntt
 
     void Application::OnRun()
     {
-        while(!window_->IsClosed())
+        while(!Window::GetInstance()->IsClosed())
         {
             auto current = std::chrono::high_resolution_clock::now();
             std::chrono::duration<float> duration = current - start_;
@@ -50,11 +52,11 @@ namespace ntt
 
     void Application::OnUpdate(Timestep ts)
     {
-        window_->OnStartUpdate();
-        window_->OnUpdate();
+        Window::GetInstance()->OnStartUpdate();
+        Window::GetInstance()->OnUpdate();
         layerStack_.OnUpdate(ts);
         OnUpdateImpl(ts);
-        window_->OnEndUpdate();
+        Window::GetInstance()->OnEndUpdate();
     }
 
     void Application::OnUpdateImpl(Timestep ts)

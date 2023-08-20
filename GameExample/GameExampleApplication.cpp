@@ -20,7 +20,6 @@ void GameExampleApplication::OnSetupImpl()
 
     layerStack_.PushLayer(testLayer);
     layerStack_.PushOverlayLayer(imguiLayer);
-    ntt::WindowInput::Initialzie();
 
     // window_->SetVSync(true);
 }

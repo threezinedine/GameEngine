@@ -4,13 +4,9 @@
 
 #include "Core.hpp"
 #include "Application.hpp"
-// #include "EntryPoint.hpp"
-#include "IWindow.hpp"
 
 #include "NTTEngineEventSystem/NTTEngineEventSystem.hpp"
-#include "Platforms/Platforms.hpp"
-
-#include "Layer.hpp"
+#include "NTTEngineLayerSystem/NTTEngineLayerSystem.hpp"
 #include "Layers/Layers.hpp"
 
 #include "Threading/Threading.hpp"

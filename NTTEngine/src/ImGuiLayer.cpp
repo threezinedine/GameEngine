@@ -7,9 +7,10 @@
 #include <glfw/glfw3.h>
 
 #include <NTTEngine/Core.hpp>
-#include <NTTEngine/Layer.hpp>
+#include "NTTEngineLayerSystem/NTTEngineLayerSystem.hpp"
 #include <NTTEngine/Layers/ImGuiLayer.hpp>
 #include <NTTEngine/Application.hpp>
+#include "NTTEngineWindow/NTTEngineWindow.hpp"
 
 
 namespace ntt
@@ -22,7 +23,7 @@ namespace ntt
 
     ImGuiLayer::~ImGuiLayer()
     {
-        NTT_ENGINE_DEBUG("Delete ImGuiLayer");
+        NTT_ENGINE_DEBUG("Start Delete ImGuiLayer");
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
@@ -34,6 +35,7 @@ namespace ntt
                 delete visible;
             }
         }
+        NTT_ENGINE_DEBUG("Finish Delete ImGuiLayer");
     }
 
     void ImGuiLayer::OnAttach()
@@ -45,7 +47,7 @@ namespace ntt
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
         ImGui_ImplGlfw_InitForOpenGL(
-            static_cast<GLFWwindow*>(Application::GetApplication()->GetWindow()->GetWindow()),
+            static_cast<GLFWwindow*>(Window::GetInstance()->GetWindow()),
             true
         );
         ImGui_ImplOpenGL3_Init("#version 130");
@@ -87,8 +89,7 @@ namespace ntt
         }
 
         ImGui::Render();
-        IWindow* win = Application::GetApplication()->GetWindow();
-        glViewport(0, 0, win->GetWidth(), win->GetHeight());
+        glViewport(0, 0, Window::GetInstance()->GetWidth(), Window::GetInstance()->GetHeight());
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }

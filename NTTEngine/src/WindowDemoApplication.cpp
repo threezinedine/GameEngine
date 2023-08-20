@@ -9,7 +9,7 @@ namespace ntt
 {
     WindowDemoApplication::~WindowDemoApplication()
     {
-        NTT_ENGINE_DEBUG("Delete Window Application");
+        NTT_ENGINE_DEBUG("Delete Window Demo Application");
     }
 
     void WindowDemoApplication::OnImGuiRender(Timestep ts)

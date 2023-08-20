@@ -22,7 +22,6 @@ namespace ntt
             dataFormat = GL_RGB;
         }
 
-        NTT_ENGINE_DEBUG("Channel: {}", image.channels());
         cv::resize(image, image, cv::Size(300, 300));
         cv::cvtColor(image, image, cv::COLOR_BGR2RGB);
 
@@ -40,7 +39,9 @@ namespace ntt
 
     Texture2D::~Texture2D()
     {
+        NTT_ENGINE_DEBUG("Start Delete Texture");
         GL_CALL(glDeleteTextures(1, &id_));
+        NTT_ENGINE_DEBUG("Finish Delete Texture");
     }
 
     void Texture2D::Bind(uint32_t slot)

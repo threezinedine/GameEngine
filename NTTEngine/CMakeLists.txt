@@ -9,6 +9,9 @@ file(
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
 )
 
+option(OPENGL_PLATFORM "OpenGL plaform" ON)
+option(WINDOWS_OS "Windows OS" ON)
+
 # find opencv lib
 option(OPENCV_LIB_PATH "The folder which contain the opencv package")
 find_package(OpenCV REQUIRED PATHS ${OPENCV_LIB_PATH})
@@ -43,6 +46,8 @@ target_link_libraries(
     NTTEngineCore
     NTTEngineEventSystem
     NTTEngineRenderer
+    NTTEngineWindow
+    NTTEngineLayerSystem
     ImGui
     OpenGL::GL
     libglew_static

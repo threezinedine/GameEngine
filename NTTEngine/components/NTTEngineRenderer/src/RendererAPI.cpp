@@ -1,3 +1,4 @@
+#include "NTTEngineLog/NTTEngineLog.hpp"
 #include "NTTEngineRenderer/NTTEngineRenderer.hpp"
 
 
@@ -58,6 +59,7 @@ namespace ntt
 
     void RendererAPI::Release()
     {
+        NTT_ENGINE_DEBUG("Release RendererAPI");
         if (instance_ != nullptr)
         {
             delete instance_;
