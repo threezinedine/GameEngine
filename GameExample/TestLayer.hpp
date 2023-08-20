@@ -24,16 +24,16 @@ class TestLayer: public ntt::Layer
 
         std::shared_ptr<ntt::ICamera> camera_;
 
-        bool visibleVao_ = true;
-        bool visibleTriangleVao_ = true;
+        std::unique_ptr<ntt::ThreadValue<bool>> visibleVao_;
+        std::unique_ptr<ntt::ThreadValue<bool>> visibleTriangleVao_;
 
-        float scaled_;
-        float imageScaled_;
-        float squareDistance_;
+        std::unique_ptr<ntt::ThreadValue<float>> scaled_;
+        std::unique_ptr<ntt::ThreadValue<float>> imageScaled_;
+        std::unique_ptr<ntt::ThreadValue<float>> squareDistance_;
 
         std::unique_ptr<ntt::NTTVec3> squareColor_;
         std::unique_ptr<ntt::NTTVec3> triangleTransform_;
         std::unique_ptr<ntt::NTTVec3> imageTransform_;
 
-        std::unique_ptr<ntt::Storage> storage_;
+        std::shared_ptr<ntt::Storage> storage_;
 };

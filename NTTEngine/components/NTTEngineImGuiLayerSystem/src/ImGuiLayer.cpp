@@ -17,7 +17,8 @@ namespace ntt
     ImGuiLayer::ImGuiLayer(std::string layerName)
         : Layer(layerName)
     {
-
+        NTT_ENGINE_DEBUG("Start Initializing ImGuiLayer");
+        NTT_ENGINE_DEBUG("Finish Initializing ImGuiLayer");
     }
 
     ImGuiLayer::~ImGuiLayer()
