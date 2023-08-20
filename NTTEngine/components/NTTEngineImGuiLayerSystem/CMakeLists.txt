@@ -20,6 +20,7 @@ target_link_libraries(
     ImGui
     NTTEngineLog
     NTTEngineLayerSystem
+    NTTEngineThreadSystem
     libglew_static
     glfw
     NTTEngineWindow

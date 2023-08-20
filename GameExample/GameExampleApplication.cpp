@@ -14,9 +14,9 @@ void GameExampleApplication::OnSetupImpl()
     testWindow->AddComponent(std::make_shared<TestSliderComponent>());
     testWindow->AddComponent(testLayer);
 
-    imguiLayer->AddApplication(std::make_shared<ntt::WindowDemoApplication>(), false);
+    imguiLayer->AddApplication(std::make_shared<ntt::WindowDemoApplication>());
     imguiLayer->AddApplication(testWindow);
-    imguiLayer->AddApplication(std::make_shared<ntt::PerformanceApplication>(), true);
+    imguiLayer->AddApplication(std::make_shared<ntt::PerformanceApplication>());
 
     layerStack_.PushLayer(testLayer);
     layerStack_.PushOverlayLayer(imguiLayer);

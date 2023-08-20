@@ -28,13 +28,6 @@ namespace ntt
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
 
-        for (auto visible: applicationVisibles_)
-        {
-            if (visible != nullptr)
-            {
-                delete visible;
-            }
-        }
         NTT_ENGINE_DEBUG("Finish Delete ImGuiLayer");
     }
 
@@ -69,9 +62,9 @@ namespace ntt
         {
             if (ImGui::BeginMenu("Views"))
             {
-                for (int i=0; i<applications_.size(); i++)
+                for (auto appliation: applications_)
                 {
-                    ImGui::MenuItem(applications_[i]->GetName().c_str(), NULL, applicationVisibles_[i]);
+                    appliation->MenuItem();
                 }
                 ImGui::EndMenu();
             }
@@ -80,11 +73,11 @@ namespace ntt
 
         ImGui::DockSpaceOverViewport(ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
 
-        for (int i=0; i<applications_.size(); i++)
+        for (auto application: applications_)
         {
-            if (*applicationVisibles_[i])
+            if (application->IsActive())
             {
-                applications_[i]->OnImGuiRender(ts);
+                application->OnImGuiRender(ts);
             }
         }
 
@@ -94,9 +87,8 @@ namespace ntt
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
-    void ImGuiLayer::AddApplication(std::shared_ptr<IImGuiRenderer> application, bool visible)
+    void ImGuiLayer::AddApplication(std::shared_ptr<IImGuiApplication> application)
     {
-        applicationVisibles_.push_back(new bool(visible));
         applications_.push_back(application);
     }
 } // namespace ntt

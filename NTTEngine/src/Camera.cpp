@@ -24,10 +24,10 @@ namespace ntt
         auto camFront = storage_->GetValue<std::vector<float>>("camFront", std::vector<float> {0, 0, -1});
         auto camUp = storage_->GetValue<std::vector<float>>("camUp", std::vector<float> {0, 1, 0});
 
-        cameraPos_ = std::make_shared<NTTVec3>(camPos);
-        rotation_ = std::make_shared<NTTVec3>(rotation);
-        cameraFront_ = std::make_shared<NTTVec3>(camFront);
-        cameraUp_ = std::make_shared<NTTVec3>(camUp);
+        cameraPos_ = std::make_shared<NTTVec3>(std::vector<float>{0, 0, 45}, storage_, "camPos");
+        rotation_ = std::make_shared<NTTVec3>(std::vector<float>{0, 0, 0}, storage_, "rotation");
+        cameraFront_ = std::make_shared<NTTVec3>(std::vector<float>{0, 0, -1}, storage_, "camFront");
+        cameraUp_ = std::make_shared<NTTVec3>(std::vector<float>{0, 1, 0}, storage_, "camUp");
 
         fov_ = new float(storage_->GetValue<float>("fov", 1.57));
         moveSpeed_ = new float(storage_->GetValue<float>("moveSpeed", 1));
@@ -39,10 +39,10 @@ namespace ntt
     Camera::~Camera()
     {
         NTT_APPLICATION_DEBUG("Start Delete Camera");
-        storage_->SetValue<std::vector<float>>("camPos", cameraPos_->GetVector());
-        storage_->SetValue<std::vector<float>>("camFront", cameraFront_->GetVector());
-        storage_->SetValue<std::vector<float>>("camUp", cameraUp_->GetVector());
-        storage_->SetValue<std::vector<float>>("rotation", rotation_->GetVector());
+        cameraPos_->Save();
+        cameraFront_->Save();
+        cameraUp_->Save();
+        rotation_->Save();
 
         storage_->SetValue<float>("fov", *fov_);
         storage_->SetValue<float>("moveSpeed", *moveSpeed_);

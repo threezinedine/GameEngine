@@ -4,7 +4,7 @@
 #include <memory>
 
 #include <imgui.h>
-#include "NTTEngineLayerSystem/NTTEngineLayerSystem.hpp"
+#include "IImGuiApplication.hpp"
 #include "NTTEngineCore/NTTEngineCore.hpp"
 
 
@@ -21,10 +21,9 @@ namespace ntt
 
             void OnUpdate(Timestep ts) override;
 
-            void AddApplication(std::shared_ptr<IImGuiRenderer> application, bool visible = true);
+            void AddApplication(std::shared_ptr<IImGuiApplication> application);
         
         protected:
-            std::vector<bool*> applicationVisibles_;
-            std::vector<std::shared_ptr<IImGuiRenderer>> applications_;
+            std::vector<std::shared_ptr<IImGuiApplication>> applications_;
     };    
 } // namespace ntt

@@ -8,7 +8,7 @@
 #include "NTTEngineLayerSystem/NTTEngineLayerSystem.hpp"
 #include "NTTEngineImGuiLayerSystem/NTTEngineImGuiLayerSystem.hpp"
 
-#include "NTTEngineThreadingSystem/NTTEngineThreadingSystem.hpp"
+#include "NTTEngineThreadSystem/NTTEngineThreadSystem.hpp"
 #include "NTTEngineUtils/NTTEngineUtils.hpp"
 #include "NTTEngineCore/NTTEngineCore.hpp"
 #include "NTTEngineRenderer/NTTEngineRenderer.hpp"
