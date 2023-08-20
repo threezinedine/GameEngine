@@ -1,6 +1,5 @@
 #include <imgui.h>
-#include <NTTEngine/Core.hpp>
-#include <NTTEngine/Layers/WindowDemoApplication.hpp>
+#include "NTTEngineImGuiLayerSystem/NTTEngineImGuiLayerSystem.hpp"
 
 #include "NTTEngineLog/NTTEngineLog.hpp"
 

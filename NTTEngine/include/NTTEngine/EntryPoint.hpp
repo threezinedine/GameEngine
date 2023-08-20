@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Core.hpp"
 #include "Application.hpp"
 #include "NTTEngineLog/NTTEngineLog.hpp"
 #include "NTTEngineWindow/NTTEngineWindow.hpp"

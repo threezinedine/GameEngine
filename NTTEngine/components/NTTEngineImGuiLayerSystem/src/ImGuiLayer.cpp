@@ -6,11 +6,10 @@
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
 
-#include <NTTEngine/Core.hpp>
 #include "NTTEngineLayerSystem/NTTEngineLayerSystem.hpp"
-#include <NTTEngine/Layers/ImGuiLayer.hpp>
-#include <NTTEngine/Application.hpp>
+#include "NTTEngineImGuiLayerSystem/NTTEngineImGuiLayerSystem.hpp"
 #include "NTTEngineWindow/NTTEngineWindow.hpp"
+#include "NTTEngineLog/NTTEngineLog.hpp"
 
 
 namespace ntt

@@ -1,6 +1,5 @@
 #include <iostream>
 
-#include <NTTEngine/Core.hpp>
 #include "NTTEngineLog/NTTEngineLog.hpp"
 #include "NTTEngine/Application.hpp"
 #include "NTTEngineWindow/NTTEngineWindow.hpp"
