@@ -31,7 +31,6 @@ namespace ntt
             exit(-1);
         }
         
-        glfwMaximizeWindow(window_);
 
         context_ = std::make_shared<GraphicsContext>(window_);
         context_->Init();
@@ -87,6 +86,9 @@ namespace ntt
             win->SetWindowSize(width, height);
             win->GetDispatcher().Dispatch(event);
         });
+
+        glfwMaximizeWindow(window_);
+        glEnable(GL_DEPTH_TEST);
     } 
 
     Window::~Window()
@@ -97,7 +99,7 @@ namespace ntt
     void Window::OnStartUpdate()
     {
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glfwPollEvents();
     }
 

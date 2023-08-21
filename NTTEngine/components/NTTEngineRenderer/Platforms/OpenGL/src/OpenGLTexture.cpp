@@ -5,25 +5,42 @@
 
 namespace ntt
 {
+    Texture2D::Texture2D(int width, int height)
+        : width_(width), height_(height), internalFormat_(GL_RGB8),
+            dataFormat_(GL_RGB)
+    {
+        GL_CALL(glGenTextures(1, &id_));
+        GL_CALL(glBindTexture(GL_TEXTURE_2D, id_));
+
+        GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
+        GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
+        GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
+        GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
+
+        glTexImage2D(GL_TEXTURE_2D, 0, internalFormat_, width, height, 
+                        0, dataFormat_, GL_UNSIGNED_BYTE, nullptr);
+    }
+
     Texture2D::Texture2D(std::string file)
     {
         cv::Mat image = cv::imread(file);
 
-        GLenum internalFormat = 0, dataFormat = GL_RGB;
+        cv::resize(image, image, cv::Size(300, 300));
+        cv::cvtColor(image, image, cv::COLOR_BGR2RGB);
 
         if (image.channels() == 4)
         {
-            internalFormat = GL_RGBA8;
-            dataFormat = GL_RGBA;
+            internalFormat_ = GL_RGBA8;
+            dataFormat_ = GL_RGBA;
         }
         else if (image.channels() == 3)
         {
-            internalFormat = GL_RGB8;
-            dataFormat = GL_RGB;
+            internalFormat_ = GL_RGB8;
+            dataFormat_ = GL_RGB;
         }
 
-        cv::resize(image, image, cv::Size(300, 300));
-        cv::cvtColor(image, image, cv::COLOR_BGR2RGB);
+        width_ = image.cols;
+        height_ = image.rows;
 
         GL_CALL(glGenTextures(1, &id_));
         GL_CALL(glBindTexture(GL_TEXTURE_2D, id_));
@@ -33,8 +50,10 @@ namespace ntt
         GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
         GL_CALL(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
 
-        GL_CALL(glTexImage2D(GL_TEXTURE_2D, 0, dataFormat, image.cols, image.rows, 
-                        0, dataFormat, GL_UNSIGNED_BYTE, image.data));
+        glTexImage2D(GL_TEXTURE_2D, 0, internalFormat_, width_, height_, 
+                        0, dataFormat_, GL_UNSIGNED_BYTE, nullptr);
+
+        SetData(image);
     }  
 
     Texture2D::~Texture2D()
@@ -46,8 +65,19 @@ namespace ntt
 
     void Texture2D::Bind(uint32_t slot)
     {
-        // glBindTextureUnit(slot, id_);
         GL_CALL(glActiveTexture(GL_TEXTURE0 + slot));
         GL_CALL(glBindTexture(GL_TEXTURE_2D, id_));
+    }
+
+    void Texture2D::UnBind()
+    {
+        GL_CALL(glBindTexture(GL_TEXTURE_2D, 0));
+    }
+
+    void Texture2D::SetData(cv::Mat image)
+    {
+        Bind();
+        GL_CALL(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width_, height_, 
+                        dataFormat_, GL_UNSIGNED_BYTE, image.data));
     }
 } // namespace ntt

@@ -90,11 +90,11 @@ namespace ntt
         }
         if (Window::IsKeyPressed(NTT_KEY_W))
         {
-            cameraPos_->GetGlmVec3().y += *moveSpeed_ * (float)ts * *zoomLevel_;
+            cameraPos_->GetGlmVec3().y -= *moveSpeed_ * (float)ts * *zoomLevel_;
         }
         if (Window::IsKeyPressed(NTT_KEY_S))
         {
-            cameraPos_->GetGlmVec3().y -= *moveSpeed_ * (float)ts * *zoomLevel_;
+            cameraPos_->GetGlmVec3().y += *moveSpeed_ * (float)ts * *zoomLevel_;
         }
         if (Window::IsKeyPressed(NTT_KEY_R))
         {

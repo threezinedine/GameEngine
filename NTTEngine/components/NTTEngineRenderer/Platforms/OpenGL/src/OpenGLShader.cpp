@@ -94,7 +94,6 @@ namespace ntt
 
         if (location != -1)
         {
-            Bind();
             GL_CALL(glUniform1i(location, value));
         }
     }
@@ -105,7 +104,6 @@ namespace ntt
 
         if (location != -1)
         {
-            Bind();
             GL_CALL(glUniform4f(location, f0, f1, f2, f3));
         }
     }
@@ -116,7 +114,6 @@ namespace ntt
 
         if (location != -1)
         {
-            Bind();
             GL_CALL(glUniform3f(location, f0, f1, f2));
         }
     }
@@ -127,7 +124,6 @@ namespace ntt
 
         if (location != -1)
         {
-            Bind();
             GL_CALL(glUniform3f(location, vec.x, vec.y, vec.z));
         }
     }
@@ -138,7 +134,6 @@ namespace ntt
 
         if (location != -1)
         {
-            Bind();
             GL_CALL(glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]));
         }
     } 

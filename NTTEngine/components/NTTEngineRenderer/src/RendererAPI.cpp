@@ -38,7 +38,6 @@ namespace ntt
                                     std::shared_ptr<Shader>& shader,
                                     glm::mat4 transform)
     {
-        shader->Bind();
         auto projViewMatrix = camera_->GetViewProjectMatrix();
         shader->SetUniformMat4f("projView", projViewMatrix);
         shader->SetUniformMat4f("transform", transform);

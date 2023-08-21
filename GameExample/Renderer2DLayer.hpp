@@ -16,4 +16,5 @@ class Renderer2DLayer: public ntt::Layer
 
         std::unique_ptr<ntt::NTTVec3> squareColor_;
         std::shared_ptr<ntt::Storage> storage_;
+        std::shared_ptr<ntt::Texture2D> texture_;
 };
