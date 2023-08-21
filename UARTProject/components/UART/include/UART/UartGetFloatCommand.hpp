@@ -4,12 +4,12 @@
 class UARTGetFloatCommand: public UARTCommand
 {
     public:
-        UARTGetFloatCommand(UARTCom& com, unsigned char highAdd,
+        UARTGetFloatCommand(unsigned char highAdd,
                                 unsigned char lowAdd, ntt::ThreadValue<float>& value);
         ~UARTGetFloatCommand();
 
     protected:
-        void OnRunImpl(UARTCom& com);
+        void OnRunImpl();
 
     private:
         unsigned char highAdd_;

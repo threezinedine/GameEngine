@@ -19,6 +19,7 @@ target_link_libraries(
     PUBLIC
     NTTEngineLog
     NTTEngineThreadSystem
+    NTTEngineImGuiTools
 )
 
 target_include_directories(

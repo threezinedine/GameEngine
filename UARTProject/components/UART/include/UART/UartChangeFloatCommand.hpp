@@ -5,11 +5,11 @@
 class UARTChangeFloatCommand: public UARTCommand
 {
     public:
-        UARTChangeFloatCommand(UARTCom& com, unsigned char highAdd, unsigned char lowAdd, float value);
+        UARTChangeFloatCommand(unsigned char highAdd, unsigned char lowAdd, float value);
         ~UARTChangeFloatCommand();
 
     protected:
-        void OnRunImpl(UARTCom& com);
+        void OnRunImpl();
 
     private:
         unsigned char highAdd_;

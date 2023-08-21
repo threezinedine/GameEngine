@@ -9,7 +9,7 @@
 class UartImGuiApplication: public ntt::ImGuiApplication
 {
     public:
-        UartImGuiApplication(UARTCom& com);
+        UartImGuiApplication();
         ~UartImGuiApplication();
 
         void OnImGuiRenderImpl(ntt::Timestep ts) override;
@@ -29,9 +29,7 @@ class UartImGuiApplication: public ntt::ImGuiApplication
         ntt::ThreadValue<float> currentSpeed_;
         ntt::ThreadValue<bool> isOn_;
 
-        UARTCom& com_;
         ConnectionStatus status_;
         ntt::TimePlan getDataPlan_;
 
-        std::shared_ptr<ntt::ImGuiSelectableVector<std::string>> selectableVector_;
 };

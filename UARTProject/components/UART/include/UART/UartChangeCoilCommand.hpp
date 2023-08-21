@@ -5,11 +5,11 @@
 class UARTChangeCoilCommand: public UARTCommand
 {
     public:
-        UARTChangeCoilCommand(UARTCom& com, unsigned char coilAddress, bool active);
+        UARTChangeCoilCommand(unsigned char coilAddress, bool active);
         ~UARTChangeCoilCommand();
 
     protected:
-        void OnRunImpl(UARTCom& com);
+        void OnRunImpl();
 
     private:
         unsigned char coilAddress_;

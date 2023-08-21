@@ -1,9 +1,9 @@
 #include "UART/UART.hpp"
 
 
-UARTGetCoilCommand::UARTGetCoilCommand(UARTCom& com, unsigned char coilAddress, 
+UARTGetCoilCommand::UARTGetCoilCommand(unsigned char coilAddress, 
         ntt::ThreadValue<bool>& activeVar)
-    : UARTCommand(com), coilAddress_(coilAddress), active_(activeVar)
+    : coilAddress_(coilAddress), active_(activeVar)
 {
 
 }
@@ -13,9 +13,9 @@ UARTGetCoilCommand::~UARTGetCoilCommand()
 
 }
 
-void UARTGetCoilCommand::OnRunImpl(UARTCom& com)
+void UARTGetCoilCommand::OnRunImpl()
 {
     active_.Bind();
-    com.GetCoil(coilAddress_, active_.GetPointer());
+    UARTCom::GetInstance()->GetCoil(coilAddress_, active_.GetPointer());
     active_.UnBind();
 }

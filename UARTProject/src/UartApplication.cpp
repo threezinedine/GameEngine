@@ -1,16 +1,17 @@
 #include "UartApplication.hpp"
 #include "UartImGuiApplication.hpp"
+#include "ESP32ImGuiApplication.hpp"
 
 
 UartApplication::UartApplication()
-    : ntt::Application(600, 800, std::string("UART Application")),
-        com_("COM7")
+    : ntt::Application(600, 800, std::string("UART Application"))
 {
-
+    UARTCom::Initialize();
 }
 
 UartApplication::~UartApplication()
 {
+    UARTCom::Release();
 }
 
 void UartApplication::OnSetupImpl()
@@ -19,10 +20,11 @@ void UartApplication::OnSetupImpl()
 
     imguiLayer->AddApplication(std::make_shared<ntt::WindowDemoApplication>());
     imguiLayer->AddApplication(std::make_shared<ntt::PerformanceApplication>(1));
-    imguiLayer->AddApplication(std::make_shared<UartImGuiApplication>(com_));
+    imguiLayer->AddApplication(std::make_shared<UartImGuiApplication>());
+    imguiLayer->AddApplication(std::make_shared<ESP32ImGuiApplication>());
 
     layerStack_.PushOverlayLayer(imguiLayer);
-    com_.OnRun();
+    UARTCom::StartThread();
 }
 
 void UartApplication::OnUpdateImpl(ntt::Timestep ts)
@@ -32,5 +34,5 @@ void UartApplication::OnUpdateImpl(ntt::Timestep ts)
 
 void UartApplication::OnWindowCloseImpl(ntt::WindowCloseEvent& event)
 {
-    com_.Stop();
+    UARTCom::StopThread();
 }

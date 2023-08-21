@@ -4,11 +4,11 @@
 class UARTGetCoilCommand: public UARTCommand
 {
     public:
-        UARTGetCoilCommand(UARTCom& com, unsigned char coilAddress, ntt::ThreadValue<bool>& activeVar);
+        UARTGetCoilCommand(unsigned char coilAddress, ntt::ThreadValue<bool>& activeVar);
         ~UARTGetCoilCommand();
 
     protected:
-        void OnRunImpl(UARTCom& com);
+        void OnRunImpl();
 
     private:
         unsigned char coilAddress_;

@@ -7,6 +7,7 @@
 #include "Windows.h"
 #include "UART/UARTCom.hpp"
 #include "NTTEngineThreadSystem/NTTEngineThreadSystem.hpp"
+#include "NTTEngineImGuiTools/NTTEngineImGuiTools.hpp"
 
 
 enum ConnectionStatus
@@ -67,9 +68,19 @@ class UARTCom: public ntt::NTTThread
         void OnUpdateImpl() override;
         void OnReleaseImpl() override;
 
-        inline std::string* GetComPtr() { return &com_; }        
-        inline std::string& GetCom() { return com_; }
-        inline void SetCom(std::string com) { com_ = com; }
+        void OnImGuiRender();
+
+        inline static void StartThread() { instance_->OnRun(); }
+        inline static void StopThread() { instance_->Stop(); }
+
+        inline static UARTCom* GetInstance() { return instance_; }
+        static void Initialize(std::string com = "COM7", int baudrate = 115200);
+        static void StartConnectionSta();
+        static void FinishConnectionSta();
+        static void SubmitCommand(std::shared_ptr<UARTCommand> command);
+        static void Release();
+        inline static void OnImGuiRenderSta() { instance_->OnImGuiRender(); }
+
 
     private:
         enum StateEnum
@@ -103,4 +114,8 @@ class UARTCom: public ntt::NTTThread
         std::queue<std::shared_ptr<UARTCommand>> commands_;
 
         void RunWorkingState();
+
+        std::shared_ptr<ntt::ImGuiSelectableVector<std::string>> selectableVector_;
+
+        static UARTCom* instance_;
 };

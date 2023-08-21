@@ -32,7 +32,6 @@ namespace ntt
                     {
                         setter_(element.second);
                     }
-                    NTT_ENGINE_DEBUG("Here");
                 }
             }
 

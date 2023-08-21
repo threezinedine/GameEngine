@@ -6,8 +6,7 @@ class UARTCom;
 class UARTCommand
 {
     public:
-        UARTCommand(UARTCom& com)
-            : com_(com)
+        UARTCommand()
         {
 
         }
@@ -15,12 +14,11 @@ class UARTCommand
 
         void OnRun()
         {
-            OnRunImpl(com_);
+            OnRunImpl();
         }
 
     protected:
-        virtual void OnRunImpl(UARTCom& com) = 0;
+        virtual void OnRunImpl() = 0;
         
     private:
-        UARTCom& com_;
 };

@@ -1,6 +1,38 @@
 #include "UART/UART.hpp"
 
 
+UARTCom* UARTCom::instance_ = nullptr;
+
+
+void UARTCom::Initialize(std::string com, int baudrate)
+{
+    instance_ = new UARTCom(com, baudrate);
+}
+
+void UARTCom::StartConnectionSta()
+{
+    instance_->StartConnection();
+}
+
+void UARTCom::FinishConnectionSta()
+{
+    instance_->StopConnection();
+}
+
+void UARTCom::SubmitCommand(std::shared_ptr<UARTCommand> command)
+{
+    instance_->RunCommand(command);
+}
+
+void UARTCom::Release()
+{
+    if (instance_ != nullptr)
+    {
+        delete instance_;
+    }
+}
+
+
 static DWORD  GetBaudRate(int baudrate)
 {
     switch (baudrate)
@@ -18,7 +50,22 @@ UARTCom::UARTCom(std::string com, int baudrate)
     : com_(com), baudrate_(baudrate), state_(IdleState), workingState_(Working_Idle),
         isConnected_(false, false, false), status_(UART_NONE)
 {
-
+    selectableVector_ = std::make_shared<ntt::ImGuiSelectableVector<std::string>>(
+        std::vector<std::pair<std::string, std::string>>
+        {
+            { std::string("COM7"), std::string("COM7") },
+            { std::string("COM6"), std::string("COM6") },
+            { std::string("COM5"), std::string("COM5") },
+        },
+        [this]() -> std::string 
+        {
+            return com_;
+        },
+        [this](std::string value)
+        {
+            com_ = value; 
+        }
+    );
 }
 
 UARTCom::~UARTCom()
@@ -263,4 +310,11 @@ void UARTCom::StopConnection()
 void UARTCom::RunCommand(std::shared_ptr<UARTCommand> command)
 {
     commands_.push(command);
+}
+
+void UARTCom::OnImGuiRender()
+{
+    ImGui::Text("Select Com");
+    selectableVector_->OnImGuiRender();
+    ImGui::Separator();
 }

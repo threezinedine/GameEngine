@@ -16,5 +16,4 @@ class UartApplication: public ntt::Application
         void OnWindowCloseImpl(ntt::WindowCloseEvent& event) override;
 
     private:
-        UARTCom com_;
 };

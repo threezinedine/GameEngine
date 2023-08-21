@@ -2,9 +2,9 @@
 #include "UART/UART.hpp"
 
 
-UartImGuiApplication::UartImGuiApplication(UARTCom& com)
+UartImGuiApplication::UartImGuiApplication()
     : ntt::ImGuiApplication("Uart window"),
-        com_(com), status_(UART_NONE),
+        status_(UART_NONE),
         getDataPlan_(500), currentSpeed_(0.0f, 0, 10),
         isOn_(false, false, false)
 {
@@ -20,22 +20,6 @@ UartImGuiApplication::UartImGuiApplication(UARTCom& com)
     ki_ = std::make_shared<ntt::ThreadValue<float>>(storage_->GetValue<float>("ki", 1.0f), 0, 5);
     kd_ = std::make_shared<ntt::ThreadValue<float>>(storage_->GetValue<float>("kd", 1.0f), 0, 5);
 
-    selectableVector_ = std::make_shared<ntt::ImGuiSelectableVector<std::string>>(
-        std::vector<std::pair<std::string, std::string>>
-        {
-            { std::string("COM7"), std::string("COM7") },
-            { std::string("COM6"), std::string("COM6") },
-            { std::string("COM5"), std::string("COM5") },
-        },
-        [&com]() -> std::string 
-        {
-            return com.GetCom();
-        },
-        [&com](std::string value)
-        {
-            com.SetCom(value);
-        }
-    );
 }
 
 UartImGuiApplication::~UartImGuiApplication()
@@ -53,7 +37,7 @@ UartImGuiApplication::~UartImGuiApplication()
 
 void UartImGuiApplication::OnImGuiRenderImpl(ntt::Timestep ts)
 {
-    selectableVector_->OnImGuiRender();
+    UARTCom::OnImGuiRenderSta();
     ImGui::Separator();
 
     static bool getData = false;
@@ -63,12 +47,9 @@ void UartImGuiApplication::OnImGuiRenderImpl(ntt::Timestep ts)
     {
         if (getDataPlan_.IsTriggered())
         {
-            std::shared_ptr<UARTCommand> command = std::make_shared<UARTGetCoilCommand>(com_, 0x00, isOn_);
-            std::shared_ptr<UARTCommand> command1 
-                = std::make_shared<UARTGetFloatCommand>(com_, 0x00, 0x01, currentSpeed_);
-
-            com_.RunCommand(command);
-            com_.RunCommand(command1);
+            UARTCom::SubmitCommand(
+                std::make_shared<UARTGetFloatCommand>(0x00, 0x01, currentSpeed_)
+            );
         }
 
         isOn_.Bind();
@@ -84,27 +65,23 @@ void UartImGuiApplication::OnImGuiRenderImpl(ntt::Timestep ts)
 
     if (ImGui::Button("Connect"))
     {
-        com_.StartConnection();
+        UARTCom::StartConnectionSta();
     }
     ImGui::SameLine();
     if (ImGui::Button("Disconnect"))
     {
-        com_.StopConnection();
+        UARTCom::FinishConnectionSta();
     }
 
     ImGui::Separator();
     if(ImGui::Button("Start"))
     {
-        std::shared_ptr<UARTCommand> command 
-            = std::make_shared<UARTChangeCoilCommand>(com_, 0x00, true);
-        com_.RunCommand(command);
+        UARTCom::SubmitCommand(std::make_shared<UARTChangeCoilCommand>(0x00, true));
     }
 
     if(ImGui::Button("Stop"))
     {
-        std::shared_ptr<UARTCommand> command 
-            = std::make_shared<UARTChangeCoilCommand>(com_, 0x00, false);
-        com_.RunCommand(command);
+        UARTCom::SubmitCommand(std::make_shared<UARTChangeCoilCommand>(0x00, false));
     }
 
     ImGui::Separator();
@@ -113,12 +90,12 @@ void UartImGuiApplication::OnImGuiRenderImpl(ntt::Timestep ts)
                         speedRef_M1_->GetMinValue(), speedRef_M1_->GetMaxValue());
     if (ImGui::Button("Send Ref M1"))
     {
-        std::shared_ptr<UARTCommand> command 
-            = std::make_shared<UARTChangeFloatCommand>(com_, 0x02, 0x03, speedRef_M1_->GetValue());
-        std::shared_ptr<UARTCommand> command2
-            = std::make_shared<UARTChangeCoilCommand>(com_, 0x01, speedRef_M1_->GetValue());
-        com_.RunCommand(command);
-        com_.RunCommand(command2);
+        UARTCom::SubmitCommand(
+            std::make_shared<UARTChangeFloatCommand>(0x02, 0x03, speedRef_M1_->GetValue())
+        );
+        UARTCom::SubmitCommand(
+            std::make_shared<UARTChangeCoilCommand>(0x01, speedRef_M1_->GetValue())
+        );
     }
     ImGui::Separator();
 
@@ -127,12 +104,12 @@ void UartImGuiApplication::OnImGuiRenderImpl(ntt::Timestep ts)
                         speedRef_M2_->GetMinValue(), speedRef_M2_->GetMaxValue());
     if (ImGui::Button("Send Ref M2"))
     {
-        std::shared_ptr<UARTCommand> command 
-            = std::make_shared<UARTChangeFloatCommand>(com_, 0x06, 0x07, speedRef_M2_->GetValue());
-        std::shared_ptr<UARTCommand> command2
-            = std::make_shared<UARTChangeCoilCommand>(com_, 0x02, speedRef_M2_->GetValue());
-        com_.RunCommand(command);
-        com_.RunCommand(command2);
+        UARTCom::SubmitCommand(
+            std::make_shared<UARTChangeFloatCommand>(0x06, 0x07, speedRef_M2_->GetValue())
+        );
+        UARTCom::SubmitCommand(
+            std::make_shared<UARTChangeCoilCommand>(0x02, speedRef_M2_->GetValue())
+        );
     }
 
     ImGui::InputFloat("Kp", kp_->GetPointer(), 
@@ -140,26 +117,26 @@ void UartImGuiApplication::OnImGuiRenderImpl(ntt::Timestep ts)
     ImGui::SameLine();
     if (ImGui::Button("Change Kp"))
     {
-        std::shared_ptr<UARTCommand> commandKp 
-            = std::make_shared<UARTChangeFloatCommand>(com_, 0x08, 0x09, kp_->GetValue());
-        com_.RunCommand(commandKp);
+        UARTCom::SubmitCommand(
+            std::make_shared<UARTChangeFloatCommand>(0x08, 0x09, kp_->GetValue())
+        );
     }
     ImGui::InputFloat("Ki", ki_->GetPointer(), 
                         ki_->GetMinValue(), ki_->GetMaxValue());
     ImGui::SameLine();
     if (ImGui::Button("Change Ki"))
     {
-        std::shared_ptr<UARTCommand> commandKi 
-            = std::make_shared<UARTChangeFloatCommand>(com_, 0x0a, 0x0b, ki_->GetValue());
-        com_.RunCommand(commandKi);
+        UARTCom::SubmitCommand(
+            std::make_shared<UARTChangeFloatCommand>(0x0a, 0x0b, ki_->GetValue())
+        );
     }
     ImGui::InputFloat("Kd", kd_->GetPointer(), 
                         kd_->GetMinValue(), kd_->GetMaxValue());
     ImGui::SameLine();
     if (ImGui::Button("Change Kd"))
     {
-        std::shared_ptr<UARTCommand> commandKd 
-            = std::make_shared<UARTChangeFloatCommand>(com_, 0x0c, 0x0d, kd_->GetValue());
-        com_.RunCommand(commandKd);
+        UARTCom::SubmitCommand(
+            std::make_shared<UARTChangeFloatCommand>(0x0c, 0x0d, kd_->GetValue())
+        );
     }
 }
