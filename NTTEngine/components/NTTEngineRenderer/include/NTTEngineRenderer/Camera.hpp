@@ -11,7 +11,7 @@
 
 namespace ntt
 {
-    class Camera: public ICamera
+    class Camera
     {
         public:
             Camera();

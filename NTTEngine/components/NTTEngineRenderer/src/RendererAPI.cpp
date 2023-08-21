@@ -16,7 +16,7 @@ namespace ntt
 
     } 
 
-    void RendererAPI::Begin(std::shared_ptr<ICamera>& camera, Timestep ts)
+    void RendererAPI::Begin(std::shared_ptr<Camera>& camera, Timestep ts)
     {
         GetInstance()->SetCamera(camera);
         camera->OnUpdate(ts);

@@ -30,6 +30,8 @@ namespace ntt
             glfwTerminate();
             exit(-1);
         }
+        
+        glfwMaximizeWindow(window_);
 
         context_ = std::make_shared<GraphicsContext>(window_);
         context_->Init();

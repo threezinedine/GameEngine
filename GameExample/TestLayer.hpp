@@ -6,7 +6,7 @@
 class TestLayer: public ntt::Layer
 {
     public:
-        TestLayer(std::shared_ptr<ntt::ICamera> camera);
+        TestLayer(std::shared_ptr<ntt::Camera> camera);
         ~TestLayer();
 
         void OnUpdate(ntt::Timestep ts) override;
@@ -22,7 +22,7 @@ class TestLayer: public ntt::Layer
         std::shared_ptr<ntt::Shader> imageShader_;
         std::shared_ptr<ntt::Shader> triangleShader_;
 
-        std::shared_ptr<ntt::ICamera> camera_;
+        std::shared_ptr<ntt::Camera> camera_;
 
         std::unique_ptr<ntt::ThreadValue<bool>> visibleVao_;
         std::unique_ptr<ntt::ThreadValue<bool>> visibleTriangleVao_;

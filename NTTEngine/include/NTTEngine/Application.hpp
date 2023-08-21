@@ -46,7 +46,7 @@ namespace ntt
             DEFINE_EVENT_INTEFACE(KeyRelease);
 
             LayerStack layerStack_;
-            std::shared_ptr<ntt::ICamera> defaultCamera_;
+            std::shared_ptr<Camera> defaultCamera_;
 
         private:
             std::chrono::time_point<std::chrono::high_resolution_clock> start_;

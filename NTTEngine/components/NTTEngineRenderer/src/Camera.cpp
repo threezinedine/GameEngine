@@ -4,8 +4,7 @@
 #include "imgui.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include "NTTEngineLog/NTTEngineLog.hpp"
-#include "NTTEngine/Application.hpp"
-#include "NTTEngine/Camera.hpp"
+#include "NTTEngineRenderer/NTTEngineRenderer.hpp"
 #include "NTTEngineWindow/NTTEngineWindow.hpp"
 
 

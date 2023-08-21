@@ -5,7 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 
-TestLayer::TestLayer(std::shared_ptr<ntt::ICamera> camera)
+TestLayer::TestLayer(std::shared_ptr<ntt::Camera> camera)
     : Layer("Test Layer"), camera_(camera)
 {
     float vertices[] = 
@@ -65,22 +65,16 @@ TestLayer::TestLayer(std::shared_ptr<ntt::ICamera> camera)
             std::make_unique<ntt::ThreadValue<float>>(1, 0.5, 2, storage_, "imageScaled");
 
     squareColor_ = 
-        // std::make_unique<ntt::NTTVec3>(
-        //         storage_->GetValue<std::vector<float>>("squareColor", { 0, 0, 0}));
         std::make_unique<ntt::NTTVec3>(
             std::vector<float>{0, 0, 0}, storage_, "squareColor"
         );
 
     triangleTransform_ = 
-        // std::make_unique<ntt::NTTVec3>(
-        //     storage_->GetValue<std::vector<float>>("triangleTransform", { 0, 0, 0 }));
         std::make_unique<ntt::NTTVec3>(
             std::vector<float>{0, 0, 0}, storage_, "squareTransform"
         );
 
     imageTransform_ = 
-        // std::make_unique<ntt::NTTVec3>(
-        //     storage_->GetValue<std::vector<float>>("imageTransform", { 0, 0, 0 }));
         std::make_unique<ntt::NTTVec3>(
             std::vector<float>{0, 0, 0}, storage_, "imageTransform"
         );

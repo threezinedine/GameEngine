@@ -3,7 +3,7 @@
 #include "VertexArray.hpp"
 #include "NTTEngineCore/NTTEngineCore.hpp"
 #include "Shader.hpp"
-#include "ICamera.hpp"
+#include "Camera.hpp"
 
 
 namespace ntt
@@ -14,7 +14,7 @@ namespace ntt
             virtual ~RendererAPI();
 
             static void Init();
-            static void Begin(std::shared_ptr<ICamera>& camera, Timestep ts);
+            static void Begin(std::shared_ptr<Camera>& camera, Timestep ts);
             static void Submit(std::shared_ptr<VertexArray>& vertexArray, 
                                 std::shared_ptr<Shader>& shader, 
                                 glm::mat4 transform = glm::mat4(1.0f));
@@ -30,10 +30,10 @@ namespace ntt
         protected:
             RendererAPI();
 
-            inline void SetCamera(std::shared_ptr<ICamera>& camera) { camera_ = camera; }
+            inline void SetCamera(std::shared_ptr<Camera> camera) { camera_ = camera; }
 
         private:
-            std::shared_ptr<ICamera> camera_;
+            std::shared_ptr<Camera> camera_;
             static RendererAPI* instance_;
     };    
 } // namespace ntt

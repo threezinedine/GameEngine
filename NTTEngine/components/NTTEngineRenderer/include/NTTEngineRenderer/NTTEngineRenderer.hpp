@@ -9,5 +9,5 @@
 #include "LayoutBuffer.hpp"
 #include "RendererAPI.hpp"
 #include "RendererCommand.hpp"
-#include "ICamera.hpp"
+#include "Camera.hpp"
 #include "Texture.hpp"
