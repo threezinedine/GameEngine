@@ -15,6 +15,7 @@ namespace ntt
         NTT_ENGINE_DEBUG("Start Initialize the Application");
         Application::SetApplication(this);
         Window::Init(width, height, title);
+        Renderer2D::Init();
 
         ADD_EVENT_APPLICATION(WindowClose);
         ADD_EVENT_APPLICATION(WindowResize);
@@ -32,6 +33,7 @@ namespace ntt
     {
         NTT_ENGINE_DEBUG("Start Delete Application");
         RendererAPI::Release();
+        Renderer2D::Release();
         NTT_ENGINE_DEBUG("Finish Delete Application");
     }
 

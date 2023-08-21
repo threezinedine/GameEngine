@@ -11,3 +11,4 @@
 #include "RendererCommand.hpp"
 #include "Camera.hpp"
 #include "Texture.hpp"
+#include "Renderer2D.hpp"
