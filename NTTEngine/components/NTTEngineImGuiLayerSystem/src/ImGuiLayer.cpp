@@ -1,16 +1,7 @@
 #include <string>
 
 #include <imgui.h>
-#include <imgui_impl_glfw.h>
-#include <imgui_impl_opengl3.h>
-#include <GL/glew.h>
-#include <glfw/glfw3.h>
-
-#include "NTTEngineLayerSystem/NTTEngineLayerSystem.hpp"
 #include "NTTEngineImGuiLayerSystem/NTTEngineImGuiLayerSystem.hpp"
-#include "NTTEngineWindow/NTTEngineWindow.hpp"
-#include "NTTEngineLog/NTTEngineLog.hpp"
-
 
 namespace ntt
 {
@@ -24,8 +15,7 @@ namespace ntt
     ImGuiLayer::~ImGuiLayer()
     {
         NTT_ENGINE_DEBUG("Start Delete ImGuiLayer");
-        ImGui_ImplOpenGL3_Shutdown();
-        ImGui_ImplGlfw_Shutdown();
+        OnPlatformRelease();
         ImGui::DestroyContext();
 
         NTT_ENGINE_DEBUG("Finish Delete ImGuiLayer");
@@ -39,11 +29,7 @@ namespace ntt
 
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-        ImGui_ImplGlfw_InitForOpenGL(
-            static_cast<GLFWwindow*>(Window::GetInstance()->GetWindow()),
-            true
-        );
-        ImGui_ImplOpenGL3_Init("#version 130");
+        OnPlatformInitialize();
     }
 
     void ImGuiLayer::OnDetach()
@@ -53,8 +39,7 @@ namespace ntt
 
     void ImGuiLayer::OnUpdate(Timestep ts)
     {
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
+        OnPlatformUpdateBegin();
         ImGui::NewFrame();
 
         bool test = true;
@@ -82,9 +67,7 @@ namespace ntt
         }
 
         ImGui::Render();
-        glViewport(0, 0, Window::GetInstance()->GetWidth(), Window::GetInstance()->GetHeight());
-
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        OnPlatformUpdateEnd();
     }
 
     void ImGuiLayer::AddApplication(std::shared_ptr<IImGuiApplication> application)

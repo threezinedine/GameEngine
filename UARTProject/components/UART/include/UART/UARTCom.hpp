@@ -56,11 +56,13 @@ class UARTCom: public ntt::NTTThread
 
         ConnectionStatus ChangeCoil(unsigned char coilAddress, bool active);
         ConnectionStatus ChangeRegister(unsigned char registerAddress, Register value);
-        ConnectionStatus ChangeFloat(unsigned char firstRegisterAddress, unsigned char secondRegisterAddress, float value);
+        ConnectionStatus ChangeRegisters(unsigned char startAddr, unsigned char stopAddr, std::vector<Register> data);
+        ConnectionStatus ChangeFloat(unsigned char firstRegisterAddress, float value);
 
         ConnectionStatus GetCoil(unsigned char coilAdress, bool* active);
         ConnectionStatus GetRegister(unsigned char registerAddress, Register* value);
-        ConnectionStatus GetFloat(unsigned char firstRegisterAddress, unsigned char secondRegisterAddress, float* value);
+        ConnectionStatus GetRegisters(unsigned char startAddr, std::vector<Register*> values);
+        ConnectionStatus GetFloat(unsigned char firstRegisterAddress, float* value);
 
         void SetAddress(unsigned char address) { address_ = address; }
 
@@ -101,7 +103,7 @@ class UARTCom: public ntt::NTTThread
         HANDLE hCom_;
         DCB serialParam_ = { 0 };
         COMMTIMEOUTS timeOut_ = { 0 };
-        unsigned char address_ = 0x3f;
+        unsigned char address_ = 0x34;
         DWORD bytesRead;
         unsigned char buffer_[100];
 
@@ -112,6 +114,22 @@ class UARTCom: public ntt::NTTThread
         ConnectionStatus status_;
 
         std::queue<std::shared_ptr<UARTCommand>> commands_;
+
+        // Function definitions
+        std::shared_ptr<ntt::Storage> storage_; 
+
+        std::shared_ptr<ntt::ThreadValue<unsigned char>> startByte_;
+        std::shared_ptr<ntt::ThreadValue<unsigned char>> stopByte_;
+        std::shared_ptr<ntt::ThreadValue<unsigned char>> setOneCoilFuncCode_;
+        std::shared_ptr<ntt::ThreadValue<unsigned char>> setMulCoilsFuncCode_;
+        std::shared_ptr<ntt::ThreadValue<unsigned char>> setOneRegisterFuncCode_;
+        std::shared_ptr<ntt::ThreadValue<unsigned char>> setMulRegistersFuncCode_;
+
+        std::shared_ptr<ntt::ThreadValue<unsigned char>> readOneCoilFuncCode_;
+        std::shared_ptr<ntt::ThreadValue<unsigned char>> readMulCoilsFuncCode_;
+        std::shared_ptr<ntt::ThreadValue<unsigned char>> readOneRegisterFuncCode_;
+        std::shared_ptr<ntt::ThreadValue<unsigned char>> readMulRegistersFuncCode_;
+        // Function definitions
 
         void RunWorkingState();
 

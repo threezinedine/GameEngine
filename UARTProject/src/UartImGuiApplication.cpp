@@ -48,7 +48,7 @@ void UartImGuiApplication::OnImGuiRenderImpl(ntt::Timestep ts)
         if (getDataPlan_.IsTriggered())
         {
             UARTCom::SubmitCommand(
-                std::make_shared<UARTGetFloatCommand>(0x00, 0x01, currentSpeed_)
+                std::make_shared<UARTGetFloatCommand>(0x00, currentSpeed_)
             );
         }
 
@@ -88,13 +88,17 @@ void UartImGuiApplication::OnImGuiRenderImpl(ntt::Timestep ts)
     ImGui::Checkbox("Forward M1", forward_M1_->GetPointer());
     ImGui::SliderFloat("Speed Ref M1", speedRef_M1_->GetPointer(), 
                         speedRef_M1_->GetMinValue(), speedRef_M1_->GetMaxValue());
+    if (ImGui::Button("Send Direction M1"))
+    {
+        UARTCom::SubmitCommand(
+            std::make_shared<UARTChangeCoilCommand>(0x01, forward_M1_->GetValue())
+        );
+    }
+
     if (ImGui::Button("Send Ref M1"))
     {
         UARTCom::SubmitCommand(
-            std::make_shared<UARTChangeFloatCommand>(0x02, 0x03, speedRef_M1_->GetValue())
-        );
-        UARTCom::SubmitCommand(
-            std::make_shared<UARTChangeCoilCommand>(0x01, speedRef_M1_->GetValue())
+            std::make_shared<UARTChangeFloatCommand>(0x02, speedRef_M1_->GetValue())
         );
     }
     ImGui::Separator();
@@ -102,13 +106,18 @@ void UartImGuiApplication::OnImGuiRenderImpl(ntt::Timestep ts)
     ImGui::Checkbox("Forward M2", forward_M2_->GetPointer());
     ImGui::SliderFloat("Speed Ref M2", speedRef_M2_->GetPointer(), 
                         speedRef_M2_->GetMinValue(), speedRef_M2_->GetMaxValue());
+
+    if (ImGui::Button("Send Direction M2"))
+    {
+        UARTCom::SubmitCommand(
+            std::make_shared<UARTChangeCoilCommand>(0x02, forward_M2_->GetValue())
+        );
+    }
+
     if (ImGui::Button("Send Ref M2"))
     {
         UARTCom::SubmitCommand(
-            std::make_shared<UARTChangeFloatCommand>(0x06, 0x07, speedRef_M2_->GetValue())
-        );
-        UARTCom::SubmitCommand(
-            std::make_shared<UARTChangeCoilCommand>(0x02, speedRef_M2_->GetValue())
+            std::make_shared<UARTChangeFloatCommand>(0x06, speedRef_M2_->GetValue())
         );
     }
 
@@ -118,7 +127,7 @@ void UartImGuiApplication::OnImGuiRenderImpl(ntt::Timestep ts)
     if (ImGui::Button("Change Kp"))
     {
         UARTCom::SubmitCommand(
-            std::make_shared<UARTChangeFloatCommand>(0x08, 0x09, kp_->GetValue())
+            std::make_shared<UARTChangeFloatCommand>(0x08, kp_->GetValue())
         );
     }
     ImGui::InputFloat("Ki", ki_->GetPointer(), 
@@ -127,7 +136,7 @@ void UartImGuiApplication::OnImGuiRenderImpl(ntt::Timestep ts)
     if (ImGui::Button("Change Ki"))
     {
         UARTCom::SubmitCommand(
-            std::make_shared<UARTChangeFloatCommand>(0x0a, 0x0b, ki_->GetValue())
+            std::make_shared<UARTChangeFloatCommand>(0x0a, ki_->GetValue())
         );
     }
     ImGui::InputFloat("Kd", kd_->GetPointer(), 
@@ -136,7 +145,7 @@ void UartImGuiApplication::OnImGuiRenderImpl(ntt::Timestep ts)
     if (ImGui::Button("Change Kd"))
     {
         UARTCom::SubmitCommand(
-            std::make_shared<UARTChangeFloatCommand>(0x0c, 0x0d, kd_->GetValue())
+            std::make_shared<UARTChangeFloatCommand>(0x0c, kd_->GetValue())
         );
     }
 }

@@ -45,8 +45,8 @@ namespace ntt
         whiteImage.setTo(cv::Scalar(255.0, 255.0, 255.0));
         whiteTexture_->SetData(whiteImage);
         
-        shader_->SetUniform1i("m_Texture", 0);
         shader_->Bind();
+        shader_->SetUniform1i("m_Texture", 0);
     }
 
     void Renderer2D::Release()

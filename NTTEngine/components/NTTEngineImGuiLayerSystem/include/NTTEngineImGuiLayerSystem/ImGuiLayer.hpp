@@ -22,8 +22,14 @@ namespace ntt
             void OnUpdate(Timestep ts) override;
 
             void AddApplication(std::shared_ptr<IImGuiApplication> application);
-        
+
         protected:
             std::vector<std::shared_ptr<IImGuiApplication>> applications_;
+
+        private:
+            void OnPlatformInitialize();
+            void OnPlatformUpdateBegin();
+            void OnPlatformUpdateEnd();
+            void OnPlatformRelease();
     };    
 } // namespace ntt
