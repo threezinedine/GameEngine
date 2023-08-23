@@ -63,16 +63,6 @@ void UartImGuiApplication::OnImGuiRenderImpl(ntt::Timestep ts)
         ImGui::Separator();
     }
 
-    if (ImGui::Button("Connect"))
-    {
-        UARTCom::StartConnectionSta();
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("Disconnect"))
-    {
-        UARTCom::FinishConnectionSta();
-    }
-
     ImGui::Separator();
     if(ImGui::Button("Start"))
     {

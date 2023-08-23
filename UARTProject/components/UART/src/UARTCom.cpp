@@ -1,4 +1,5 @@
 #include "UART/UART.hpp"
+#include <sstream>
 
 
 UARTCom* UARTCom::instance_ = nullptr;
@@ -420,9 +421,40 @@ void UARTCom::RunCommand(std::shared_ptr<UARTCommand> command)
     commands_.push(command);
 }
 
+static std::string ToHexString(unsigned char value) {
+    std::ostringstream stream;
+    stream << "0x" << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(value);
+    return stream.str();
+}
+
+static unsigned char StringToHex(char* hexString)
+{
+    int intValue = std::stoi(hexString, nullptr, 16);
+    return (unsigned int)intValue;
+}
+
 void UARTCom::OnImGuiRender()
 {
     ImGui::Text("Select Com");
     selectableVector_->OnImGuiRender();
+    ImGui::Separator();
+    std::string addressString = std::string("Current Device Address: ") + ToHexString(address_);
+    ImGui::Text(addressString.c_str());
+    static char address[3];
+    ImGui::InputText("Device Address", address, 3, ImGuiInputTextFlags_CharsHexadecimal);
+    if (ImGui::Button("Setting"))
+    {
+        SetAddress(StringToHex(address));
+    }
+    ImGui::Separator();
+    if (ImGui::Button("Connect"))
+    {
+        StartConnection();
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Disconnect"))
+    {
+        StopConnection();
+    }
     ImGui::Separator();
 }
