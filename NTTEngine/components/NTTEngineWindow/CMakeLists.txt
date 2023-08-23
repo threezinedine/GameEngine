@@ -15,25 +15,25 @@ set(
 
 file(
     GLOB
-    WINDOWS_WINDOW_SRC_FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/Platforms/windows/src/*.cpp
+    OPENGL_WINDOW_SRC_FILES
+    ${CMAKE_CURRENT_SOURCE_DIR}/Platforms/OpenGL/src/*.cpp
 )
 
 set(
-    WINDOWS_WINDOW_INCLUDE_PATH
-    ${CMAKE_CURRENT_SOURCE_DIR}/Platforms/windows/include
+    OPENGL_WINDOW_INCLUDE_PATH
+    ${CMAKE_CURRENT_SOURCE_DIR}/Platforms/OpenGL/include
 )
 
-if (WINDOWS_OS)
+if (OPENGL_PLATFORM)
     set(
         INCLUDE_DIRS 
         ${WINDOW_INCLUDE_PATH}
-        ${WINDOWS_WINDOW_INCLUDE_PATH}
+        ${OPENGL_WINDOW_INCLUDE_PATH}
     )
     set(
         SRC_FILES
         ${WINDOW_SRC_FILES}
-        ${WINDOWS_WINDOW_SRC_FILES}
+        ${OPENGL_WINDOW_SRC_FILES}
     )
 endif()
 

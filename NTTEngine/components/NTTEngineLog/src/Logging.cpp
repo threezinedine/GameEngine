@@ -1,3 +1,4 @@
+#include <iostream>
 #include <string>
 
 #include <spdlog/spdlog.h>
@@ -15,7 +16,16 @@ namespace ntt
     {
         spdlog::set_pattern("[%l] [%c] [%n] %v");
         engineLogger_ = spdlog::stdout_color_mt("Engine");   
+    #ifdef NTT_DEBUG_LOG_LEVEL
+        std::cout << "Debug level" << std::endl;
+        engineLogger_->set_level(spdlog::level::debug);
+    #elif defined(NTT_TRACE_LOG_LEVEL)
+        std::cout << "Trace level" << std::endl;
         engineLogger_->set_level(spdlog::level::trace);
+    #else
+        std::cout << "Info level" << std::endl;
+        engineLogger_->set_level(spdlog::level::info);
+    #endif
         applicationLogger_ = spdlog::stdout_color_mt("Application");
         applicationLogger_->set_level(spdlog::level::trace);
     }
