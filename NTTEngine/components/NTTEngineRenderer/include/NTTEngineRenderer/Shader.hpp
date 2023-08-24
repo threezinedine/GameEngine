@@ -18,9 +18,12 @@ namespace ntt
             void UnBind() const;
 
             void SetUniform1i(const std::string& locationName, int value);
+            void SetUniform1f(const std::string& locationName, float value);
             void SetUniform4f(const std::string& locationName, float f0, float f1, float f2, float f3);
+            void SetUniform4f(const std::string& locationName, const glm::vec4& vec);
+            void SetUniform4f(const std::string& locationName, const glm::vec3& vec);
             void SetUniform3f(const std::string& locationName, float f0, float f1, float f2);
-            void SetUniform3f(const std::string& locationName, glm::vec3 vec);
+            void SetUniform3f(const std::string& locationName, const glm::vec3& vec);
             void SetUniformMat4f(const std::string& locationName, glm::mat4& matrix);
         private:
             const std::string& filePath_;

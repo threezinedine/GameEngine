@@ -50,11 +50,12 @@ layout(location = 0) out vec4 color;
 
 in vec2 v_TextCoord;
 uniform sampler2D m_Texture;
-uniform vec3 m_Color;
+uniform float m_TilingFactor;
+uniform vec4 m_Color;
 
 void main()
 {
-   color = texture(m_Texture, v_TextCoord) * vec4(m_Color.xyz, 1.0f);
+   color = texture(m_Texture, v_TextCoord * m_TilingFactor) * m_Color;
 };
 
 

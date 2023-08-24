@@ -94,6 +94,16 @@ namespace ntt
         }
     }
 
+    void Shader::SetUniform1f(const std::string& locationName, float value)
+    {
+        auto location = GetLocation(locationName);
+
+        if (location != -1)
+        {
+            GL_CALL(glUniform1f(location, value));
+        }
+    }
+
     void Shader::SetUniform4f(const std::string& locationName, float f0, float f1, float f2, float f3)
     {
         auto location = GetLocation(locationName);
@@ -103,6 +113,18 @@ namespace ntt
             GL_CALL(glUniform4f(location, f0, f1, f2, f3));
         }
     }
+
+
+    void Shader::SetUniform4f(const std::string& locationName, const glm::vec4& vec)
+    {
+        SetUniform4f(locationName, vec.x, vec.y, vec.z, vec.w);
+    }
+    
+    void Shader::SetUniform4f(const std::string& locationName, const glm::vec3& vec)
+    {
+        SetUniform4f(locationName, vec.x, vec.y, vec.z, 1.0f);
+    }
+    
 
     void Shader::SetUniform3f(const std::string& locationName, float f0, float f1, float f2)
     {
@@ -114,7 +136,7 @@ namespace ntt
         }
     }
 
-    void Shader::SetUniform3f(const std::string& locationName, glm::vec3 vec)
+    void Shader::SetUniform3f(const std::string& locationName, const glm::vec3& vec)
     {
         auto location = GetLocation(locationName);
 

@@ -126,7 +126,6 @@ namespace ntt
     {
         *zoomLevel_ += (float)event.GetYOffset() * 0.1;
         *zoomLevel_ = std::min(*zoomLevel_, 1.0f);
-        NTT_ENGINE_DEBUG("Zoom Level: {}", *zoomLevel_);
     }
 
     void Camera::OnWindowResize(WindowResizeEvent& event)

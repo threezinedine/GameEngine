@@ -1,4 +1,5 @@
-#include "NTTEngineUtils/NTTEngineUtils.hpp"
+#include "NTTEngineUtils/PreInclude.hpp"
+#include "NTTEngineUtils/NTTVec3.hpp"
 
 
 namespace ntt

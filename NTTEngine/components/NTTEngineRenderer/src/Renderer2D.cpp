@@ -27,8 +27,8 @@ namespace ntt
         float vertices[] = 
         {
             -0.5f, -0.5f, 0.0f, 0.0f,
-            0.5f, -0.5f, 1.0f, 0.0f,
-            0.5f,  0.5f, 1.0f, 1.0f,
+             0.5f, -0.5f, 1.0f, 0.0f,
+             0.5f,  0.5f, 1.0f, 1.0f,
             -0.5f,  0.5f, 0.0f, 1.0f,
         };
 
@@ -93,21 +93,44 @@ namespace ntt
         instance_->DrawQuadIn({ position.x, position.y, 0.0f }, size, color);
     }
 
-    void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const std::shared_ptr<Texture>& texture)
+    void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const std::shared_ptr<Texture>& texture, float tilingFactor, const glm::vec4& tintColor)
     {
         PROFILE_SCOPE();
-        instance_->DrawQuadIn({ position.x, position.y, 0.0f }, size, texture);
+        instance_->DrawQuadIn({ position.x, position.y, 0.0f }, size, texture, tilingFactor, tintColor);
     }
 
-    void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const std::shared_ptr<Texture>& texture)
+    void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const std::shared_ptr<Texture>& texture, float tilingFactor, const glm::vec4& tintColor)
     {
-        instance_->DrawQuadIn(position, size, texture);
+        instance_->DrawQuadIn(position, size, texture, tilingFactor, tintColor);
     }
+
+
+    void Renderer2D::DrawRotateQuad(const glm::vec2& position, const glm::vec2& size, float rotate, const glm::vec3& color)
+    {
+        instance_->DrawRotateQuadIn({ position.x, position.y, 0}, size, rotate, color);
+    }
+
+    void Renderer2D::DrawRotateQuad(const glm::vec3& position, const glm::vec2& size, float rotate, const glm::vec3& color)
+    {
+        instance_->DrawRotateQuadIn(position, size, rotate, color);
+    }
+
+    void Renderer2D::DrawRotateQuad(const glm::vec2& position, const glm::vec2& size, float rotate, const std::shared_ptr<Texture>& texture, float tilingFactor, const glm::vec4& tintColor)
+    {
+        instance_->DrawRotateQuadIn({ position.x, position.y, 0.0f }, size, rotate, texture, tilingFactor, tintColor);
+    }
+
+    void Renderer2D::DrawRotateQuad(const glm::vec3& position, const glm::vec2& size, float rotate, const std::shared_ptr<Texture>& texture, float tilingFactor, const glm::vec4& tintColor)
+    {
+        instance_->DrawRotateQuadIn(position, size, rotate, texture, tilingFactor, tintColor);
+    }
+
 
     void Renderer2D::DrawQuadIn(const glm::vec3& position, const glm::vec2& size, const glm::vec3& color)
     {
         whiteTexture_->Bind();
-        shader_->SetUniform3f("m_Color", color);
+        shader_->SetUniform1f("m_TilingFactor", 1.0f);
+        shader_->SetUniform4f("m_Color", color);
 
         glm::mat4 transform = glm::translate(glm::mat4(1.0), position)
                 * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
@@ -115,14 +138,42 @@ namespace ntt
         RendererAPI::Submit(vao_, shader_, transform);
     }
 
-    void Renderer2D::DrawQuadIn(const glm::vec3& position, const glm::vec2& size, const std::shared_ptr<Texture>& texture)
+    void Renderer2D::DrawQuadIn(const glm::vec3& position, const glm::vec2& size, const std::shared_ptr<Texture>& texture, float tilingFactor, const glm::vec4& tintColor)
     {
         texture->Bind();
-        shader_->SetUniform3f("m_Color", 1.0f, 1.0f, 1.0f);
+        shader_->SetUniform1f("m_TilingFactor", tilingFactor);
+        shader_->SetUniform4f("m_Color", tintColor);
 
         glm::mat4 transform = glm::translate(glm::mat4(1.0), position)
                 * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
 
         RendererAPI::Submit(vao_, shader_, transform);
     }
+
+    void Renderer2D::DrawRotateQuadIn(const glm::vec3& position, const glm::vec2& size, float rotate, const glm::vec3& color)
+    {
+        whiteTexture_->Bind();
+        shader_->SetUniform1f("m_TilingFactor", 1.0f);
+        shader_->SetUniform4f("m_Color", color);
+
+        glm::mat4 transform = glm::translate(glm::mat4(1.0), position)
+                * glm::rotate(glm::mat4(1.0f), glm::radians(rotate), { 0.0f, 0.0f, 1.0f })
+                * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
+
+        RendererAPI::Submit(vao_, shader_, transform); 
+    }
+
+    void Renderer2D::DrawRotateQuadIn(const glm::vec3& position, const glm::vec2& size, float rotate, const std::shared_ptr<Texture>& texture, float tilingFactor, const glm::vec4& tintColor)
+    {
+        shader_->SetUniform1f("m_TilingFactor", tilingFactor);
+        shader_->SetUniform4f("m_Color", tintColor);
+        texture->Bind();
+
+        glm::mat4 transform = glm::translate(glm::mat4(1.0), position)
+                * glm::rotate(glm::mat4(1.0f), glm::radians(rotate), { 0.0f, 0.0f, 1.0f })
+                * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
+
+        RendererAPI::Submit(vao_, shader_, transform);
+    }
+
 } // namespace ntt
