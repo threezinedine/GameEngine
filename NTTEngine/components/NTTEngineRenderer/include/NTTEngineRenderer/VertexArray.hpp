@@ -1,11 +1,11 @@
 #pragma once
 #include <memory>
-#include "VertexBuffer.hpp"
-#include "IndexBuffer.hpp"
-
 
 namespace ntt
 {
+    class VertexBuffer;
+    class IndexBuffer;
+
     class VertexArray
     {
         public:

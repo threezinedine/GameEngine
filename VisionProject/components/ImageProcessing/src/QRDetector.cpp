@@ -1,6 +1,6 @@
 #include <string>
-#include <opencv2/opencv.hpp>
-#include "ImageProcessing/ImageProcessing.hpp"
+#include "ImageProcessing/PreInclude.hpp"
+#include "ImageProcessing/QRDetector.hpp"
 
 
 QRDetect::QRDetect()

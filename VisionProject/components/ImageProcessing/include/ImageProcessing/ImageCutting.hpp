@@ -1,9 +1,7 @@
 #pragma once
 
 #include "ImageProcessingStep.hpp"
-#include <opencv2/opencv.hpp>
 
-class ImageProcessingContainer;
 
 class ImageCutting: public ImageProcessingStep
 {

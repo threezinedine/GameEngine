@@ -1,4 +1,5 @@
-#include "ImageProcessing/ImageProcessing.hpp"
+#include "ImageProcessing/PreInclude.hpp"
+#include "ImageProcessing/ExtractByColor.hpp"
 
 
 static cv::Vec3b FloatPtrToVec3b(const float* colorComponents) {

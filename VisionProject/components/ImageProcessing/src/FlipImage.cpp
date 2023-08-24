@@ -1,4 +1,5 @@
-#include "ImageProcessing/ImageProcessing.hpp"
+#include "ImageProcessing/PreInclude.hpp"
+#include "ImageProcessing/FlipImage.hpp"
 
 
 FlipImage::FlipImage()

@@ -1,8 +1,6 @@
 #pragma once
 #include <memory>
 #include "ImageProcessingStep.hpp"
-#include "Storage.hpp"
-#include <mutex>
 
 
 class QRDetect: public ImageProcessingStep

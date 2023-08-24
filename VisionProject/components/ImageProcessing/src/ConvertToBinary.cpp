@@ -1,5 +1,5 @@
-#include <memory>
-#include "ImageProcessing/ImageProcessing.hpp"
+#include "ImageProcessing/PreInclude.hpp"
+#include "ImageProcessing/ConvertToBinary.hpp"
 
 
 ConvertToBinary::ConvertToBinary()

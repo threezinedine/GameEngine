@@ -61,6 +61,7 @@ target_link_libraries(
     NTTEngineLog
     NTTEngineLayerSystem
     NTTEngineThreadSystem
+    NTTEngineProfiling
     libglew_static
     glfw
     NTTEngineWindow

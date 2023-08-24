@@ -2,10 +2,17 @@
 #include <mutex>
 #include <string>
 #include <opencv2/opencv.hpp>
-#include "NTTEngineThreadSystem/NTTEngineThreadSystem.hpp"
-#include "NTTEngineImGuiTools/NTTEngineImGuiTools.hpp"
-#include "NTTEngineImGuiLayerSystem/NTTEngineImGuiLayerSystem.hpp"
-#include "Storage.hpp"
+#include "NTTEngineThreadSystem/ThreadValue.hpp"
+#include "NTTEngineThreadSystem/ThreadArray.hpp"
+#include "NTTEngineImGuiLayerSystem/ImGuiComponent.hpp"
+#include "NTTEngineImGuiTools/ImGuiImage.hpp"
+
+namespace ntt
+{
+    class Storage; 
+    class Timestep;
+} // namespace ntt
+
 
 class ImageProcessingContainer;
 

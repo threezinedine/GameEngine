@@ -8,12 +8,12 @@ class GameExampleApplication: public ntt::Application
         GameExampleApplication()
             : Application(900, 1200, "Example")
         {
-
+            PROFILE_SCOPE();
         } 
 
         ~GameExampleApplication()
         {
-            NTT_APPLICATION_DEBUG("Delete Example Application");
+            PROFILE_SCOPE();
         }
 
         void OnSetupImpl() override;

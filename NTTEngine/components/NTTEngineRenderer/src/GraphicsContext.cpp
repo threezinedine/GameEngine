@@ -1,11 +1,11 @@
-#include "NTTEngineLog/NTTEngineLog.hpp"
-#include "NTTEngineRenderer/NTTEngineRenderer.hpp"
+#include "NTTEngineRenderer/PreInclude.hpp"
+#include "NTTEngineRenderer/GraphicsContext.hpp"
 
 
 namespace ntt
 {
     GraphicsContext::~GraphicsContext()
     {
-        NTT_ENGINE_DEBUG("Delete GraphicsContext");
+        PROFILE_SCOPE();
     }
 } // namespace ntt

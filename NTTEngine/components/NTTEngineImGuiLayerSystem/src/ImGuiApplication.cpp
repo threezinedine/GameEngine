@@ -1,7 +1,6 @@
 #include <string>
-#include <imgui.h>
 
-#include "NTTEngineLog/NTTEngineLog.hpp"
+#include "NTTEngineImGuiLayerSystem/PreInclude.hpp"
 #include "NTTEngineImGuiLayerSystem/NTTEngineImGuiLayerSystem.hpp"
 
 
@@ -10,6 +9,8 @@ namespace ntt
     ImGuiApplication::ImGuiApplication(std::string windowName)
         : windowName_(windowName)
     {
+        PROFILE_SCOPE();
+
         storage_ = std::make_shared<ntt::Storage>(
             std::make_shared<ntt::RealFileSystem>("./" + GetName() + "-application.json")
         );
@@ -19,13 +20,16 @@ namespace ntt
 
     ImGuiApplication::~ImGuiApplication()
     {
+        PROFILE_SCOPE();
+
         isActive_->Save();
         storage_->Save();
-        NTT_ENGINE_DEBUG("Delete Imgui application");
     }
 
     void ImGuiApplication::OnImGuiRender(Timestep ts)
     {
+        PROFILE_SCOPE();
+
         ImGui::Begin(windowName_.c_str());
         OnImGuiRenderImpl(ts);
         for (auto component: components_)

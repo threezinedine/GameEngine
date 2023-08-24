@@ -1,4 +1,5 @@
-#include "NTTEngineRenderer/NTTEngineRenderer.hpp"
+#include "NTTEngineRenderer/PreInclude.hpp"
+#include "NTTEngineRenderer/IndexBuffer.hpp"
 
 
 namespace ntt

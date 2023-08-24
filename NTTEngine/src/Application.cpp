@@ -3,6 +3,7 @@
 #include "NTTEngineLog/NTTEngineLog.hpp"
 #include "NTTEngine/Application.hpp"
 #include "NTTEngineWindow/NTTEngineWindow.hpp"
+#include "NTTEngineProfiling/NTTEngineProfiling.hpp"
 #include <NTTEngine/Macros.hpp>
 
 
@@ -12,7 +13,8 @@ namespace ntt
 
     Application::Application(int width, int height, std::string title)
     {
-        NTT_ENGINE_DEBUG("Start Initialize the Application");
+        PROFILE_SCOPE();
+
         Application::SetApplication(this);
         Window::Init(width, height, title);
         Renderer2D::Init();
@@ -26,21 +28,24 @@ namespace ntt
 
         ADD_EVENT_APPLICATION(KeyPress);
         ADD_EVENT_APPLICATION(KeyRelease);
-        NTT_ENGINE_DEBUG("Finish Initialize the Application");
     } 
 
     Application::~Application()
     {
-        NTT_ENGINE_DEBUG("Start Delete Application");
+        PROFILE_SCOPE();
+
         RendererAPI::Release();
         Renderer2D::Release();
-        NTT_ENGINE_DEBUG("Finish Delete Application");
     }
 
     void Application::OnRun()
     {
+        PROFILE_SCOPE();
+
         while(!Window::GetInstance()->IsClosed())
         {
+            PROFILE_NAME("Run Loop");
+
             auto current = std::chrono::high_resolution_clock::now();
             std::chrono::duration<float> duration = current - start_;
             Timestep ts(duration.count());
@@ -52,6 +57,8 @@ namespace ntt
 
     void Application::OnUpdate(Timestep ts)
     {
+        PROFILE_SCOPE();
+
         Window::GetInstance()->OnStartUpdate();
         Window::GetInstance()->OnUpdate();
         layerStack_.OnUpdate(ts);
@@ -66,6 +73,8 @@ namespace ntt
 
     void Application::OnSetup()
     {
+        PROFILE_SCOPE();
+
         start_ = std::chrono::high_resolution_clock::now();
         defaultCamera_ = std::make_shared<Camera>();
         OnSetupImpl();

@@ -1,5 +1,7 @@
-#include "NTTEngineRenderer/NTTEngineRenderer.hpp"
 #include <fstream>
+
+#include "NTTEngineRenderer/PreInclude.hpp"
+#include "NTTEngineRenderer/Shader.hpp"
 
 
 namespace ntt

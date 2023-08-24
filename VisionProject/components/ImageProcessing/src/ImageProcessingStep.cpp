@@ -1,4 +1,5 @@
-#include "ImageProcessing/ImageProcessing.hpp"
+#include "ImageProcessing/PreInclude.hpp"
+#include "ImageProcessing/ImageProcessingStep.hpp"
 
 
 ImageProcessingStep::ImageProcessingStep(const std::string& stepName)

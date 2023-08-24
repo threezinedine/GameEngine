@@ -2,10 +2,8 @@
 #include <string>
 #include <memory>
 #include <opencv2/opencv.hpp>
-#include "Storage.hpp"
 #include "ImageProcessingStep.hpp"
 
-class ImageProcessingContainer;
 
 class FlipImage: public ImageProcessingStep
 {

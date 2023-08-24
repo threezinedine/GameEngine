@@ -1,14 +1,16 @@
 #pragma once
-#include "glm/glm.hpp"
-#include "Camera.hpp"
-#include "VertexArray.hpp"
-#include "Shader.hpp"
-#include "RendererCommand.hpp"
-#include "Texture.hpp"
+#include <glm/glm.hpp>
+#include <memory>
 
 
 namespace ntt
 {
+    class Camera;
+    class VertexArray;
+    class RendererCommand;
+    class Texture;
+    class Shader;
+
     class Renderer2D
     {
         public:

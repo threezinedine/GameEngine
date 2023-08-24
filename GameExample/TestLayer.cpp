@@ -8,6 +8,7 @@
 TestLayer::TestLayer(std::shared_ptr<ntt::Camera> camera)
     : Layer("Test Layer"), camera_(camera)
 {
+    PROFILE_SCOPE();
     float vertices[] = 
     {
         -0.5f, -0.5f, 0.0f, 0.0f,
@@ -93,7 +94,7 @@ TestLayer::TestLayer(std::shared_ptr<ntt::Camera> camera)
 
 TestLayer::~TestLayer()
 {
-    NTT_APPLICATION_DEBUG("Start Delete Test Layer");
+    PROFILE_SCOPE();
     scaled_->Save();
     imageScaled_->Save();
     squareDistance_->Save();
@@ -105,11 +106,11 @@ TestLayer::~TestLayer()
     imageTransform_->Save();
 
     storage_->Save();
-    NTT_APPLICATION_DEBUG("Finish Delete Test Layer");
 }
 
 void TestLayer::OnUpdate(ntt::Timestep ts)
 {
+    PROFILE_SCOPE();
     ntt::RendererAPI::Begin(camera_, ts);
     if (visibleVao_->GetValue())
     {
@@ -142,6 +143,8 @@ void TestLayer::OnUpdate(ntt::Timestep ts)
 
 void TestLayer::OnImGuiRenderImpl(ntt::Timestep ts)
 {
+    PROFILE_SCOPE();
+
     ImGui::Checkbox("Square Vao", visibleVao_->GetPointer());
     ImGui::Checkbox("Triangle Vao", visibleTriangleVao_->GetPointer());
 

@@ -1,18 +1,20 @@
 #include <algorithm>
-#include <GL/glew.h>
-#include <glfw/glfw3.h>
 #include "imgui.h"
 #include <glm/gtc/matrix_transform.hpp>
-#include "NTTEngineLog/NTTEngineLog.hpp"
-#include "NTTEngineRenderer/NTTEngineRenderer.hpp"
+
+#include "NTTEngineRenderer/PreInclude.hpp"
+#include "Storage.hpp"
 #include "NTTEngineWindow/NTTEngineWindow.hpp"
+#include "NTTEngineUtils/NTTEngineUtils.hpp"
+#include "NTTEngineRenderer/Camera.hpp"
 
 
 namespace ntt
 {
     Camera::Camera()
     {
-        NTT_APPLICATION_DEBUG("Start Initialize Camera");
+        PROFILE_SCOPE();
+
         std::shared_ptr<ntt::IFileSystem> file 
                 = std::make_shared<ntt::RealFileSystem>("./default-camera.json");
 
@@ -32,12 +34,12 @@ namespace ntt
         moveSpeed_ = new float(storage_->GetValue<float>("moveSpeed", 1));
         rotateSpeed_ = new float(storage_->GetValue<float>("rotateSpeed", 1));
         zoomLevel_ = new float(storage_->GetValue<float>("zoomLevel", 1));
-        NTT_APPLICATION_DEBUG("Finish Initialize Camera");
     } 
 
     Camera::~Camera()
     {
-        NTT_APPLICATION_DEBUG("Start Delete Camera");
+        PROFILE_SCOPE();
+
         cameraPos_->Save();
         cameraFront_->Save();
         cameraUp_->Save();
@@ -54,7 +56,6 @@ namespace ntt
         delete moveSpeed_;
         delete rotateSpeed_;
         delete zoomLevel_;
-        NTT_APPLICATION_DEBUG("Finish Delete Camera");
     }
 
     glm::mat4 Camera::GetViewProjectMatrix()
@@ -80,6 +81,8 @@ namespace ntt
 
     void Camera::OnUpdate(Timestep ts)
     {
+        PROFILE_SCOPE();
+
         if (Window::IsKeyPressed(NTT_KEY_A))
         {
             cameraPos_->GetGlmVec3().x += *moveSpeed_ * (float)ts * *zoomLevel_;
@@ -108,6 +111,8 @@ namespace ntt
 
     void Camera::OnImGuiRender(Timestep ts)
     {
+        PROFILE_SCOPE();
+
         ImGui::InputFloat3("Camera Position", cameraPos_->GetFirstPointer());
 
         ImGui::SliderFloat3("Camera Rotation", rotation_->GetFirstPointer(), -180, 180);

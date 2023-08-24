@@ -1,10 +1,11 @@
 #pragma once
 #include <vector>
-#include "LayoutBuffer.hpp"
 
 
 namespace ntt
 {
+    class LayoutBuffer;
+
     class VertexBuffer
     {
         public:

@@ -1,12 +1,13 @@
 #pragma once
 #include <memory>
-#include "Shader.hpp"
-#include "VertexArray.hpp"
 
 
 
 namespace ntt
 {
+    class VertexArray;
+    class Shader;
+
     class RendererCommand
     {
         public: 

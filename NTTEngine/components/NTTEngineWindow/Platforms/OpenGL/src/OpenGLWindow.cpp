@@ -1,15 +1,9 @@
 #include <iostream>
 
-#include <GL/glew.h>
-#include <glfw/glfw3.h>
-#include <imgui.h>
-#include <imgui_impl_opengl3.h>
-#include <imgui_impl_glfw.h>
+#include "OpenGLPreInclude.hpp"
 
-#include "NTTEngineWindow/NTTEngineWindow.hpp"
-#include "NTTEngineLog/NTTEngineLog.hpp"
-#include "NTTEngineEventSystem/NTTEngineEventSystem.hpp"
-#include "NTTEngineRenderer/NTTEngineRenderer.hpp"
+#include "NTTEngineWindow/PreInclude.hpp"
+#include "NTTEngineWindow/Window.hpp"
 
 
 namespace ntt
@@ -17,6 +11,8 @@ namespace ntt
     Window::Window(unsigned int height, unsigned int width, const std::string& title)
         : height_(height), width_(width)
     {
+        PROFILE_SCOPE();
+
         if (!glfwInit()) 
         {
             NTT_ENGINE_ERROR("Failed to initialize the gflw");
@@ -93,11 +89,15 @@ namespace ntt
 
     Window::~Window()
     {
+        PROFILE_SCOPE();
+
         glfwTerminate();
     }
 
     void Window::OnStartUpdate()
     {
+        PROFILE_SCOPE();
+
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glfwPollEvents();
@@ -105,6 +105,8 @@ namespace ntt
 
     void Window::OnEndUpdate()
     {
+        PROFILE_SCOPE();
+
         glViewport(0, 0, width_, height_);
         context_->SwapBuffer();
     }

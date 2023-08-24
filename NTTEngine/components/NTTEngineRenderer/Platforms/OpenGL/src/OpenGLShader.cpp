@@ -1,20 +1,16 @@
-#include <GL/glew.h>
-#include <glfw/glfw3.h>
 #include <iostream>
 #include <fstream>
 
-#include "GL_ASSERTION.hpp"
-#include "NTTEngineCore/NTTEngineCore.hpp"
-#include "NTTEngineLog/NTTEngineLog.hpp"
-#include "NTTEngineRenderer/NTTEngineRenderer.hpp"
+#include "OpenGLPreInclude.hpp"
+#include "NTTEngineRenderer/PreInclude.hpp"
+#include "NTTEngineRenderer/Shader.hpp"
 
 namespace ntt
 {
     Shader::~Shader()
     {
-        NTT_ENGINE_DEBUG("Start Delete Shader");
+        PROFILE_SCOPE();
         glDeleteProgram(rendererId_);
-        NTT_ENGINE_DEBUG("Finish Delete Shader");
     }
 
     void Shader::Bind() const 

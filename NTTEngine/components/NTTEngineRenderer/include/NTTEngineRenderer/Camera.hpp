@@ -2,15 +2,15 @@
 #include <memory>
 #include <glm/glm.hpp>
 
-#include "NTTEngineCore/NTTEngineCore.hpp"
-#include "NTTEngineUtils/NTTEngineUtils.hpp"
-#include "NTTEngineEventSystem/NTTEngineEventSystem.hpp"
-#include "NTTEngineRenderer/NTTEngineRenderer.hpp"
-#include "Storage.hpp"
-
 
 namespace ntt
 {
+    class Timestep;
+    class MouseScrollEvent;
+    class WindowResizeEvent;
+    class Storage;
+    class NTTVec3;
+
     class Camera
     {
         public:
@@ -30,7 +30,7 @@ namespace ntt
             void OnWindowResize(WindowResizeEvent& event);
 
         private:
-            std::shared_ptr<ntt::Storage> storage_;
+            std::shared_ptr<Storage> storage_;
 
             std::shared_ptr<NTTVec3> rotation_;
             std::shared_ptr<NTTVec3> cameraPos_;

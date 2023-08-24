@@ -1,4 +1,6 @@
-#include "ImageProcessing/ImageProcessing.hpp"
+#include "ImageProcessing/PreInclude.hpp"
+#include "ImageProcessing/ImageProcessingStep.hpp"
+#include "ImageProcessing/ImageProcessingContainer.hpp"
 
 
 ImageProcessingContainer::ImageProcessingContainer()

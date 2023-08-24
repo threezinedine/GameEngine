@@ -1,16 +1,19 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <memory>
+#include <functional>
 
 #include <GL/glew.h>
 #include <glfw/glfw3.h>
 
 #include "NTTEngineEventSystem/NTTEngineEventSystem.hpp"
-#include "NTTEngineRenderer/NTTEngineRenderer.hpp"
 
 
 namespace ntt
 {
+    class GraphicsContext;
+
     class Window
     {
         public:

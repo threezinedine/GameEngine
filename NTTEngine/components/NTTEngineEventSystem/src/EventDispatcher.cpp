@@ -64,7 +64,7 @@ namespace ntt
         }
         else 
         {
-            NTT_ENGINE_WARN("Dispatch non-existed event.");
+            NTT_ENGINE_WARN("Dispatch non-existed event. {}", event.GetEventType());
         }
     }
 } // namespace ntt

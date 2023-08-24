@@ -1,13 +1,15 @@
 #pragma once
 #include <memory>
-#include "VertexArray.hpp"
-#include "NTTEngineCore/NTTEngineCore.hpp"
-#include "Shader.hpp"
-#include "Camera.hpp"
+#include <glm/glm.hpp>
 
 
 namespace ntt
 {
+    class Camera;
+    class Shader;
+    class VertexArray;
+    class Timestep;
+
     class RendererAPI
     {
         public:

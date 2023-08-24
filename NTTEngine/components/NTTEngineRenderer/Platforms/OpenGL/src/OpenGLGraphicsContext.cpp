@@ -1,9 +1,6 @@
-#include <GL/glew.h>
-#include <glfw/glfw3.h>
-
-// #include <NTTEngine/Core.hpp>
-#include "NTTEngineLog/NTTEngineLog.hpp"
-#include "NTTEngineRenderer/NTTEngineRenderer.hpp"
+#include "OpenGLPreInclude.hpp"
+#include "NTTEngineRenderer/PreInclude.hpp"
+#include "NTTEngineRenderer/GraphicsContext.hpp"
 
 
 namespace ntt
@@ -11,11 +8,12 @@ namespace ntt
     GraphicsContext::GraphicsContext(GLFWwindow* window)
         : window_(window)
     {
-
+        PROFILE_SCOPE();
     } 
 
     void GraphicsContext::Init()
     {
+        PROFILE_SCOPE();
         glfwMakeContextCurrent(window_);
 
         if (glewInit() != GLEW_OK)

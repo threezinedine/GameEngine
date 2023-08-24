@@ -1,6 +1,5 @@
 #pragma once
 #include "ImageProcessingStep.hpp"
-#include <opencv2/opencv.hpp>
 
 
 class ImageResize: public ImageProcessingStep

@@ -2,8 +2,6 @@
 #include "ImageProcessingStep.hpp"
 
 
-class ImageProcessingProcess;
-
 class ConvertImageToRGB: public ImageProcessingStep
 {
     public:

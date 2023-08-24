@@ -1,18 +1,19 @@
-#include <imgui.h>
-#include "NTTEngineImGuiLayerSystem/NTTEngineImGuiLayerSystem.hpp"
+#include "NTTEngineImGuiLayerSystem/PreInclude.hpp"
+#include "NTTEngineImGuiLayerSystem/WindowDemoApplication.hpp"
 
-#include "NTTEngineLog/NTTEngineLog.hpp"
 
 
 namespace ntt
 {
     WindowDemoApplication::~WindowDemoApplication()
     {
-        NTT_ENGINE_DEBUG("Delete Window Demo Application");
+
     }
 
     void WindowDemoApplication::OnImGuiRender(Timestep ts)
     {
+        PROFILE_SCOPE();
+
         ImGui::ShowDemoWindow(&showWindow_);
     }
 } // namespace ntt

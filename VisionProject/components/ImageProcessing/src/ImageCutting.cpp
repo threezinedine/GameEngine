@@ -1,4 +1,5 @@
-#include "ImageProcessing/ImageProcessing.hpp"
+#include "ImageProcessing/PreInclude.hpp"
+#include "ImageProcessing/ImageCutting.hpp"
 
 
 ImageCutting::ImageCutting(int imageWidth, int imageHeight)

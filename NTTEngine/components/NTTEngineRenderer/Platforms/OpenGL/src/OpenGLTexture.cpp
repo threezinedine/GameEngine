@@ -1,7 +1,7 @@
 #include <opencv2/opencv.hpp>
-#include "NTTEngineLog/NTTEngineLog.hpp"
-#include "GL_ASSERTION.hpp"
-#include "NTTEngineRenderer/NTTEngineRenderer.hpp"
+#include "OpenGLPreInclude.hpp"
+#include "NTTEngineRenderer/PreInclude.hpp"
+#include "NTTEngineRenderer/Texture.hpp"
 
 namespace ntt
 {
@@ -58,9 +58,8 @@ namespace ntt
 
     Texture2D::~Texture2D()
     {
-        NTT_ENGINE_DEBUG("Start Delete Texture");
+        PROFILE_SCOPE();
         GL_CALL(glDeleteTextures(1, &id_));
-        NTT_ENGINE_DEBUG("Finish Delete Texture");
     }
 
     void Texture2D::Bind(uint32_t slot)

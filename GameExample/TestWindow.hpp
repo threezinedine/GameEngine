@@ -6,15 +6,20 @@ class TestWindow: public ntt::ImGuiApplication
 {
     public:
         TestWindow(std::string windowName)
-            : ImGuiApplication(windowName) {}
+            : ImGuiApplication(windowName) 
+        {
+            PROFILE_SCOPE();
+        }
 
         ~TestWindow()
         {
-            NTT_APPLICATION_DEBUG("Delete Test Window");
+            PROFILE_SCOPE();
         }
 
         void OnImGuiRenderImpl(ntt::Timestep ts) override 
         {
+            PROFILE_SCOPE();
+
             static bool testVisible = true;
             if (ImGui::BeginMenuBar())
             {

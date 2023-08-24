@@ -1,6 +1,14 @@
 #include <glm/gtc/matrix_transform.hpp>
-#include "NTTEngineRenderer/NTTEngineRenderer.hpp"
 #include <opencv2/opencv.hpp>
+#include "NTTEngineRenderer/PreInclude.hpp"
+#include "NTTEngineRenderer/Renderer2D.hpp"
+#include "NTTEngineRenderer/VertexBuffer.hpp"
+#include "NTTEngineRenderer/VertexArray.hpp"
+#include "NTTEngineRenderer/LayoutBuffer.hpp"
+#include "NTTEngineRenderer/IndexBuffer.hpp"
+#include "NTTEngineRenderer/RendererAPI.hpp"
+#include "NTTEngineRenderer/Texture.hpp"
+#include "NTTEngineRenderer/Shader.hpp"
 
 
 namespace ntt
@@ -9,6 +17,8 @@ namespace ntt
 
     void Renderer2D::Init()
     {
+        PROFILE_SCOPE();
+
         instance_->InitIn();
     }
 
@@ -51,6 +61,8 @@ namespace ntt
 
     void Renderer2D::Release()
     {
+        PROFILE_SCOPE();
+
         if (instance_ != nullptr)
         {
             delete instance_;
@@ -59,26 +71,31 @@ namespace ntt
 
     void Renderer2D::BeginScence(std::shared_ptr<Camera> camera, Timestep ts)
     {
+        PROFILE_SCOPE();
+
         RendererAPI::Begin(camera, ts);
     }
 
     void Renderer2D::End()
     {
-
+        PROFILE_SCOPE();
     }
 
     void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec3& color)
     {
+        PROFILE_SCOPE();
         instance_->DrawQuadIn(position, size, color);
     }
 
     void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec3& color)
     {
+        PROFILE_SCOPE();
         instance_->DrawQuadIn({ position.x, position.y, 0.0f }, size, color);
     }
 
     void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const std::shared_ptr<Texture>& texture)
     {
+        PROFILE_SCOPE();
         instance_->DrawQuadIn({ position.x, position.y, 0.0f }, size, texture);
     }
 

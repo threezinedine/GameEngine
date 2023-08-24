@@ -5,6 +5,8 @@
 Renderer2DLayer::Renderer2DLayer(std::shared_ptr<ntt::Camera>& camera)
     : Layer("2DRendererLayer"), camera_(camera)
 {
+    PROFILE_SCOPE();
+
     storage_ = std::make_shared<ntt::Storage>(
         std::make_shared<ntt::RealFileSystem>("./" + GetName() + "-layer.json"));
 
@@ -20,12 +22,16 @@ Renderer2DLayer::Renderer2DLayer(std::shared_ptr<ntt::Camera>& camera)
 
 Renderer2DLayer::~Renderer2DLayer()
 {
+    PROFILE_SCOPE();
+
     squareColor_->Save(); 
     storage_->Save();
 }
 
 void Renderer2DLayer::OnUpdate(ntt::Timestep ts)
 {
+    PROFILE_SCOPE();
+
     ntt::Renderer2D::BeginScence(camera_, ts);
 
     ntt::Renderer2D::DrawQuad({ 0, 0 }, { 0.5, 0.5 }, squareColor_->GetGlmVec3());
@@ -38,6 +44,8 @@ void Renderer2DLayer::OnUpdate(ntt::Timestep ts)
 
 void Renderer2DLayer::OnImGuiRenderImpl(ntt::Timestep ts)
 {
+    PROFILE_SCOPE();
+
     ImGui::ColorPicker3("Squared Color", squareColor_->GetFirstPointer());
     camera_->OnImGuiRender(ts);
 }

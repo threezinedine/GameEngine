@@ -1,6 +1,6 @@
 #include <string>
 
-#include <imgui.h>
+#include "NTTEngineImGuiLayerSystem/PreInclude.hpp"
 #include "NTTEngineImGuiLayerSystem/NTTEngineImGuiLayerSystem.hpp"
 
 namespace ntt
@@ -8,21 +8,21 @@ namespace ntt
     ImGuiLayer::ImGuiLayer(std::string layerName)
         : Layer(layerName)
     {
-        NTT_ENGINE_DEBUG("Start Initializing ImGuiLayer");
-        NTT_ENGINE_DEBUG("Finish Initializing ImGuiLayer");
+        PROFILE_SCOPE();
     }
 
     ImGuiLayer::~ImGuiLayer()
     {
-        NTT_ENGINE_DEBUG("Start Delete ImGuiLayer");
+        PROFILE_SCOPE();
+
         OnPlatformRelease();
         ImGui::DestroyContext();
-
-        NTT_ENGINE_DEBUG("Finish Delete ImGuiLayer");
     }
 
     void ImGuiLayer::OnAttach()
     {
+        PROFILE_SCOPE();
+
         ImGui::CreateContext();
         ImGui::StyleColorsDark();
         ImGuiIO& io = ImGui::GetIO();
@@ -34,11 +34,13 @@ namespace ntt
 
     void ImGuiLayer::OnDetach()
     {
-
+        PROFILE_SCOPE();
     }
 
     void ImGuiLayer::OnUpdate(Timestep ts)
     {
+        PROFILE_SCOPE();
+
         OnPlatformUpdateBegin();
         ImGui::NewFrame();
 
@@ -72,6 +74,8 @@ namespace ntt
 
     void ImGuiLayer::AddApplication(std::shared_ptr<IImGuiApplication> application)
     {
+        PROFILE_SCOPE();
+
         applications_.push_back(application);
     }
 } // namespace ntt

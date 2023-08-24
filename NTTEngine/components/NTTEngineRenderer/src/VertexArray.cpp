@@ -1,4 +1,7 @@
-#include "NTTEngineRenderer/NTTEngineRenderer.hpp"
+#include "NTTEngineRenderer/PreInclude.hpp"
+#include "NTTEngineRenderer/VertexArray.hpp"
+#include "NTTEngineRenderer/VertexBuffer.hpp"
+#include "NTTEngineRenderer/IndexBuffer.hpp"
 
 
 namespace ntt

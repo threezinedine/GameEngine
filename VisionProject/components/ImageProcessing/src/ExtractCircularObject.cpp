@@ -1,5 +1,5 @@
-#include <opencv2/opencv.hpp>
-#include "ImageProcessing/ImageProcessing.hpp"
+#include "ImageProcessing/PreInclude.hpp"
+#include "ImageProcessing/ExtractCircularObject.hpp"
 
 
 ExtractCircularObject::ExtractCircularObject()
