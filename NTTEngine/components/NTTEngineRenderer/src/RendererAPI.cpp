@@ -5,6 +5,7 @@
 #include "NTTEngineRenderer/Shader.hpp"
 #include "NTTEngineRenderer/VertexArray.hpp"
 #include "NTTEngineRenderer/IndexBuffer.hpp"
+#include "NTTEngineRenderer/VertexBuffer.hpp"
 
 
 namespace ntt
@@ -50,7 +51,14 @@ namespace ntt
         shader->SetUniformMat4f("transform", transform);
 
         vertexArray->Bind();
-        vertexArray->GetIndexBuffers()->Render();
+        if (vertexArray->GetVertexBuffers()[0]->IsDynamic())
+        {
+            vertexArray->GetIndexBuffers()->Render(vertexArray->GetVertexBuffers()[0]->GetDynamicVertexesNum());
+        }
+        else 
+        {
+            vertexArray->GetIndexBuffers()->Render();
+        }
     }
 
     RendererAPI* RendererAPI::GetInstance()

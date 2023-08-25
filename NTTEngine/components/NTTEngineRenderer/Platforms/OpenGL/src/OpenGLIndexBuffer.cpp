@@ -28,8 +28,9 @@ namespace ntt
         GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
     }
 
-    void IndexBuffer::Render()
+    void IndexBuffer::Render(int count)
     {
-        GL_CALL(glDrawElements(GL_TRIANGLES, count_, GL_UNSIGNED_INT, nullptr));
+        int drawCount = !count ? count_ : count * 6 / 4;
+        GL_CALL(glDrawElements(GL_TRIANGLES, drawCount, GL_UNSIGNED_INT, nullptr));
     }
 } // namespace ntt

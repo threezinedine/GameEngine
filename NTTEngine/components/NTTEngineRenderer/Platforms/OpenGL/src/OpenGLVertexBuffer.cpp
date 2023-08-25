@@ -6,7 +6,16 @@
 
 namespace ntt
 {
+    VertexBuffer::VertexBuffer(unsigned int size)
+        : useDynamic_(true)
+    {
+        GL_CALL(glGenBuffers(1, &id_));
+        Bind();
+        GL_CALL(glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW));
+    }
+
     VertexBuffer::VertexBuffer(float* data, unsigned int size)
+        : useDynamic_(false)
     {
         GL_CALL(glGenBuffers(1, &id_));
         Bind();
@@ -38,5 +47,12 @@ namespace ntt
             glVertexAttribPointer(i, layouts_[i].num, GL_FLOAT, 
                     layouts_[i].normalized, size_, (const void*)layouts_[i].offset);
         }
+    }
+
+    void VertexBuffer::SetData(float* data, unsigned int count, unsigned int elementSize)
+    {
+        Bind();
+        dynamicVertexsNum_ = count;
+        glBufferSubData(GL_ARRAY_BUFFER, 0, count * elementSize, data);
     }
 } // namespace ntt

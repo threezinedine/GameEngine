@@ -150,108 +150,110 @@ void Renderer2DLayer::OnUpdate(ntt::Timestep ts)
     static float posY = 0.0f;
 
 
-    ntt::Renderer2D::BeginScence(camera_, ts);
+    ntt::Renderer2D::BeginScene(camera_, ts);
 
-    ntt::Renderer2D::DrawQuad({ 0, 0, 0.1 }, { 15, 1 }, squareColor_->GetGlmVec3());
-    ntt::Renderer2D::DrawQuad({ 0, 3, 0.1 }, { 15, 1 }, squareColor_->GetGlmVec3());
+    ntt::Renderer2D::DrawQuad({ 0, 2, 0.1 }, { 1, 1 }, squareColor_->GetGlmVec3());
+    ntt::Renderer2D::DrawQuad({ 1, 4, 0.1 }, { 1, 1 }, squareColor_->GetGlmVec3());
+    // ntt::Renderer2D::DrawQuad({ 0, 0, 0.1 }, { 15, 1 }, squareColor_->GetGlmVec3());
+    // ntt::Renderer2D::DrawQuad({ 0, 3, 0.1 }, { 15, 1 }, squareColor_->GetGlmVec3());
 
-    for (int i=0; i<10; i++)
-    {
-        ntt::Renderer2D::DrawQuad(
-            { backgroundOffset.x + i, 1, -0.1 }, 
-            { 1, 1 }, 
-            backgroundTexture_
-        );
-        ntt::Renderer2D::DrawRotateQuad(
-            { backgroundOffset.x + i, 2, -0.1 }, 
-            { 1, 1 }, 
-            180, 
-            backgroundTexture_
-        );
-    }
+    // for (int i=0; i<10; i++)
+    // {
+    //     ntt::Renderer2D::DrawQuad(
+    //         { backgroundOffset.x + i, 1, -0.1 }, 
+    //         { 1, 1 }, 
+    //         backgroundTexture_
+    //     );
+    //     ntt::Renderer2D::DrawRotateQuad(
+    //         { backgroundOffset.x + i, 2, -0.1 }, 
+    //         { 1, 1 }, 
+    //         180, 
+    //         backgroundTexture_
+    //     );
+    // }
 
-    ntt::Renderer2D::DrawRotateQuad(
-        { birdOffset_->GetVector()[0], birdOffset_->GetVector()[1] + birdYPosition, -0.05 },
-        { birdSize_->GetVector()[0], birdSize_->GetVector()[1] },
-        upVelocity == 0 ? 0 : (upVelocity > 0 ? 20 : -20),
-        birdTexture_
-    );
+    // ntt::Renderer2D::DrawRotateQuad(
+    //     { birdOffset_->GetVector()[0], birdOffset_->GetVector()[1] + birdYPosition, -0.05 },
+    //     { birdSize_->GetVector()[0], birdSize_->GetVector()[1] },
+    //     upVelocity == 0 ? 0 : (upVelocity > 0 ? 20 : -20),
+    //     birdTexture_
+    // );
 
-    for (int i=0; i<25; i++)
-    {
-        auto pillarsXPos = pillarOffset.x + i * pillarDistance_->GetValue();
+    // for (int i=0; i<25; i++)
+    // {
+    //     auto pillarsXPos = pillarOffset.x + i * pillarDistance_->GetValue();
 
-        if (pillarsXPos <= birdOffset_->GetVector()[0])
-        {
-            score = popNum + i + 1;
-        }
+    //     if (pillarsXPos <= birdOffset_->GetVector()[0])
+    //     {
+    //         score = popNum + i + 1;
+    //     }
 
-        float pillarsYShiftForGame = 0;
-        if (i < randomYShift.size())
-        {
-            pillarsYShiftForGame = randomYShift[i];
-        }
-        else 
-        {
-            pillarsYShiftForGame = ntt::NTTRandom::NormRandom(0, 1, -pillarRandomRange_->GetValue(), pillarRandomRange_->GetValue());
-            randomYShift.push_back(pillarsYShiftForGame);
-        }
+    //     float pillarsYShiftForGame = 0;
+    //     if (i < randomYShift.size())
+    //     {
+    //         pillarsYShiftForGame = randomYShift[i];
+    //     }
+    //     else 
+    //     {
+    //         pillarsYShiftForGame = ntt::NTTRandom::NormRandom(0, 1, -pillarRandomRange_->GetValue(), pillarRandomRange_->GetValue());
+    //         randomYShift.push_back(pillarsYShiftForGame);
+    //     }
 
-        auto bottomYPos = 1 + pillarYShift_->GetValue() - pillarsYShiftForGame;
-        auto upperYPos = 2 - pillarYShift_->GetValue() - pillarsYShiftForGame;
+    //     auto bottomYPos = 1 + pillarYShift_->GetValue() - pillarsYShiftForGame;
+    //     auto upperYPos = 2 - pillarYShift_->GetValue() - pillarsYShiftForGame;
 
-        if (IsCollision({ birdOffset_->GetVector()[0], birdOffset_->GetVector()[1] + birdYPosition }, birdSize_->GetVector(),
-                { pillarsXPos, bottomYPos }, pillarSize_->GetVector(), birdColisionFactor_->GetValue())
-                || 
-            IsCollision({ birdOffset_->GetVector()[0], birdOffset_->GetVector()[1] + birdYPosition }, birdSize_->GetVector(),
-                { pillarsXPos, upperYPos }, pillarSize_->GetVector(), birdColisionFactor_->GetValue()))
-        {
-            running_ = false;
-            lose_ = true;
-        }
+    //     if (IsCollision({ birdOffset_->GetVector()[0], birdOffset_->GetVector()[1] + birdYPosition }, birdSize_->GetVector(),
+    //             { pillarsXPos, bottomYPos }, pillarSize_->GetVector(), birdColisionFactor_->GetValue())
+    //             || 
+    //         IsCollision({ birdOffset_->GetVector()[0], birdOffset_->GetVector()[1] + birdYPosition }, birdSize_->GetVector(),
+    //             { pillarsXPos, upperYPos }, pillarSize_->GetVector(), birdColisionFactor_->GetValue()))
+    //     {
+    //         running_ = false;
+    //         lose_ = true;
+    //     }
 
-        ntt::Renderer2D::DrawQuad(
-            { pillarsXPos, bottomYPos }, 
-            glm::vec2( pillarSize_->GetVector()[0], pillarSize_->GetVector()[1] ), 
-            pillarTexture_
-        );
-        ntt::Renderer2D::DrawRotateQuad(
-            { pillarsXPos, upperYPos }, 
-            glm::vec2( pillarSize_->GetVector()[0], pillarSize_->GetVector()[1] ), 
-            180, 
-            pillarTexture_
-        );
-    }
+    //     ntt::Renderer2D::DrawQuad(
+    //         { pillarsXPos, bottomYPos }, 
+    //         glm::vec2( pillarSize_->GetVector()[0], pillarSize_->GetVector()[1] ), 
+    //         pillarTexture_
+    //     );
+    //     ntt::Renderer2D::DrawRotateQuad(
+    //         { pillarsXPos, upperYPos }, 
+    //         glm::vec2( pillarSize_->GetVector()[0], pillarSize_->GetVector()[1] ), 
+    //         180, 
+    //         pillarTexture_
+    //     );
+    // }
 
-    ntt::Renderer2D::End();
+    ntt::Renderer2D::EndScene();
 
-    if (running_)
-    {
-        backgroundOffset.x -= movingSpeed_->GetValue() * ts.GetTime();
-        pillarOffset.x -= movingSpeed_->GetValue() * ts.GetTime();
+    // if (running_)
+    // {
+    //     backgroundOffset.x -= movingSpeed_->GetValue() * ts.GetTime();
+    //     pillarOffset.x -= movingSpeed_->GetValue() * ts.GetTime();
 
-        if (backgroundOffset.x <= -1 - 1)
-        {
-            backgroundOffset.x = -1;
-        }
+    //     if (backgroundOffset.x <= -1 - 1)
+    //     {
+    //         backgroundOffset.x = -1;
+    //     }
 
-        if (pillarOffset.x <= -1 - pillarDistance_->GetValue())
-        {
-            pillarOffset.x = -1;
-            randomYShift.erase(randomYShift.begin());
-            randomYShift.push_back(ntt::NTTRandom::NormRandom(0, 1, -pillarRandomRange_->GetValue(), pillarRandomRange_->GetValue()));
-            popNum++;
-        }
+    //     if (pillarOffset.x <= -1 - pillarDistance_->GetValue())
+    //     {
+    //         pillarOffset.x = -1;
+    //         randomYShift.erase(randomYShift.begin());
+    //         randomYShift.push_back(ntt::NTTRandom::NormRandom(0, 1, -pillarRandomRange_->GetValue(), pillarRandomRange_->GetValue()));
+    //         popNum++;
+    //     }
 
-        upVelocity += (float)ts * gravity_->GetValue();
-        birdYPosition += upVelocity * (float)ts + 1/2 * gravity_->GetValue() * (float)ts * (float)ts;
+    //     upVelocity += (float)ts * gravity_->GetValue();
+    //     birdYPosition += upVelocity * (float)ts + 1/2 * gravity_->GetValue() * (float)ts * (float)ts;
 
-        if (birdOffset_->GetVector()[1] + birdYPosition <= 0 + loseOffset_->GetValue() || birdOffset_->GetVector()[1] + birdYPosition >= 2.0f + loseOffset_->GetValue())
-        {
-            running_ = false;
-            lose_ = true;
-        }
-    }
+    //     if (birdOffset_->GetVector()[1] + birdYPosition <= 0 + loseOffset_->GetValue() || birdOffset_->GetVector()[1] + birdYPosition >= 2.0f + loseOffset_->GetValue())
+    //     {
+    //         running_ = false;
+    //         lose_ = true;
+    //     }
+    // }
 }
 
 void Renderer2DLayer::OnKeyPress(ntt::KeyPressEvent& event) 

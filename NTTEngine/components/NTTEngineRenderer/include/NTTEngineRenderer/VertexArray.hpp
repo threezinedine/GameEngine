@@ -24,6 +24,8 @@ namespace ntt
         private:
             std::vector<std::shared_ptr<VertexBuffer>> vertexBuffers_;
             std::shared_ptr<IndexBuffer> indexBuffer_;
+
+
             // #ifdef OPENGL_PLATFORM
             unsigned int id_;
             // #endif

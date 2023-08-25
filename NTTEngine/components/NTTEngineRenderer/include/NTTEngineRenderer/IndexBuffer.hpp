@@ -13,7 +13,7 @@ namespace ntt
             virtual void UnBind();
 
             inline int GetCount() const { return count_; };
-            virtual void Render();
+            virtual void Render(int count = 0);
 
         private:
             unsigned int id_;
