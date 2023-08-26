@@ -38,3 +38,5 @@
 # build folder
 build/
 .vscode
+
+*.mp4

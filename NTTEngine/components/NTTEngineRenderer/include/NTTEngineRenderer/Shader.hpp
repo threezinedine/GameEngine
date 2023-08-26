@@ -18,6 +18,7 @@ namespace ntt
             void UnBind() const;
 
             void SetUniform1i(const std::string& locationName, int value);
+            void SetUniformIntArray(const std::string& locationName, int* values, int count);
             void SetUniform1f(const std::string& locationName, float value);
             void SetUniform4f(const std::string& locationName, float f0, float f1, float f2, float f3);
             void SetUniform4f(const std::string& locationName, const glm::vec4& vec);

@@ -94,6 +94,16 @@ namespace ntt
         }
     }
 
+    void Shader::SetUniformIntArray(const std::string& locationName, int* values, int count)
+    {
+        auto location = GetLocation(locationName);
+
+        if (location != -1)
+        {
+            GL_CALL(glUniform1iv(location, count, values));
+        }
+    }
+
     void Shader::SetUniform1f(const std::string& locationName, float value)
     {
         auto location = GetLocation(locationName);

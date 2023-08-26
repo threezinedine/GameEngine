@@ -8,11 +8,11 @@ ExtractByContour::ExtractByContour()
     useMinArea_ = 
             std::make_unique<ntt::ThreadValue<bool>>(true, storage_, "useMinArea");
     area_ = 
-            std::make_unique<ntt::ThreadValue<int>>(500, 0, 1000, storage_, "area");
+            std::make_unique<ntt::ThreadValue<int>>(500, 0, 5000, storage_, "area");
     minArea_ = 
-            std::make_unique<ntt::ThreadValue<int>>(300, 0, 1000, storage_, "minArea"),
+            std::make_unique<ntt::ThreadValue<int>>(300, 0, 3000, storage_, "minArea"),
     maxArea_ = 
-            std::make_unique<ntt::ThreadValue<int>>(600, 0, 1000, storage_, "maxArea");
+            std::make_unique<ntt::ThreadValue<int>>(600, 0, 5000, storage_, "maxArea");
 }
 
 ExtractByContour::~ExtractByContour()
@@ -27,8 +27,6 @@ cv::Mat ExtractByContour::OnProcessImpl(cv::Mat image, ImageProcessingContainer*
     cv::Mat originalImage = container->GetOriginalImage();
 
     cv::findContours(image, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-
-    NTT_APPLICATION_DEBUG("Contour Size: {}", contours.size());
 
     for (size_t i = 0; i < contours.size(); i++) {
         double contourArea = cv::contourArea(contours[i]);

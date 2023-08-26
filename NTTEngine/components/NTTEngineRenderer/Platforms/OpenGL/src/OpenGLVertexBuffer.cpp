@@ -45,7 +45,7 @@ namespace ntt
         {
             glEnableVertexAttribArray(i);
             glVertexAttribPointer(i, layouts_[i].num, GL_FLOAT, 
-                    layouts_[i].normalized, size_, (const void*)layouts_[i].offset);
+                    layouts_[i].normalized, size_, reinterpret_cast<const void*>(layouts_[i].offset));
         }
     }
 

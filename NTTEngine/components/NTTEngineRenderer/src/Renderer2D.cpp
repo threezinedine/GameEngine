@@ -47,6 +47,7 @@ namespace ntt
         vbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float3, std::string("position")));
         vbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float4, std::string("color")));
         vbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float2, std::string("coord")));
+        vbo_->RegisterBuffer(ntt::LayoutBuffer(ntt::Float, std::string("textureId")));
         vao_->AppendVertexBuffer(vbo_);
 
         auto vio_ = std::make_shared<ntt::IndexBuffer>(indexes, sizeof(indexes));
@@ -60,9 +61,17 @@ namespace ntt
         cv::Mat whiteImage = cv::Mat::ones(300, 300, CV_8UC3);
         whiteImage.setTo(cv::Scalar(255.0, 255.0, 255.0));
         whiteTexture_->SetData(whiteImage);
+        whiteTexture_->Bind();
         
         shader_->Bind();
-        shader_->SetUniform1i("m_Texture", 0);
+
+        int textArray[MAX_TEXTURE_SLOT];
+        for (int i=0; i<MAX_TEXTURE_SLOT; i++)
+        {
+            textArray[i] = i;
+        }
+
+        shader_->SetUniformIntArray("m_TextureArray", textArray, MAX_TEXTURE_SLOT);
     }
 
     void Renderer2D::Release()
@@ -92,6 +101,8 @@ namespace ntt
     void Renderer2D::BeginSceneIn()
     {
         ptr_ = vertexDatas_;
+        textures_.clear();
+        textures_.push_back(whiteTexture_);
     }
 
     void Renderer2D::EndScene()
@@ -105,9 +116,14 @@ namespace ntt
         PROFILE_SCOPE();
 
         unsigned int count = ptr_ - vertexDatas_;
+        for (int i=0; i<textures_.size(); i++)
+        {
+            textures_[i]->Bind(i);
+        }
 
         vao_->GetVertexBuffers()[0]->SetData((float*)vertexDatas_, count, sizeof(VertexData));
         RendererAPI::Submit(vao_, shader_);
+
     }
 
     void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec3& color)
@@ -157,39 +173,40 @@ namespace ntt
 
     void Renderer2D::DrawQuadIn(const glm::vec3& position, const glm::vec2& size, const glm::vec3& color)
     {
-        whiteTexture_->Bind();
         shader_->SetUniform1f("m_TilingFactor", 1.0f);
-        shader_->SetUniform4f("m_Color", color);
 
-        ptr_->position = position;
-        ptr_->color = glm::vec4(color.x, color.y, color.z, 1.0f);
-        ptr_->coord = glm::vec2(0.0f, 0.0f);
-        ptr_++;
+        auto transform = glm::translate(glm::mat4(1.0f), position)
+                        * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-        ptr_->position = glm::vec3(position.x + size.x, position.y, position.z);
-        ptr_->color = glm::vec4(color.x, color.y, color.z, 1.0f);
-        ptr_->coord = glm::vec2(0.0f, 0.0f);
-        ptr_++;
-
-        ptr_->position = glm::vec3(position.x + size.x, position.y + size.y, position.z);
-        ptr_->color = glm::vec4(color.x, color.y, color.z, 1.0f);
-        ptr_->color = glm::vec4(color.x, color.y, color.z, 1.0f);
-        ptr_->coord = glm::vec2(0.0f, 0.0f);
-        ptr_++;
-
-        ptr_->position = glm::vec3(position.x, position.y + size.y, position.z);
-        ptr_->color = glm::vec4(color.x, color.y, color.z, 1.0f);
-        ptr_->coord = glm::vec2(0.0f, 0.0f);
-        ptr_++;
-
-        // glm::mat4 transform = glm::translate(glm::mat4(1.0), position)
-        //         * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
-
-        // RendererAPI::Submit(vao_, shader_, transform);
+        DrawIn(position, color, 0.0f, transform);
     }
 
     void Renderer2D::DrawQuadIn(const glm::vec3& position, const glm::vec2& size, const std::shared_ptr<Texture>& texture, float tilingFactor, const glm::vec4& tintColor)
     {
+        float texIndex = 0;
+
+        for (int i=0; i<textures_.size(); i++)
+        {
+            if (texture->EqualTo(textures_[i]))
+            {
+                texIndex = (float)i;
+            }
+        }
+
+        if (texIndex == 0)
+        {
+            texIndex = (float)textures_.size();
+            textures_.push_back(texture);
+        }
+
+        shader_->SetUniform1f("m_TilingFactor", 1.0f);
+
+        auto transform = glm::translate(glm::mat4(1.0f), position)
+                        * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+
+        DrawIn(position, tintColor, texIndex, transform);
+
+#ifdef OLD_PATH
         texture->Bind();
         shader_->SetUniform1f("m_TilingFactor", tilingFactor);
         shader_->SetUniform4f("m_Color", tintColor);
@@ -198,32 +215,76 @@ namespace ntt
                 * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
 
         RendererAPI::Submit(vao_, shader_, transform);
+#endif
+    }
+
+
+    void Renderer2D::DrawIn(const glm::vec3& position, const glm::vec3& color, float texIndex, const glm::mat4& transform)
+    {
+        auto vec4Color = glm::vec4(color.x, color.y, color.z, 1.0f);
+
+        ptr_->position = transform * glm::vec4(-0.5f, -0.5f, position.z , 1.0f);
+        ptr_->color = vec4Color;
+        ptr_->coord = glm::vec2(0.0f, 0.0f);
+        ptr_->texIndex = texIndex;
+        ptr_++;
+
+        ptr_->position = transform * glm::vec4(0.5f, -0.5f, position.z , 1.0f);
+        ptr_->color = vec4Color;
+        ptr_->coord = glm::vec2(1.0f, 0.0f);
+        ptr_->texIndex = texIndex;
+        ptr_++;
+
+        ptr_->position = transform * glm::vec4(0.5f, 0.5f, position.z , 1.0f);
+        ptr_->color = vec4Color;
+        ptr_->coord = glm::vec2(1.0f, 1.0f);
+        ptr_->texIndex = texIndex;
+        ptr_++;
+
+        ptr_->position = transform * glm::vec4(-0.5f, 0.5f, position.z , 1.0f);
+        ptr_->color = vec4Color;
+        ptr_->coord = glm::vec2(0.0f, 1.0f);
+        ptr_->texIndex = texIndex;
+        ptr_++;
+
     }
 
     void Renderer2D::DrawRotateQuadIn(const glm::vec3& position, const glm::vec2& size, float rotate, const glm::vec3& color)
     {
-        whiteTexture_->Bind();
         shader_->SetUniform1f("m_TilingFactor", 1.0f);
-        shader_->SetUniform4f("m_Color", color);
 
         glm::mat4 transform = glm::translate(glm::mat4(1.0), position)
                 * glm::rotate(glm::mat4(1.0f), glm::radians(rotate), { 0.0f, 0.0f, 1.0f })
                 * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
 
-        RendererAPI::Submit(vao_, shader_, transform); 
+        DrawIn(position, color, 0.0f, transform);
     }
 
     void Renderer2D::DrawRotateQuadIn(const glm::vec3& position, const glm::vec2& size, float rotate, const std::shared_ptr<Texture>& texture, float tilingFactor, const glm::vec4& tintColor)
     {
+        float texIndex = 0;
+
+        for (int i=0; i<textures_.size(); i++)
+        {
+            if (texture->EqualTo(textures_[i]))
+            {
+                texIndex = (float)i;
+            }
+        }
+
+        if (texIndex == 0)
+        {
+            texIndex = (float)textures_.size();
+            textures_.push_back(texture);
+        }
+
         shader_->SetUniform1f("m_TilingFactor", tilingFactor);
-        shader_->SetUniform4f("m_Color", tintColor);
-        texture->Bind();
 
         glm::mat4 transform = glm::translate(glm::mat4(1.0), position)
                 * glm::rotate(glm::mat4(1.0f), glm::radians(rotate), { 0.0f, 0.0f, 1.0f })
                 * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
 
-        RendererAPI::Submit(vao_, shader_, transform);
+        DrawIn(position, tintColor, texIndex, transform);
     }
 
 } // namespace ntt

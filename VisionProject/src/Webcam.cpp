@@ -27,6 +27,7 @@ WebCam::~WebCam()
 void WebCam::OnUpdateImpl()
 {
     std::cout << std::endl;
+
     if (cap_.isOpened())
     {
         {

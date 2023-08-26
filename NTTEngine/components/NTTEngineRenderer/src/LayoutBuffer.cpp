@@ -22,6 +22,8 @@ namespace ntt
                 return 3 * 3;
             case Mat4:
                 return 4 * 4;
+            case Int: 
+                return 1;
             case Bool:
                 return 1;
         }
@@ -39,6 +41,7 @@ namespace ntt
             case Mat2:
             case Mat3:
             case Mat4:
+            case Int:
                 return sizeof(float) * GetTypeNum(type);
             case Bool:
                 return sizeof(bool) * GetTypeNum(type);

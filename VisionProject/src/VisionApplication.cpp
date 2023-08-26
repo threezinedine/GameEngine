@@ -8,7 +8,8 @@ VisionApplication::VisionApplication()
     : ntt::Application(600, 800, "Vision App"), 
         // webcam_(0), 
         // webcam_(std::string("C:/Users/Acer/C_Language/C++/GameEngine/VisionProject/qr.mp4")), 
-        webcam_(std::string("C:/Users/Acer/C_Language/C++/GameEngine/VisionProject/circular-object.mp4")),
+        // webcam_(std::string("C:/Users/Acer/C_Language/C++/GameEngine/VisionProject/circular-object.mp4")),
+        webcam_(std::string("C:/Users/Acer/C_Language/C++/GameEngine/VisionProject/edge-detect-obj.mp4")),
         // webcam_(std::string("C:/Users/Acer/C_Language/C++/GameEngine/VisionProject/data.mp4")), 
         client_("tcp://localhost:1883", "test")
 {

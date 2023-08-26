@@ -31,6 +31,7 @@ namespace ntt
     void IndexBuffer::Render(int count)
     {
         int drawCount = !count ? count_ : count * 6 / 4;
+
         GL_CALL(glDrawElements(GL_TRIANGLES, drawCount, GL_UNSIGNED_INT, nullptr));
     }
 } // namespace ntt
