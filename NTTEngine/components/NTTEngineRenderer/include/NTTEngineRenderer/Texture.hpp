@@ -24,7 +24,8 @@ namespace ntt
     {
         public:
             Texture2D(int width, int height);
-            Texture2D(std::string path);
+            Texture2D(std::string path, int width = 300, int height = 300);
+            Texture2D(std::string path, int widthNum, int heightNum, int tileSize);
             ~Texture2D();
 
             inline const unsigned int GetWidth() const { return width_; }

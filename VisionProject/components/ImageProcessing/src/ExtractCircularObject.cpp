@@ -21,6 +21,7 @@ ExtractCircularObject::~ExtractCircularObject()
 
 cv::Mat ExtractCircularObject::OnProcessImpl(cv::Mat image, ImageProcessingContainer* container)
 {
+    PROFILE_SCOPE();
     cv::Mat gray, originalImage = container->GetOriginalImage();
     std::vector<cv::Vec3f> circles;
     cv::cvtColor(image, gray, cv::COLOR_RGB2GRAY);

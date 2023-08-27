@@ -150,6 +150,7 @@ void Renderer2DLayer::OnUpdate(ntt::Timestep ts)
     static float posY = 0.0f;
 
 
+    ntt::Renderer2D::ResetStat();
     ntt::Renderer2D::BeginScene(camera_, ts);
 
     // ntt::Renderer2D::DrawQuad({ 0, 2, 0.1 }, { 1, 1 }, squareColor_->GetGlmVec3());
@@ -297,8 +298,8 @@ void Renderer2DLayer::OnImGuiRenderImpl(ntt::Timestep ts)
 {
     PROFILE_SCOPE();
 
-    ImGui::ColorPicker3("Squared Color", squareColor_->GetFirstPointer());
     camera_->OnImGuiRender(ts);
+    ntt::Renderer2D::StatisticImGuiRender();
 
     ImGui::Separator();
     ImGui::Text("Game Parameters");

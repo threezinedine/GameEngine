@@ -40,3 +40,5 @@ build/
 .vscode
 
 *.mp4
+
+GameExample/assets/

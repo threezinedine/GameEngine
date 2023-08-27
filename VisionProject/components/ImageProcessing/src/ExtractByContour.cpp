@@ -22,7 +22,10 @@ ExtractByContour::~ExtractByContour()
 
 cv::Mat ExtractByContour::OnProcessImpl(cv::Mat image, ImageProcessingContainer* container)
 {
+    PROFILE_SCOPE();
+
     std::vector<std::vector<cv::Point>> contours;
+    std::vector<CoordVertex> vertexes;
     std::vector<cv::Vec4i> hierarchy;
     cv::Mat originalImage = container->GetOriginalImage();
 
@@ -39,8 +42,40 @@ cv::Mat ExtractByContour::OnProcessImpl(cv::Mat image, ImageProcessingContainer*
 
             cv::putText(originalImage, centerText, cv::Point(boundingBox.x, boundingBox.y - 10),
                         cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 1);
+
+            vertexes.push_back({
+                { 0, 0 }, { centerX, centerY }, false
+            });
         }
     }
+
+    if (vertexes.size() == 6)
+    {
+        std::sort(vertexes.begin(), vertexes.end(), [](CoordVertex a, CoordVertex b) -> bool
+        {
+            return a.imagePos.x + a.imagePos.y < b.imagePos.x + b.imagePos.y;
+        });
+
+        vertexes[0].isFixed = true;
+        vertexes[0].realWorldPos = { 0.0f, 0.0f };
+
+        vertexes[2].isFixed = true;
+        vertexes[3].isFixed = true;
+        if (vertexes[2].realWorldPos.x < vertexes[2].realWorldPos.y)
+        {
+            vertexes[2].realWorldPos = { 1.0f, 0.0f };
+            vertexes[3].realWorldPos = { 0.0f, 1.0f };
+        }
+        else 
+        {
+            vertexes[2].realWorldPos = { 0.0f, 1.0f };
+            vertexes[3].realWorldPos = { 1.0f, 0.0f };
+        }
+
+        vertexes[4].isFixed = true;
+        vertexes[4].realWorldPos = { 1.0f, 1.0f };
+    }
+
     container->SetOriginalImage(originalImage);
     return image;
 }

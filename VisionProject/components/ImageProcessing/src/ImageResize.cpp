@@ -17,6 +17,8 @@ ImageResize::~ImageResize()
 
 cv::Mat ImageResize::OnProcessImpl(cv::Mat image, ImageProcessingContainer* container)
 {
+    PROFILE_SCOPE();
+
     if (height_ == -1)
     {
         int width = image.cols;

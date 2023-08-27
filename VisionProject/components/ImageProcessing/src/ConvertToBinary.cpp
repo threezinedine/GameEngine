@@ -29,6 +29,8 @@ ConvertToBinary::~ConvertToBinary()
 
 cv::Mat ConvertToBinary::OnProcessImpl(cv::Mat image, ImageProcessingContainer* container)
 {
+    PROFILE_SCOPE();
+
     cv::Mat grayImage, binaryImage;
     cv::Mat originalImage = container->GetOriginalImage();
 

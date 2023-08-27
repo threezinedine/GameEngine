@@ -16,6 +16,7 @@ QRDetect::~QRDetect()
 
 cv::Mat QRDetect::OnProcessImpl(cv::Mat image, ImageProcessingContainer* container)
 {
+    PROFILE_SCOPE();
     cv::QRCodeDetector qrCodeDetector;
     cv::Mat originalImage = container->GetOriginalImage();
     cv::Point textPosition(image.cols - 200, 50);

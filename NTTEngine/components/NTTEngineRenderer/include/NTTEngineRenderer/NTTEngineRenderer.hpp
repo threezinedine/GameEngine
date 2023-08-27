@@ -12,3 +12,5 @@
 #include "Camera.hpp"
 #include "Texture.hpp"
 #include "Renderer2D.hpp"
+#include "SubTexture.hpp"
+#include "TextureMap.hpp"

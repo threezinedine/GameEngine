@@ -22,13 +22,20 @@ namespace ntt
                         0, dataFormat_, GL_UNSIGNED_BYTE, nullptr);
     }
 
-    Texture2D::Texture2D(std::string file)
+    Texture2D::Texture2D(std::string path, int widthNum, int heightNum, int tileSize)
+        : Texture2D(path, widthNum * tileSize, heightNum * tileSize)
+    {
+
+    }
+
+    Texture2D::Texture2D(std::string file, int width, int height)
+        : width_(width), height_(height)
     {
         PROFILE_SCOPE();
 
         cv::Mat image = cv::imread(file, cv::IMREAD_UNCHANGED);
 
-        cv::resize(image, image, cv::Size(300, 300));
+        cv::resize(image, image, cv::Size(width_, height_));
         cv::flip(image, image, 0);
 
         if (image.channels() == 4)
@@ -43,9 +50,6 @@ namespace ntt
             dataFormat_ = GL_RGB;
             cv::cvtColor(image, image, cv::COLOR_BGR2RGB);
         }
-
-        width_ = image.cols;
-        height_ = image.rows;
 
         GL_CALL(glGenTextures(1, &id_));
         GL_CALL(glBindTexture(GL_TEXTURE_2D, id_));

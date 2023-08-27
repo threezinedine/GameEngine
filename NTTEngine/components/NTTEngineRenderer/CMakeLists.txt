@@ -62,6 +62,7 @@ target_link_libraries(
     NTTEngineEventSystem
     NTTEngineWindow
     NTTEngineProfiling
+    NTTEngineThreadSystem
     ConfigurationCppLibs
     libglew_static
     glfw

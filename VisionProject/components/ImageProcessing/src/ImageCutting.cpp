@@ -18,6 +18,7 @@ ImageCutting::~ImageCutting()
 
 cv::Mat ImageCutting::OnProcessImpl(cv::Mat image, ImageProcessingContainer* container)
 {
+    PROFILE_SCOPE();
     topLeftPoint_.Bind();
     rightButtomPoint_.Bind();
     imageWidth_ = image.size().width;

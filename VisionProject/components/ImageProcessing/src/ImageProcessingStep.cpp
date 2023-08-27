@@ -25,7 +25,8 @@ ImageProcessingStep::~ImageProcessingStep()
 
 cv::Mat ImageProcessingStep::OnProcess(cv::Mat mat, ImageProcessingContainer* container)
 {
-    // NTT_APPLICATION_DEBUG("Start Processing ({})", GetName());
+    PROFILE_SCOPE();
+
     cv::Mat result;
     isUsed_->Bind();
     bool useStep = *(isUsed_->GetPointer());
@@ -39,7 +40,7 @@ cv::Mat ImageProcessingStep::OnProcess(cv::Mat mat, ImageProcessingContainer* co
         }
         catch (std::exception& ex)
         {
-            NTT_APPLICATION_WARN("Processing Error at: {}", GetName());
+            NTT_APPLICATION_WARN("Processing Error at: {} -- Error: {}", GetName(), ex.what());
             result = mat.clone();
         }
     }
@@ -52,7 +53,6 @@ cv::Mat ImageProcessingStep::OnProcess(cv::Mat mat, ImageProcessingContainer* co
         std::lock_guard<std::mutex> lock(mutex_);
         image_ = VerifyImage(result);
     }
-    // NTT_APPLICATION_DEBUG("End Processing ({})", GetName());
     return result;
 }
 

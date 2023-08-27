@@ -3,8 +3,9 @@
 #include "ImageProcessing/ImageProcessingContainer.hpp"
 
 
-ImageProcessingContainer::ImageProcessingContainer()
-    : ntt::ImGuiApplication(std::string("Image Processing Container"))
+ImageProcessingContainer::ImageProcessingContainer(int minVertexes)
+    : ntt::ImGuiApplication(std::string("Image Processing Container")), 
+        minVertexes_(minVertexes)
 {
 
 }
@@ -45,5 +46,13 @@ void ImageProcessingContainer::OnImGuiRenderImpl(ntt::Timestep ts)
     for (int i = 0; i < index_; i++)
     {
         steps_[i]->OnImGuiRender(ts);
+    }
+}
+
+void ImageProcessingContainer::SetVertexes(const std::vector<CoordVertex>& vertexes)
+{
+    if (vertexes.size() >= minVertexes_)
+    {
+        vertexes_ = vertexes;
     }
 }

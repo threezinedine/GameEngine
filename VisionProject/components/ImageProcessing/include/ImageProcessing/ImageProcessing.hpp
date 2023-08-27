@@ -11,3 +11,4 @@
 #include "ExtractByContour.hpp"
 #include "QRDetector.hpp"
 #include "ExtractCircularObject.hpp"
+#include "PnPAlgorithm.hpp"
