@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include "UART/UART.hpp"
 #include "NTTEngine/NTTEngine.hpp"
 #include "Storage.hpp"
 
@@ -29,7 +28,6 @@ class UartImGuiApplication: public ntt::ImGuiApplication
         ntt::ThreadValue<float> currentSpeed_;
         ntt::ThreadValue<bool> isOn_;
 
-        ConnectionStatus status_;
         ntt::TimePlan getDataPlan_;
 
 };
