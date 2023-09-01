@@ -65,17 +65,24 @@ namespace ntt
         auto rotation = rotation_->GetGlmVec3();
         auto camPosVec = cameraPos_->GetGlmVec3();
 
-        glm::mat4 view = glm::lookAt(camPosVec * *zoomLevel_, 
-                                camPosVec * *zoomLevel_ + cameraFront_->GetGlmVec3(), 
+        glm::mat4 view = glm::mat4(1.0f);
+        glm::mat4 proj = glm::mat4(1.0f);
+
+        // view = glm::translate(view, -camPosVec);
+
+        view = glm::lookAt(camPosVec * (*zoomLevel_), 
+                                camPosVec * (*zoomLevel_) + cameraFront_->GetGlmVec3(), 
                                 cameraUp_->GetGlmVec3());
 
         view = glm::rotate(view, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
         view = glm::rotate(view, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
         view = glm::rotate(view, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
 
-        glm::mat4 proj = glm::perspective(glm::radians(*fov_), 
-                    (GLfloat)width / (GLfloat)height, 0.1f, 100.0f);
+
+        proj = glm::perspective(glm::radians(*fov_), 
+                    (float)width / (float)height, 0.1f, 100.0f);
         return proj * view;
+        // return glm::mat4(1.0f);
     }
 
 
@@ -120,12 +127,13 @@ namespace ntt
         ImGui::SliderFloat("Camera Fov", fov_, 0, 3.14);
         ImGui::SliderFloat("Rotation Speed", rotateSpeed_, 0, 180);
         ImGui::SliderFloat("Move Speed", moveSpeed_, 0, 5);
+        ImGui::SliderFloat("Zoom level", zoomLevel_, 0, 40);
     }
 
     void Camera::OnMouseScroll(MouseScrollEvent& event)
     {
         *zoomLevel_ += (float)event.GetYOffset() * 0.1;
-        *zoomLevel_ = std::min(*zoomLevel_, 1.0f);
+        // *zoomLevel_ = std::min(*zoomLevel_, 1.0f);
     }
 
     void Camera::OnWindowResize(WindowResizeEvent& event)

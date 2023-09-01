@@ -9,7 +9,7 @@ static DWORD  GetBaudRate(int);
 UARTConnection::UARTConnection(const std::string& name, const char* comPort, int baudrate)
     : name_(name), comPort_(std::string(comPort)), isConnected_(false)
 {
-    selectableVector_ = std::make_shared<ntt::ImGuiSelectableVector<std::string>>(
+    selectableVectorCom_ = std::make_shared<ntt::ImGuiSelectableVector<std::string>>(
         std::vector<std::pair<std::string, std::string>>
         {
             { std::string("COM7"), std::string("COM7") },
@@ -27,13 +27,37 @@ UARTConnection::UARTConnection(const std::string& name, const char* comPort, int
     );
 
     storage_ = std::make_shared<ntt::Storage>(
-        std::make_shared<ntt::RealFileSystem>("./uart-connection-code-config.json")
+        std::make_shared<ntt::RealFileSystem>("./serial-uart-connection-code-config.json")
     );
+
+    baudrate_ = std::make_shared<ntt::ThreadValue<int>>(
+        baudrate, storage_, "baudrate"
+    );
+
+    selectableVectorBaudrate_ = std::make_shared<ntt::ImGuiSelectableVector<int>>(
+        std::vector<std::pair<std::string, int>>
+        {
+            { std::string("115200"), 115200 },
+            { std::string("9600"), 9600 },
+            // { std::string("COM5"), std::string("COM5") },
+        },
+        [this]() -> int
+        {
+            return baudrate_->GetValue();
+        },
+        [this](int value)
+        {
+            *(baudrate_->GetPointer()) = value; 
+        }
+    );
+
 }
 
 
 UARTConnection::~UARTConnection()
 {
+    baudrate_->Save();
+
     storage_->Save();
 
     if (isConnected_.GetValue())
@@ -72,7 +96,7 @@ SerialFrameResult UARTConnection::Connect()
         return { SERIAL_RESULT_FAIL_TO_SETTING, 0 };
     }
 
-    serialParam_.BaudRate = GetBaudRate(baudrate_);   // Baud rate
+    serialParam_.BaudRate = GetBaudRate(baudrate_->GetValue());   // Baud rate
     serialParam_.ByteSize = 8;           // Data bits
     serialParam_.StopBits = ONESTOPBIT;  // Stop bits
     serialParam_.Parity = NOPARITY;      // Parity
@@ -162,16 +186,9 @@ std::vector<uint8_t> UARTConnection::SendRequets(std::vector<uint8_t> request, b
 void UARTConnection::OnImGuiRender(ntt::Timestep ts) 
 {
     ImGui::Text("Select Com");
-    selectableVector_->OnImGuiRender();
-    ImGui::Separator();
-    // std::string addressString = std::string("Current Device Address: ") + ToHexString(address_);
-    // ImGui::Text(addressString.c_str());
-    // static char address[3];
-    // ImGui::InputText("Device Address", address, 3, ImGuiInputTextFlags_CharsHexadecimal);
-    // if (ImGui::Button("Setting"))
-    // {
-    //     SetAddress(StringToHex(address));
-    // }
+    selectableVectorCom_->OnImGuiRender();
+    ImGui::Text("Select baudrate");
+    selectableVectorBaudrate_->OnImGuiRender();
     ImGui::Separator();
     if (ImGui::Button("Connect"))
     {

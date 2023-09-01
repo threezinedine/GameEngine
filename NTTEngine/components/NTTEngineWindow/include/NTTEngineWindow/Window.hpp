@@ -19,6 +19,7 @@ namespace ntt
         public:
             ~Window();
 
+            void ClearIn();
             void OnStartUpdate();
             void OnUpdate();
             void OnEndUpdate();
@@ -45,6 +46,7 @@ namespace ntt
             static std::pair<int, int> GetMousePosition() { return instance_->GetMousePositionImpl(); }
             static bool IsButtonLeftClicked() { return instance_->IsButtonLeftClickedImpl(); }
             static bool IsKeyPressed(int key) { return instance_->IsKeyPressedImpl(key); }
+            static void Clear() { if (instance_ != nullptr) instance_->ClearIn(); }
 
         protected:
             Window(unsigned int height, unsigned int width, const std::string& title);

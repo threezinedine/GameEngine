@@ -20,6 +20,7 @@ class SerialFrameManager: public ntt::NTTThread
         {
             instance_ = new SerialFrameManager(std::move(connection));
         }
+        inline static void Release() { if (instance_ != nullptr) delete instance_; }
         inline static void StartThread() { if ( instance_ != nullptr) instance_->OnRun(); }
         inline static void StopThread() { if ( instance_ != nullptr) instance_->Stop(); }
 
@@ -65,6 +66,9 @@ class SerialFrameManager: public ntt::NTTThread
         std::shared_ptr<ntt::ThreadValue<uint8_t>> readMulCoilsFuncCode_;
         std::shared_ptr<ntt::ThreadValue<uint8_t>> readOneRegisterFuncCode_;
         std::shared_ptr<ntt::ThreadValue<uint8_t>> readMulRegistersFuncCode_;
+
+        std::shared_ptr<ntt::ThreadValue<bool>> frameSettingOpen_;
+        std::shared_ptr<ntt::ThreadValue<bool>> connectionSettingOpen_;
 
         enum StateEnum
         {

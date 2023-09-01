@@ -1,6 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <memory>
+#include "RendererAPI.hpp"
 
 namespace ntt
 {
@@ -38,6 +39,7 @@ namespace ntt
             static void ResetStat();
             static void BeginScene(std::shared_ptr<Camera> camera, Timestep ts);
             static void EndScene();
+            static void Clear() { RendererAPI::Clear(); }
 
             static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec3& color);
             static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec3& color);

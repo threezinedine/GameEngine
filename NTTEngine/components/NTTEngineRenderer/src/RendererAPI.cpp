@@ -6,6 +6,7 @@
 #include "NTTEngineRenderer/VertexArray.hpp"
 #include "NTTEngineRenderer/IndexBuffer.hpp"
 #include "NTTEngineRenderer/VertexBuffer.hpp"
+#include "NTTEngineWindow/NTTEngineWindow.hpp"
 
 
 namespace ntt
@@ -36,6 +37,11 @@ namespace ntt
         RendererCommand::DrawIndex(vertexArray, shader, transform);
     }
 
+    void RendererAPI::Clear()
+    {
+        instance_->ClearIn();
+    }
+
     void RendererAPI::End()
     {
 
@@ -48,6 +54,8 @@ namespace ntt
         PROFILE_SCOPE();
         auto projViewMatrix = camera_->GetViewProjectMatrix();
         shader->SetUniformMat4f("projView", projViewMatrix);
+        // glm::mat4 projectView = glm::mat4(1.0f);
+        // shader->SetUniformMat4f("projView", projectView);
         shader->SetUniformMat4f("transform", transform);
 
         vertexArray->Bind();
@@ -78,5 +86,10 @@ namespace ntt
         {
             delete instance_;
         }
+    }
+
+    void RendererAPI::ClearIn()
+    {
+        Window::Clear();
     }
 } // namespace ntt

@@ -17,4 +17,5 @@ class GameExampleLayer: public ntt::Layer
         std::shared_ptr<ntt::Texture2D> map_;
         std::shared_ptr<ntt::SubTexture2D> plane_;
         std::shared_ptr<ntt::TextureMap> textureMap_;
+        std::shared_ptr<ntt::FrameBuffer> frameBuffer_;
 };

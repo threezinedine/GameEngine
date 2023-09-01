@@ -25,16 +25,16 @@ class UARTConnection: public IConnection
     private:
         std::string name_;
         std::string comPort_;
-        int baudrate_;
         HANDLE hCom_;
         DCB serialParam_ = { 0 };
         COMMTIMEOUTS timeOut_ = { 0 };
-        unsigned char address_ = 0x34;
         DWORD bytesRead;
         unsigned char buffer_[100];
 
         std::shared_ptr<ntt::Storage> storage_; 
-        std::shared_ptr<ntt::ImGuiSelectableVector<std::string>> selectableVector_;
+        std::shared_ptr<ntt::ThreadValue<int>> baudrate_;
+        std::shared_ptr<ntt::ImGuiSelectableVector<std::string>> selectableVectorCom_;
+        std::shared_ptr<ntt::ImGuiSelectableVector<int>> selectableVectorBaudrate_;
 
         ntt::ThreadValue<bool> isConnected_;
 };

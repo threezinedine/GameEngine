@@ -30,6 +30,7 @@ namespace ntt
 
             inline const unsigned int GetWidth() const { return width_; }
             inline const unsigned int GetHeight() const { return height_; }
+            inline const unsigned int GetId() const { return id_; }
 
             void Bind(uint32_t slot = 0) override;
             void UnBind() override;

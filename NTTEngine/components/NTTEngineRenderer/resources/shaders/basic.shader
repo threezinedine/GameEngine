@@ -16,6 +16,7 @@ out vec4 m_Color;
 void main()
 {
    gl_Position = projView * transform * v_Position;
+   // gl_Position = transform * v_Position;
    m_TextCoord = v_TextCoord;
    m_TextureId = v_TextureId;
    m_Color = v_Color;
@@ -69,6 +70,7 @@ void main()
 {
    color = texture(m_TextureArray[int(m_TextureId)], m_TextCoord * m_TilingFactor) * m_Color;
    // color = texture(m_TextureArray[int(m_TextureId)], m_TextCoord * m_TilingFactor);
+   // color = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 };
 
 

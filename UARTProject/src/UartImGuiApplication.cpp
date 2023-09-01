@@ -28,6 +28,7 @@ UartImGuiApplication::UartImGuiApplication()
 UartImGuiApplication::~UartImGuiApplication()
 {
     SerialFrameManager::StopThread();
+    SerialFrameManager::Release();
 
     storage_->SetValue<float>("speedRef_M1", speedRef_M1_->GetValue());
     storage_->SetValue<float>("speedRef_M2", speedRef_M2_->GetValue());

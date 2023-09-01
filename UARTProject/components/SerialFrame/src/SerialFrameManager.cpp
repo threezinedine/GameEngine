@@ -1,10 +1,15 @@
-#include "SerialFrame/PreInclude.hpp"
+#include <sstream>
+#include <cstdlib>
+#include <string>
 
+#include "SerialFrame/PreInclude.hpp"
 #include "SerialFrame/IConnection.hpp"
 #include "SerialFrame/SerialFrame.hpp"
 #include "SerialFrame/ISerialCommand.hpp"
 
 
+static std::string ToHexString(unsigned char);
+static char StringToHex(char*, int size);
 SerialFrameManager* SerialFrameManager::instance_ = nullptr;
 
 
@@ -17,8 +22,12 @@ SerialFrameManager::SerialFrameManager(std::unique_ptr<IConnection> connection)
 
     startByte_ = std::make_shared<ntt::ThreadValue<unsigned char>>(0x00, storage_, "START_BYTE");
 
+    address_ = std::make_shared<ntt::ThreadValue<unsigned char>>(0x34, storage_, "ADDRESS");
     stopByte_ = std::make_shared<ntt::ThreadValue<unsigned char>>(0xff, storage_, "STOP_BYTE");
     address_ = std::make_shared<ntt::ThreadValue<unsigned char>>(0x34, storage_, "ADDRESS");
+
+    frameSettingOpen_ = std::make_shared<ntt::ThreadValue<bool>>(false, storage_, "FRAME_SETTING_OPEN");
+    connectionSettingOpen_ = std::make_shared<ntt::ThreadValue<bool>>(false, storage_, "CONNECTION_SETTING_OPEN");
 }
 
 SerialFrameManager::~SerialFrameManager()
@@ -26,6 +35,8 @@ SerialFrameManager::~SerialFrameManager()
     startByte_->Save();
     stopByte_->Save();
     address_->Save();
+    frameSettingOpen_->Save();
+    connectionSettingOpen_->Save();
 
     storage_->Save();
 
@@ -42,7 +53,39 @@ void SerialFrameManager::SubmitCommandInstance(std::shared_ptr<ISerialCommand> c
 
 void SerialFrameManager::OnImGuiRenderInstance(ntt::Timestep ts)
 {
-    connection_->OnImGuiRender(ts);
+    ImGui::SetNextItemOpen(connectionSettingOpen_->GetValue(), ImGuiCond_Once);
+    if (ImGui::TreeNode("Connection Setting"))
+    {
+        *(connectionSettingOpen_->GetPointer()) = true;
+        connection_->OnImGuiRender(ts);
+        ImGui::TreePop();
+    }
+    else 
+    {
+        *(connectionSettingOpen_->GetPointer()) = false;
+    }
+
+    ImGui::SetNextItemOpen(frameSettingOpen_->GetValue(), ImGuiCond_Once);
+    if (ImGui::TreeNode("Frame Setting"))
+    {
+        *(frameSettingOpen_->GetPointer()) = true;
+        std::string addressString = std::string("Current Device Address: ") + ToHexString(address_->GetValue());
+        ImGui::Text(addressString.c_str());
+        static char address[3];
+        ImGui::InputText("Device Address", address, 3, ImGuiInputTextFlags_CharsHexadecimal);
+        ImGui::SameLine();
+        if (ImGui::Button("Setting"))
+        {
+            address_->Bind();
+            *(address_->GetPointer()) = StringToHex(address, 3);
+            address_->UnBind();
+        }
+        ImGui::TreePop();
+    }
+    else 
+    {
+        *(frameSettingOpen_->GetPointer()) = false;
+    }
 }
 
 
@@ -132,4 +175,18 @@ void SerialFrameManager::OnReleaseImpl()
     {
         connection_->Disconnect();
     }
+}
+
+std::string ToHexString(unsigned char value)
+{
+    std::stringstream hexStr;
+
+    hexStr << std::hex << std::setw(2) << std::setfill('0') << (int)value;
+    return hexStr.str();
+}
+
+char StringToHex(char* data, int size)
+{
+    auto value = std::stoi(data, (size_t*)&size, 16);
+    return static_cast<char>(value);
 }

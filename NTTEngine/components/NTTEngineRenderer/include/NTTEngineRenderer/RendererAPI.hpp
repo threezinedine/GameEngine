@@ -17,6 +17,7 @@ namespace ntt
 
             static void Init();
             static void Begin(std::shared_ptr<Camera>& camera, Timestep ts);
+            static void Clear();
             static void Submit(std::shared_ptr<VertexArray>& vertexArray, 
                                 std::shared_ptr<Shader>& shader, 
                                 glm::mat4 transform = glm::mat4(1.0f));
@@ -28,6 +29,7 @@ namespace ntt
             void DrawIndex(std::shared_ptr<VertexArray>& vertexArray,
                             std::shared_ptr<Shader>& shader,
                             glm::mat4 transform);
+            void ClearIn();
 
         protected:
             RendererAPI();

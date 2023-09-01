@@ -337,7 +337,6 @@ namespace ntt
     {
         PROFILE_SCOPE();
 
-
         if (stats_.tempDrawCallsCount >= MAX_BATCH)
         {
             stats_.tempDrawCallsCount = 0;
@@ -381,6 +380,7 @@ namespace ntt
         stats_.indexesCount += 6;
         stats_.quadDrawCallsCount ++;
         stats_.tempDrawCallsCount ++;
+
     }
 
     void Renderer2D::DrawRotateQuadIn(const glm::vec3& position, const glm::vec2& size, 
