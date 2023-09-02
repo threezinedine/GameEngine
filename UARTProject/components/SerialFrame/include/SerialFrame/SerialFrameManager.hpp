@@ -20,7 +20,7 @@ class SerialFrameManager: public ntt::NTTThread
         {
             instance_ = new SerialFrameManager(std::move(connection));
         }
-        inline static void Release() { if (instance_ != nullptr) delete instance_; }
+        inline static void Release() { if (instance_ != nullptr) delete instance_; instance_ = nullptr; }
         inline static void StartThread() { if ( instance_ != nullptr) instance_->OnRun(); }
         inline static void StopThread() { if ( instance_ != nullptr) instance_->Stop(); }
 

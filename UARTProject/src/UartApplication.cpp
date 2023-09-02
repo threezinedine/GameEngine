@@ -1,6 +1,7 @@
 #include "UartApplication.hpp"
 #include "UartImGuiApplication.hpp"
 #include "ESP32ImGuiApplication.hpp"
+#include "OveralImGuiApplication.hpp"
 
 
 UartApplication::UartApplication()
@@ -21,6 +22,7 @@ void UartApplication::OnSetupImpl()
     imguiLayer->AddApplication(std::make_shared<ntt::WindowDemoApplication>());
     imguiLayer->AddApplication(std::make_shared<ntt::PerformanceApplication>(1));
     imguiLayer->AddApplication(std::make_shared<UartImGuiApplication>());
+    imguiLayer->AddApplication(std::make_shared<OveralImGuiApplication>());
 
     layerStack_.PushOverlayLayer(imguiLayer);
     UARTCom::StartThread();

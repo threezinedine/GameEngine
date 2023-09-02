@@ -11,10 +11,7 @@ class GameExampleApplication: public ntt::Application
             PROFILE_SCOPE();
         } 
 
-        ~GameExampleApplication()
-        {
-            PROFILE_SCOPE();
-        }
+        ~GameExampleApplication();
 
         void OnSetupImpl() override;
         void OnUpdateImpl(ntt::Timestep ts) override;

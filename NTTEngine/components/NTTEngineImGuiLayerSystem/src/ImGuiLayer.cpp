@@ -2,6 +2,7 @@
 
 #include "NTTEngineImGuiLayerSystem/PreInclude.hpp"
 #include "NTTEngineImGuiLayerSystem/NTTEngineImGuiLayerSystem.hpp"
+#include "NTTEngineImGuiLayerSystem/ImGuiViewportApplication.hpp"
 
 namespace ntt
 {
@@ -66,6 +67,13 @@ namespace ntt
             {
                 application->OnImGuiRender(ts);
             }
+        }
+
+        ImGuiViewportApplication* viewport = ImGuiViewportApplication::GetInstance();
+
+        if (viewport != nullptr)
+        {
+            viewport->OnImGuiRender(ts);
         }
 
         ImGui::Render();

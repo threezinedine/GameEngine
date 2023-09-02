@@ -1,15 +1,20 @@
 #include <sstream>
 #include <cstdlib>
 #include <string>
+#include <sstream>
 
 #include "SerialFrame/PreInclude.hpp"
 #include "SerialFrame/IConnection.hpp"
 #include "SerialFrame/SerialFrame.hpp"
 #include "SerialFrame/ISerialCommand.hpp"
 
+#define VAR_BY_LINE(name, string) (name ## string)
+
 
 static std::string ToHexString(unsigned char);
 static char StringToHex(char*, int size);
+static void HexStrInput(const char* message, char* holder, std::shared_ptr<ntt::ThreadValue<uint8_t>> ptr);
+
 SerialFrameManager* SerialFrameManager::instance_ = nullptr;
 
 
@@ -69,17 +74,12 @@ void SerialFrameManager::OnImGuiRenderInstance(ntt::Timestep ts)
     if (ImGui::TreeNode("Frame Setting"))
     {
         *(frameSettingOpen_->GetPointer()) = true;
-        std::string addressString = std::string("Current Device Address: ") + ToHexString(address_->GetValue());
-        ImGui::Text(addressString.c_str());
         static char address[3];
-        ImGui::InputText("Device Address", address, 3, ImGuiInputTextFlags_CharsHexadecimal);
-        ImGui::SameLine();
-        if (ImGui::Button("Setting"))
-        {
-            address_->Bind();
-            *(address_->GetPointer()) = StringToHex(address, 3);
-            address_->UnBind();
-        }
+        static char startByte[3];
+        static char stopByte[3];
+        HexStrInput("Device Id", address, address_); 
+        HexStrInput("Start Byte", startByte, startByte_); 
+        HexStrInput("Stop Byte", stopByte, stopByte_); 
         ImGui::TreePop();
     }
     else 
@@ -189,4 +189,21 @@ char StringToHex(char* data, int size)
 {
     auto value = std::stoi(data, (size_t*)&size, 16);
     return static_cast<char>(value);
+}
+
+void HexStrInput(const char* message, char* holder, std::shared_ptr<ntt::ThreadValue<uint8_t>> ptr)
+{
+    std::stringstream currentName, buttonName;
+    currentName << "Current " << message << ": " << ToHexString(ptr->GetValue());
+    ImGui::Text(currentName.str().c_str());
+    ImGui::InputText(message, holder, 3, ImGuiInputTextFlags_CharsHexadecimal);
+    ImGui::SameLine();
+
+    buttonName << "Setting " << message;
+    if (ImGui::Button(buttonName.str().c_str()))
+    {
+        ptr->Bind();
+        *(ptr->GetPointer()) = StringToHex(holder, 3);
+        ptr->UnBind();
+    }
 }

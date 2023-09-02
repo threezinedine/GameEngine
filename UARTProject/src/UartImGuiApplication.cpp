@@ -100,7 +100,7 @@ void UartImGuiApplication::OnImGuiRenderImpl(ntt::Timestep ts)
     if (ImGui::Button("Send Ref M1"))
     {
         SerialFrameManager::SubmitCommand(
-            std::make_shared<SerialCommandChangeFloat32>(0x02, speedRef_M1_->GetValue())
+            std::make_shared<SerialCommandChangeFloat32>(0x00, speedRef_M1_->GetValue())
         );
     }
     ImGui::Separator();
@@ -119,7 +119,7 @@ void UartImGuiApplication::OnImGuiRenderImpl(ntt::Timestep ts)
     if (ImGui::Button("Send Ref M2"))
     {
         SerialFrameManager::SubmitCommand(
-            std::make_shared<SerialCommandChangeFloat32>(0x06, speedRef_M2_->GetValue())
+            std::make_shared<SerialCommandChangeFloat32>(0x02, speedRef_M2_->GetValue())
         );
     }
 

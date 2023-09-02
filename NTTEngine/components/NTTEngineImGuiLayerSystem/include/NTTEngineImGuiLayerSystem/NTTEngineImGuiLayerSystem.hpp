@@ -7,3 +7,4 @@
 
 #include "WindowDemoApplication.hpp"
 #include "PerformanceApplication.hpp"
+#include "ImGuiViewportApplication.hpp"

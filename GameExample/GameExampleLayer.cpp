@@ -28,14 +28,11 @@ void GameExampleLayer::OnAttach()
         "texture-map",
         map_, 18, 11, 33
     );
-
-    frameBuffer_ = std::make_shared<ntt::FrameBuffer>(ntt::Window::GetInstance()->GetWidth(), 
-                                                        ntt::Window::GetInstance()->GetHeight());
 }
 
 void GameExampleLayer::OnUpdate(ntt::Timestep ts)
 {
-    // frameBuffer_->Bind();
+    ntt::ImGuiViewportApplication::Bind();
     ntt::Renderer2D::Clear();
     ntt::Renderer2D::BeginScene(camera_, ts);
 
@@ -43,12 +40,11 @@ void GameExampleLayer::OnUpdate(ntt::Timestep ts)
     textureMap_->OnUpdate(ts);
 
     ntt::Renderer2D::EndScene();
-    // frameBuffer_->UnBind();
+    ntt::ImGuiViewportApplication::UnBind();
 }
 
 void GameExampleLayer::OnImGuiRenderImpl(ntt::Timestep ts)
 {
     textureMap_->OnImGuiRender(ts);
     camera_->OnImGuiRender(ts);
-    ImGui::Image((ImTextureID)frameBuffer_->GetColorTextureId(), { 720, 480 });
 }

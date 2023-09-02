@@ -19,6 +19,7 @@ void GameExampleApplication::OnSetupImpl()
     // testWindow->AddComponent(renderer2DLayer);
     testWindow->AddComponent(gameExampleLayer);
 
+    ntt::ImGuiViewportApplication::Init();
     imguiLayer->AddApplication(std::make_shared<ntt::WindowDemoApplication>());
     imguiLayer->AddApplication(testWindow);
     imguiLayer->AddApplication(std::make_shared<ntt::PerformanceApplication>());
@@ -34,4 +35,10 @@ void GameExampleApplication::OnSetupImpl()
 void GameExampleApplication::OnUpdateImpl(ntt::Timestep ts)
 {
 
+}
+
+GameExampleApplication::~GameExampleApplication()
+{
+    PROFILE_SCOPE();
+    ntt::ImGuiViewportApplication::Release();
 }
